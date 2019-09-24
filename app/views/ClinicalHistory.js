@@ -33,6 +33,9 @@ export class ClinicalHistory extends React.Component {
                             <CardItem>
                                 <Text>{item}</Text>
                             </CardItem>
+                            <CardItem>
+                                <Text> aslkdmasknajfnaiusnduiasndianuisdnaiusnfiuaniufnsijdnfijsdnvijd fijb djif b</Text>
+                            </CardItem>
                         </Card>
                         )
                     )}
@@ -62,7 +65,7 @@ export class ClinicalHistory extends React.Component {
                         <Button
                         rounded
                         title="Guardar"
-                        onPress={() => this.setState({ addElementVisible: false })}
+                        onPress={() => this.setState({ addElementVisible: false,  })}
                         buttonStyle={{
                             marginTop: 20,
                             borderRadius: 25,
