@@ -29,24 +29,6 @@ export  class Login extends React.Component {
 		}*/
 	}
 
-	renderButton() {
-		if (this.state.loading) {
-			return <Spinner size="small" />
-		}
-		return (
-			<Button
-				rounded
-				title="Ingresar"
-				onPress={ this.onButtonPress.bind(this)}
-				buttonStyle={{
-				marginTop: 20,
-				borderRadius: 25,
-				backgroundColor: "#545aa1",
-				width: '100%',
-				}} />
-		);
-	}
-
   render(){
     return(
       <KeyboardAvoidingView
@@ -91,7 +73,17 @@ export  class Login extends React.Component {
   						style={{ width: 300 }}
   						borderColor={'#000000'}
   					/>
-					  {this.renderButton()}
+					<Button
+						rounded
+						title="Ingresar"
+						onPress={ this.onButtonPress.bind(this)}
+						buttonStyle={{
+							marginTop: 20,
+							borderRadius: 25,
+							backgroundColor: "#545aa1",
+							width: '100%',
+						}} 
+					/>
   				</View>
   			</CardSection>
 			</Card >

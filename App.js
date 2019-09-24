@@ -30,7 +30,7 @@ export default class App extends React.Component {
         <Text>Open up App.js to start working on your app!</Text>
       </View>*/
       //<Chat  />
-      <ClinicalHistory />
+      <AppContainer />
     )
   }
 }

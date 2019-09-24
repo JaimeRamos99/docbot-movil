@@ -33,9 +33,6 @@ export class ClinicalHistory extends React.Component {
                             <CardItem>
                                 <Text>{item}</Text>
                             </CardItem>
-                            <CardItem>
-                                <Text> aslkdmasknajfnaiusnduiasndianuisdnaiusnfiuaniufnsijdnfijsdnvijd fijb djif b</Text>
-                            </CardItem>
                         </Card>
                         )
                     )}
