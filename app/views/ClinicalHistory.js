@@ -18,6 +18,10 @@ import Modal from 'react-native-modalbox';
 
 var screen = Dimensions.get('window');
 export class ClinicalHistory extends React.Component {
+    static navigationOptions = {
+		drawerIcon: () => <Icon name='md-clipboard' type='ionicon' color='#000' />
+  }
+
     state = {addElementVisible: false, exams: ['Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma']}
     
     mostrarMetas(){
@@ -89,7 +93,7 @@ export class ClinicalHistory extends React.Component {
                 >
                     <Icon
                         reverse
-                        name='ios-add'
+                        name='ios-arrow-up'
                         type='ionicon'
                         color='#1438A6'
                     />

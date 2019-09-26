@@ -5,12 +5,37 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
+import { signIn } from '../services/api.js';
+
+/**
+   * Login del médico
+   * @param {*} email 
+   * @param {*} password 
+   */
+const login = (user, password) =>{
+    signIn(user,password)
+      .then(response => {
+		console.log(response.json());
+		return response.json();
+      })
+      .then(json => {
+        if (json["login"] == true) {
+			this.props.navigation.navigate('Main');
+        } else {
+			this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
+		}
+      })
+      .catch(error => {
+        console.log(error.message);
+        
+      });
+  };
 
 export  class Login extends React.Component {
 	static navigationOptions = {
 		header: null
 	}
-	state = { email: '', password: '', error: '', loading: false };
+	state = { user: '', password: '', error: '', loading: false };
 
 	onLoginFail() {
 		this.setState({
@@ -20,11 +45,12 @@ export  class Login extends React.Component {
 	}
 
 	onButtonPress() {
-		this.setState({ error: ''});
-		const { email, password } = this.state;
-		//if(email == 'sa' && password == '1234'){
+		this.setState({ error: ''});		
+		this.props.navigation.navigate('Main');
+		//login(this.state.user, this.state.password)
+		/*if(login(this.state.user, this.state.password)){
 			this.props.navigation.navigate('Main');
-		/*}else{
+		}else{
 			this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
 		}*/
 	}
@@ -59,8 +85,8 @@ export  class Login extends React.Component {
   				}}>
   					<Text style={{ color: 'red', fontSize: 16 }}>{this.state.error}</Text>
   					<Hoshi
-  						value={this.state.email}
-  						onChangeText={email => this.setState({ email })}
+  						value={this.state.user}
+  						onChangeText={user => this.setState({ user })}
   						label={'Usuario'}
   						style={{ width: 300 }}
   						borderColor={'#000000'}

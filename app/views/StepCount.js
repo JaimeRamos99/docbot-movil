@@ -1,8 +1,13 @@
 import React from 'react';
 import { AppRegistry, StyleSheet, Dimensions, Text, View, StatusBar, ImageBackground, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Pedometer from 'react-native-pedometer';
 
 export  class StepCount extends React.Component {
+  static navigationOptions = {
+		drawerIcon: () => <Icon name='md-walk' type='ionicon' color='#000' />
+  }
+
     state = {
         startDate: null,
         endDate: null,

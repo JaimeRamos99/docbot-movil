@@ -1,12 +1,16 @@
 import React from 'react';
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Header, Left, Right, Icon, Toast, Input, Card, Root, CardItem } from 'native-base';
-import { Button } from 'react-native-elements';
+import { Header, Left, Right, Toast, Input, Card, Root, CardItem } from 'native-base';
+import { Button, Icon } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 
 
 export class Profile extends React.Component {
+  static navigationOptions = {
+		drawerIcon: () => <Icon name='md-person' type='ionicon' color='#000' />
+  }
+
   state = {
       nombre: 'Ricardo Andres Corcho Carranza', edad: '22', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
       isPedometerAvailable: "checking",
@@ -92,8 +96,6 @@ export class Profile extends React.Component {
 
   render(){
     return(
-
-        <Root>
         <View>
           <ImageBackground style={{ width: '100%', height: 150 }} source={require('../resources/background.jpg')}>
             <View style={{ height: 150, alignItems: 'center', justifyContent: 'center' }}>
@@ -105,7 +107,6 @@ export class Profile extends React.Component {
               {this.userInfo()}
             </CardSection>
         </View>
-      </Root>
     );
   }
 }

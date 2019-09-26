@@ -8,8 +8,8 @@ import { CardSection } from '../components/cardsection';
 
 export class Goals extends React.Component{
     static navigationOptions = {
-		header: null
-    }
+		drawerIcon: () => <Icon name='md-trophy' type='ionicon' color='#000' />
+  }
     
     state = {
       metas: []
