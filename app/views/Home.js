@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Left, Right, Icon, Toast, Input, Card, Root, CardItem, Body } from 'native-base';
+import { Left, Right, Icon, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
 import { Header } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
@@ -9,6 +9,10 @@ import { Chat } from './Chat.js';
 
 
 export class Home extends React.Component {
+  static navigationOptions = {
+		drawerIcon: () => <Icon name='md-home' type='ionicon' color='#000' />
+  }
+
   onButtonPress() {
 		this.props.navigation.navigate('Profile');
 	}
@@ -27,6 +31,17 @@ export class Home extends React.Component {
                 </Body>
               </CardItem>
             </Card>
+            <Fab
+              style={{ backgroundColor: '#1438A6' }}
+              onPress={() => (this.props.navigation.navigate('Perfil'))}
+            >
+              <Icon
+                  reverse
+                  name='md-chatboxes'
+                  type='ionicon'
+                  color='#1438A6'
+              />
+            </Fab>
           </View>
       );
   }
