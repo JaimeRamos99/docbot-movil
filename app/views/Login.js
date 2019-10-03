@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView  } from 'react-native';
+import { Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
@@ -99,17 +99,12 @@ export  class Login extends React.Component {
   						style={{ width: 300 }}
   						borderColor={'#000000'}
   					/>
-					<Button
-						rounded
-						title="Ingresar"
-						onPress={ this.onButtonPress.bind(this)}
-						buttonStyle={{
-							marginTop: 20,
-							borderRadius: 25,
-							backgroundColor: "#545aa1",
-							width: '100%',
-						}} 
-					/>
+					
+					<TouchableOpacity
+					style={{alignContent: 'center', alignItems: 'center', backgroundColor: "#545aa1", borderRadius: 25, marginTop: 20, width: '60%'}} onPress={ this.onButtonPress.bind(this)}
+					 >
+						 <Text style={{color:'#fff', fontSize: 20, margin: 10}}>Ingresar</Text>
+					 </TouchableOpacity>
   				</View>
   			</CardSection>
 			</Card >
@@ -134,3 +129,20 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	}
 });
+/*<Button
+						rounded
+						title="Ingresar"
+						onPress={ this.onButtonPress.bind(this)}
+						buttonStyle={{
+							marginTop: 20,
+							borderRadius: 25,
+							backgroundColor: "#545aa1",
+							width: '100%',
+						}}
+						titleStyle={{
+							alignItems: 'center'
+						}}
+						containerStyle={{
+							justifyContent: 'center'
+						}}
+					/>*/

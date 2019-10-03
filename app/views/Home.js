@@ -6,6 +6,7 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Profile } from './Profile.js';
 import { Chat } from './Chat.js';
+import Modal from 'react-native-modalbox';
 
 
 export class Home extends React.Component {
@@ -31,17 +32,8 @@ export class Home extends React.Component {
                 </Body>
               </CardItem>
             </Card>
-            <Fab
-              style={{ backgroundColor: '#1438A6' }}
-              onPress={() => (this.props.navigation.navigate('Perfil'))}
-            >
-              <Icon
-                  reverse
-                  name='md-chatboxes'
-                  type='ionicon'
-                  color='#1438A6'
-              />
-            </Fab>
+
+            
           </View>
       );
   }
@@ -66,4 +58,18 @@ export class Home extends React.Component {
   }
 );
 
-export const Drawer = createAppContainer(MyDrawerNavigator);*/
+export const Drawer = createAppContainer(MyDrawerNavigator);
+
+
+<Fab
+              style={{ backgroundColor: '#1438A6' }}
+            >
+              <Icon
+                  reverse
+                  name='md-chatboxes'
+                  type='ionicon'
+                  color='#1438A6'
+              />
+            </Fab>
+
+*/

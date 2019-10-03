@@ -1,10 +1,13 @@
 import React from 'react';
 import { View } from 'react-native'
-import { Header } from 'react-native-elements';
+import { Header, Icon } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
 
 
 export class Chat extends React.Component {
+  static navigationOptions = {
+		drawerIcon: () => <Icon name='md-chatboxes' type='ionicon' color='#000' />
+  }
 
   chatbot(){
     const steps = [

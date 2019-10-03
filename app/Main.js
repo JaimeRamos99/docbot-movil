@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 const MyDrawerNavigator = createDrawerNavigator(
     {
       Inicio: Home,
+      Chat: Chat,
       Perfil: Profile,
       Metas: Goals,
       Paraclinicos: ClinicalHistory,

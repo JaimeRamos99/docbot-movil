@@ -4,7 +4,7 @@
  * @param {*} password 
  */
 export function signIn(nDocument,password){ 
-    return fetch(`http://localhost:8080/api/patients/login`,{ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/patiens/login`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ nDocument, password })

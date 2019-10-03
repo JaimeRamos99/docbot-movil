@@ -22,7 +22,7 @@ export class ClinicalHistory extends React.Component {
 		drawerIcon: () => <Icon name='md-clipboard' type='ionicon' color='#000' />
   }
 
-    state = {addElementVisible: false, exams: ['Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma', 'Primera toma', 'Segunda toma']}
+    state = {addElementVisible: false, exams: ['Primera toma', 'Segunda toma']}
     
     mostrarMetas(){
         if(this.state.exams == undefined){
@@ -32,7 +32,7 @@ export class ClinicalHistory extends React.Component {
         }else{
             return(
                 <View>
-                    { this.state.exams.map((item, key) => (
+                    { this.state.exams.map((item) => (
                         <Card>
                             <CardItem>
                                 <Text>{item}</Text>
@@ -47,7 +47,7 @@ export class ClinicalHistory extends React.Component {
 
     render(){
         return(
-            <View>
+            <View style={{ height: '100%', width:'100%' }}>
                 <ScrollView>
                     {
                         this.mostrarMetas()
@@ -93,7 +93,7 @@ export class ClinicalHistory extends React.Component {
                 >
                     <Icon
                         reverse
-                        name='ios-arrow-up'
+                        name='ios-add'
                         type='ionicon'
                         color='#1438A6'
                     />
