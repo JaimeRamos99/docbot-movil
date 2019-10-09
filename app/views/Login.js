@@ -1,40 +1,14 @@
 import React from 'react';
-import { Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
 import { signIn } from '../services/api.js';
-
-/**
-   * Login del médico
-   * @param {*} email 
-   * @param {*} password 
-   */
-const login = (user, password) =>{
-    signIn(user,password)
-      .then(response => {
-		console.log(response.json());
-		return response.json();
-      })
-      .then(json => {
-        if (json["login"] == true) {
-			this.props.navigation.navigate('Main');
-        } else {
-			this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
-		}
-      })
-      .catch(error => {
-        console.log(error.message);
-        
-      });
-  };
+import {  Save, Get } from '../services/Persistant.js';
 
 export  class Login extends React.Component {
-	static navigationOptions = {
-		header: null
-	}
 	state = { user: '', password: '', error: '', loading: false };
 
 	onLoginFail() {
@@ -47,12 +21,33 @@ export  class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: ''});		
 		this.props.navigation.navigate('Main');
-		//login(this.state.user, this.state.password)
-		/*if(login(this.state.user, this.state.password)){
-			this.props.navigation.navigate('Main');
-		}else{
-			this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
-		}*/
+		/*signIn("123456789","123456789")
+		  .then(response => {
+			console.log(response);
+			return response.json();
+		  })
+		  .then(json => {
+			console.log(json);
+			if (json.login == true) {
+				Save('userId', json.id);
+				Save('userName', json.name);
+				Save('userLastName', json.lastName);
+				Save('userMedicalCenter', json.medicalCenter);
+				Save('userSex', json.sex);
+				Save('userDocumentType', json.documentType);
+				Save('userDocumentNumber', json.documentNumber);
+				Save('userHeight', json.height);
+				Save('userWeight', json.weight);
+				Save('userBirthday', json.birthday);
+				this.props.navigation.navigate('Main');
+			} else {
+				console.log("NO FUNCIONÓ :'C");
+				this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
+			}
+		  })
+		  .catch(error => {
+			console.log(error.message);
+		  });*/
 	}
 
   render(){

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Header, Left, Right, Toast, Input, Card, Root, CardItem } from 'native-base';
-import { Button, Icon } from 'react-native-elements';
+import { Left, Right, Toast, Input, Card, Root, CardItem } from 'native-base';
+import { Button, Header, Icon } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 
@@ -12,7 +12,7 @@ export class Profile extends React.Component {
   }
 
   state = {
-      nombre: 'Ricardo Andres Corcho Carranza', edad: '22', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
+      nombre: 'Paula Andrea Maldonado Gonzalez', edad: '21', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
       isPedometerAvailable: "checking",
       pastStepCount: 0,
       currentStepCount: 0,
@@ -97,9 +97,23 @@ export class Profile extends React.Component {
   render(){
     return(
         <View>
+          <Header
+            placement='left'
+            leftComponent={
+              <Icon 
+                name='md-menu' 
+                type='ionicon' 
+                color='#fff' 
+                onPress={() => this.props.navigation.openDrawer()}/>
+            }
+            centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+            containerStyle={{
+              backgroundColor: '#1438A6',
+            }}
+          />
           <ImageBackground style={{ width: '100%', height: 150 }} source={require('../resources/background.jpg')}>
             <View style={{ height: 150, alignItems: 'center', justifyContent: 'center' }}>
-              <Image source={require('../resources/avatarMan.jpg')} style={{ height: 120, width: 120, borderRadius: 60 }}></Image>
+              <Image source={require('../resources/avatar.png')} style={{ height: 120, width: 120, borderRadius: 60 }}></Image>
             </View>
           </ImageBackground>
 

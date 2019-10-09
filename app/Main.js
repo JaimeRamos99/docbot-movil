@@ -20,8 +20,8 @@ const CustomDrawerContentComponent = props => (
     >
       <ImageBackground style={{ width: '100%', height: 190, alignItems: 'center', justifyContent: 'center'}} source={require('./resources/background.jpg')}>
         <View style={{ height: 150, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('./resources/avatarMan.jpg')} style={{ height: 100, width: 100, borderRadius: 60, marginTop: 20, marginBottom: 20 }}></Image>
-            <Text style={{color: '#fff', fontSize: 17}}>Ricardo Andres Corcho Carranza</Text>
+            <Image source={require('./resources/avatar.png')} style={{ height: 100, width: 100, borderRadius: 60, marginTop: 20, marginBottom: 20 }}></Image>
+            <Text style={{color: '#fff', fontSize: 17}}>Paula Andrea Maldonado Gonzalez</Text>
         </View>
       </ImageBackground>
       <DrawerNavigatorItems {...props} />
@@ -53,15 +53,6 @@ const MyDrawerNavigator = createDrawerNavigator(
 const Drawer = createAppContainer(MyDrawerNavigator);
 
 export class Main extends React.Component {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: '#1438A6',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }
   render(){
     return (
       <Drawer />

@@ -48,6 +48,20 @@ export class ClinicalHistory extends React.Component {
     render(){
         return(
             <View style={{ height: '100%', width:'100%' }}>
+                <Header
+                    placement='left'
+                    leftComponent={
+                        <Icon 
+                          name='md-menu' 
+                          type='ionicon' 
+                          color='#fff' 
+                          onPress={() => this.props.navigation.openDrawer()}/>
+                      }
+                    centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+                    containerStyle={{
+                        backgroundColor: '#1438A6',
+                    }}
+                />
                 <ScrollView>
                     {
                         this.mostrarMetas()

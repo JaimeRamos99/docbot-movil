@@ -21,6 +21,20 @@ export class Home extends React.Component {
   render() {
       return (
           <View style={{ height: '100%' }}>
+            <Header
+              placement='left'
+              leftComponent={
+                <Icon 
+                  name='md-menu' 
+                  type='ionicon' 
+                  color='#fff' 
+                  onPress={() => this.props.navigation.openDrawer()}/>
+              }
+              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              containerStyle={{
+                backgroundColor: '#1438A6',
+              }}
+            />
             <Card>
               <CardItem header>
                 <Image source={require('../resources/avatar-doctor.png')} style={{ height: 40, width: 40, alignSelf: 'center'}} />

@@ -32,6 +32,20 @@ export class Goals extends React.Component{
   render() {
           return (
             <View>
+                <Header
+                    placement='left'
+                    leftComponent={
+                        <Icon 
+                          name='md-menu' 
+                          type='ionicon' 
+                          color='#fff' 
+                          onPress={() => this.props.navigation.openDrawer()}/>
+                      }
+                    centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+                    containerStyle={{
+                        backgroundColor: '#1438A6',
+                    }}
+                />
                 <ScrollView>
                     <Card transparent>
                         <CardItem header>
