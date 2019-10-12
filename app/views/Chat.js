@@ -36,7 +36,6 @@ export class Chat extends React.Component {
   render(){
     return(
       <View>
-        
         <Chatbot 
           steps={this.steps} 
           botBubbleColor='#3F51B5' 

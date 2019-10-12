@@ -6,9 +6,12 @@ import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
 import { signIn } from '../services/api.js';
-import {  Save, Get } from '../services/Persistant.js';
+import { Save, Get } from '../services/Persistant.js';
+import { connect } from 'react-redux';
 
-export  class Login extends React.Component {
+userGlobal = '';
+
+class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
 
 	onLoginFail() {
@@ -20,16 +23,15 @@ export  class Login extends React.Component {
 
 	onButtonPress() {
 		this.setState({ error: ''});		
-		this.props.navigation.navigate('Main');
-		/*signIn("123456789","123456789")
+		//this.props.navigation.navigate('Main');
+		signIn("123456789","123456789")
 		  .then(response => {
-			console.log(response);
 			return response.json();
 		  })
 		  .then(json => {
-			console.log(json);
+			  console.log(json);
 			if (json.login == true) {
-				Save('userId', json.id);
+				/*Save('userId', json.id);
 				Save('userName', json.name);
 				Save('userLastName', json.lastName);
 				Save('userMedicalCenter', json.medicalCenter);
@@ -38,7 +40,9 @@ export  class Login extends React.Component {
 				Save('userDocumentNumber', json.documentNumber);
 				Save('userHeight', json.height);
 				Save('userWeight', json.weight);
-				Save('userBirthday', json.birthday);
+				Save('userBirthday', json.birthday);*/
+				userGlobal = json;
+				this.props.saveUser();
 				this.props.navigation.navigate('Main');
 			} else {
 				console.log("NO FUNCIONÓ :'C");
@@ -47,7 +51,7 @@ export  class Login extends React.Component {
 		  })
 		  .catch(error => {
 			console.log(error.message);
-		  });*/
+		  });
 	}
 
   render(){
@@ -124,6 +128,20 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	}
 });
+
+function mapStateToProps(state){
+	return{
+		loggedInUser: state.loggedInUser
+	}
+}
+
+function mapDispatchToProps(dispatch){
+	return{
+		saveUser : () => dispatch({type:'Save_User', payload: userGlobal})
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 /*<Button
 						rounded
 						title="Ingresar"

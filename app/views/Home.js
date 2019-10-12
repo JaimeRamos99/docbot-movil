@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Left, Right, Icon, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
-import { Header } from 'react-native-elements';
+import { Left, Right, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
+import { Header, Icon } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Profile } from './Profile.js';

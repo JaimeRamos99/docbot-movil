@@ -4,15 +4,15 @@ import { Left, Right, Toast, Input, Card, Root, CardItem } from 'native-base';
 import { Button, Header, Icon } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
+import { connect } from 'react-redux';
 
-
-export class Profile extends React.Component {
+class Profile extends React.Component {
   static navigationOptions = {
 		drawerIcon: () => <Icon name='md-person' type='ionicon' color='#000' />
   }
 
   state = {
-      nombre: 'Paula Andrea Maldonado Gonzalez', edad: '21', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
+      nombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName, edad: '21', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
       isPedometerAvailable: "checking",
       pastStepCount: 0,
       currentStepCount: 0,
@@ -124,3 +124,11 @@ export class Profile extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state){
+	return{
+		loggedInUser: state.loggedInUser
+	}
+}
+
+export default connect(mapStateToProps)(Profile);

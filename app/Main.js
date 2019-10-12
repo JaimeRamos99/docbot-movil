@@ -4,13 +4,15 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import Ionicons from 'react-native-vector-icons';
 import { Home } from './views/Home.js';
-import { Profile } from './views/Profile.js';
+import  Profile  from './views/Profile.js';
 import { Chat } from './views/Chat.js';
 import { Goals } from './views/Goals.js';
 import { Avatar } from './views/Avatar.js';
 import { ClinicalHistory } from './views/ClinicalHistory.js'
 import { StepCount } from './views/StepCount.js';
-import { reactNativePedometer } from './views/StepCountPrueba';
+import { connect } from 'react-redux';
+
+loggedInUserName = '';
 
 const CustomDrawerContentComponent = props => (
   <ScrollView>
@@ -21,7 +23,7 @@ const CustomDrawerContentComponent = props => (
       <ImageBackground style={{ width: '100%', height: 190, alignItems: 'center', justifyContent: 'center'}} source={require('./resources/background.jpg')}>
         <View style={{ height: 150, alignItems: 'center', justifyContent: 'center' }}>
             <Image source={require('./resources/avatar.png')} style={{ height: 100, width: 100, borderRadius: 60, marginTop: 20, marginBottom: 20 }}></Image>
-            <Text style={{color: '#fff', fontSize: 17}}>Paula Andrea Maldonado Gonzalez</Text>
+            <Text style={{color: '#fff', fontSize: 17}}>{loggedInUserName}</Text>
         </View>
       </ImageBackground>
       <DrawerNavigatorItems {...props} />
@@ -52,10 +54,23 @@ const MyDrawerNavigator = createDrawerNavigator(
   
 const Drawer = createAppContainer(MyDrawerNavigator);
 
-export class Main extends React.Component {
+class Main extends React.Component {
+  exportData(){
+    loggedInUserName = this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName;
+  }
+
   render(){
+    this.exportData();
     return (
-      <Drawer />
+        <Drawer />
     );
   }
 }
+
+function mapStateToProps(state){
+	return{
+		loggedInUser: state.loggedInUser
+	}
+}
+
+export default connect(mapStateToProps)(Main);

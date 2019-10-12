@@ -1,83 +1,17 @@
-/*import React from 'react';
-import { AppRegistry, StyleSheet, Dimensions, Text, View, StatusBar, ImageBackground, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
-import Pedometer from 'react-native-pedometer';
-
-export  class StepCount extends React.Component {
-  static navigationOptions = {
-		drawerIcon: () => <Icon name='md-walk' type='ionicon' color='#000' />
-  }
-
-    state = {
-        startDate: null,
-        endDate: null,
-        numberOfSteps: 0,
-        distance: 0,
-        floorsAscended: 0,
-        floorsDescended: 0,
-        currentPace: 0,
-        currentCadence: 0,
-      };
-  
-    componentDidMount() {
-      this._startUpdates();
-    }
-  
-    _startUpdates() {
-      const today = new Date();
-      today.setHours(0,0,0,0);
-  
-      Pedometer.startPedometerUpdatesFromDate(today.getDate(), (motionData) => {
-        console.log("motionData: " + motionData);
-        this.setState(motionData);
-      });
-    }
-
-    render(){
-        return(
-            <View style={styles.container}>
-        <Text style={styles.largeNotice}>
-          {this.state.numberOfSteps}
-        </Text>
-        <Text style={styles.status}>
-          You walked {this.state.numberOfSteps} step{this.state.numberOfSteps==1 ? '' : 's'}, or about {this.state.distance} meters.
-          </Text>
-          <Text style={styles.status}>
-          You went up {this.state.floorsAscended} floor{this.state.floorsAscended==1 ? '' : 's'}, and down {this.state.floorsDescended}.
-        </Text>
-        <Text style={styles.instructions}>
-          Just keep your phone in your pocket and go for a walk!
-        </Text>
-      </View>
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-    },
-    instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
-    },
-  });*/
-
-  //AppRegistry.registerComponent('reactNativePedometer', () => reactNativePedometer);
-
 import React from "react";
 import { Pedometer } from "expo-sensors";
 import { StyleSheet, Text, View } from "react-native";
 import { Header, Icon } from 'react-native-elements';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+
+const tintColor = "#8BBF71";
+const backgroundColor = "#717BA5";
+const rotation = 360;
+
+const dayDim = {
+  size: 270,
+  width: 10
+};
 
 export class StepCount extends React.Component {
   static navigationOptions = {
@@ -138,6 +72,8 @@ export class StepCount extends React.Component {
     this._subscription = null;
   };
 
+
+
   render() {
     return (
       <View>
@@ -155,13 +91,29 @@ export class StepCount extends React.Component {
             backgroundColor: '#1438A6',
           }}
         />
-        <Text>
-          Pedometer.isAvailableAsync(): {this.state.isPedometerAvailable}
-        </Text>
-        <Text>
-          Steps taken in the last 24 hours: {this.state.pastStepCount}
-        </Text>
-        <Text>Walk! And watch this go up: {this.state.currentStepCount}</Text>
+
+        <AnimatedCircularProgress
+                size={dayDim.size}
+                width={dayDim.width}
+                fill={0}
+                tintColor={tintColor}
+                backgroundColor={backgroundColor}
+                rotation={rotation}
+            >
+                {
+                    (fill) => (
+                        <View>
+                          <Icon name='md-walk' type='ionicon' color='#29b8e5' size={50} />
+                            <Text style={styles.steps}>
+                                {this.state.currentStepCount} Steps
+                            </Text>
+                            <Text style={styles.goal}>
+                                Goal: 10000
+                            </Text>
+                        </View>
+                    )
+                }
+            </AnimatedCircularProgress>
       </View>
     );
   }
@@ -173,5 +125,14 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: "center",
     justifyContent: "center"
+  },
+  steps: {
+      backgroundColor: 'transparent',
+      fontSize: 30,
+      textAlign: 'center',
+      color: '#29b8e5'
+  },
+  goal: {
+      color: '#29b8e5'
   }
 });

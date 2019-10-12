@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Dimensions, View, StatusBar, ImageBackground, ScrollView } from 'react-native';
-import { Left, Right, Icon, Text, Card, CardItem, Body } from 'native-base';
-import { Header } from 'react-native-elements';
+import { Left, Right, Text, Card, CardItem, Body } from 'native-base';
+import { Header, Icon } from 'react-native-elements';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { CardSection } from '../components/cardsection';
 
