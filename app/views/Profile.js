@@ -12,7 +12,11 @@ class Profile extends React.Component {
   }
 
   state = {
-      nombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName, edad: '21', peso: '65', currentUser: null, email: 'carranzar@uninorte.edu.co', estatura: '1.73', metas: [],
+      nombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName,
+      edad: this.props.loggedInUser.age,
+      peso: this.props.loggedInUser.weight,
+      estatura: this.props.loggedInUser.height,
+      metas: [],
       isPedometerAvailable: "checking",
       pastStepCount: 0,
       currentStepCount: 0,
@@ -35,11 +39,12 @@ class Profile extends React.Component {
       return (
         <ScrollView style={{ height: '100%', paddingBottom: 30, marginBottom: 20 }}>
           <Hoshi value={this.state.nombre} borderColor={'#000000'} label={'Nombre'} onChangeText={nombre => this.setState({ nombre })} />
-          <Hoshi value={this.state.estatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={estatura => this.setState({ estatura })} />
           <Hoshi value={this.state.edad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={edad => this.setState({ edad })} />
+          <Hoshi value={this.state.estatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={estatura => this.setState({ estatura })} />
+          <Hoshi value={this.state.peso} borderColor={'#000000'} keyboardType='numeric' label={'Peso'} onChangeText={peso => this.setState({ peso })} />
           <Button
             rounded
-            title="GUARDAR"
+            title="Guardar"
             buttonStyle={{
               marginTop: 20,
               backgroundColor: "#00AA00",
@@ -47,7 +52,7 @@ class Profile extends React.Component {
             }} />
           <Button
             rounded
-            title="CANCELAR"
+            title="Cancelar"
             onPress={() => { this.setState({ editmode: false }) }}
             buttonStyle={{
               marginTop: 20,
@@ -63,9 +68,6 @@ class Profile extends React.Component {
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre}</Text>
             </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Email </Text><Text style={{ fontSize: 16 }}>{this.state.email}</Text>
-            </CardItem >
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Edad </Text><Text style={{ fontSize: 16 }}> {this.state.edad} años</Text>
             </CardItem>

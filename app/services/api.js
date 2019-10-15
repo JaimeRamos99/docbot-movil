@@ -11,3 +11,11 @@ export function signIn(documentNumber,password){
         body: JSON.stringify({ documentNumber, password })
     });
 }
+
+export function GetGoals(pat){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/goals/buscar`,{ 
+        method: 'POST', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ pat })
+    });
+}

@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons';
 import { Home } from './views/Home.js';
 import  Profile  from './views/Profile.js';
 import { Chat } from './views/Chat.js';
-import { Goals } from './views/Goals.js';
+import Goals from './views/Goals.js';
 import { Avatar } from './views/Avatar.js';
 import { ClinicalHistory } from './views/ClinicalHistory.js'
 import { StepCount } from './views/StepCount.js';
@@ -55,12 +55,8 @@ const MyDrawerNavigator = createDrawerNavigator(
 const Drawer = createAppContainer(MyDrawerNavigator);
 
 class Main extends React.Component {
-  exportData(){
-    loggedInUserName = this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName;
-  }
-
   render(){
-    this.exportData();
+    loggedInUserName = this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName;
     return (
         <Drawer />
     );

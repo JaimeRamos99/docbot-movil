@@ -5,11 +5,12 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn } from '../services/api.js';
+import { signIn, GetGoals } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
 
 userGlobal = '';
+goals = [];
 
 class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
@@ -24,7 +25,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: ''});		
 		//this.props.navigation.navigate('Main');
-		signIn("123456789","123456789")
+		signIn('123456','123456789')
 		  .then(response => {
 			return response.json();
 		  })
@@ -43,9 +44,20 @@ class Login extends React.Component {
 				Save('userBirthday', json.birthday);*/
 				userGlobal = json;
 				this.props.saveUser();
+				GetGoals(userGlobal.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					goals = json;
+					console.log(goals);
+					this.props.saveGoals();
+				}).catch(error => {
+					console.log(error.message);
+				});
+				
 				this.props.navigation.navigate('Main');
 			} else {
-				console.log("NO FUNCIONÓ :'C");
 				this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
 			}
 		  })
@@ -137,7 +149,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return{
-		saveUser : () => dispatch({type:'Save_User', payload: userGlobal})
+		saveUser : () => dispatch({type:'Save_User', payload: userGlobal}),
+		saveGoals : () => dispatch({type:'save_goals', payload: goals})
 	}
 }
 

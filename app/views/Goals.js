@@ -4,32 +4,48 @@ import { Left, Right, Text, Card, CardItem, Body } from 'native-base';
 import { Header, Icon } from 'react-native-elements';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { CardSection } from '../components/cardsection';
+import { GetGoals } from '../services/api.js';
+import { connect } from 'react-redux';
 
 
-export class Goals extends React.Component{
+class Goals extends React.Component{
     static navigationOptions = {
 		drawerIcon: () => <Icon name='md-trophy' type='ionicon' color='#000' />
   }
-    
-    state = {
-      metas: []
-    }
-    
-  calcularScoreTotal = (array) => {
-        if (array.length >= 3 && this.state.score === 0) {
-            var score = 0;
-            var cont = 0;
-            array.forEach(element => {
-                score += element["score"];
-                cont++;
-            });
-            score = score / cont;
-            this.setState({ score: score });
+    ShowGoals(){
+        if(this.props.goals == undefined){
+            return(
+                <Text>No hay metas agregados</Text>
+            );
+        }else{
+            return(
+                <View>
+                    { this.props.goals.map((item) => (
+                        <Card transparent>
+                        <CardItem header>
+                            <Text style={{fontSize: 20}}>{item.description}</Text>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <Text>1/5 porciones</Text>
+                                <ProgressBarAnimated
+                                    width={Dimensions.get('window').width*0.8}
+                                    value={20}
+                                    maxValue={100}
+                                    backgroundColorOnComplete="#6CC644"
+                                />
+                            </Body>
+                        </CardItem>
+                    </Card>
+                        )
+                    )}
+                </View>
+            );
         }
-
     }
 
   render() {
+      console.log('ESTA KGA FUNCIONA ' + this.props.goals);
           return (
             <View>
                 <Header
@@ -47,6 +63,25 @@ export class Goals extends React.Component{
                     }}
                 />
                 <ScrollView>
+                    {
+                        this.ShowGoals()
+                    }
+                </ScrollView>
+            </View>
+          );
+      }
+}
+
+function mapStateToProps(state){
+	return{
+        loggedInUser: state.loggedInUser,
+        goals: state.goals
+	}
+}
+
+export default connect(mapStateToProps)(Goals);
+
+/*
                     <Card transparent>
                         <CardItem header>
                             <Text style={{fontSize: 20}}>Comer verduras</Text>
@@ -78,9 +113,4 @@ export class Goals extends React.Component{
                                 />
                             </Body>
                         </CardItem>
-                    </Card>
-                </ScrollView>
-            </View>
-          );
-      }
-}
+                    </Card>*/
