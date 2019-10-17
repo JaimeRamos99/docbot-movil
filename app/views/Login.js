@@ -1,16 +1,17 @@
 import React from 'react';
-import { AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { ActivityIndicator, AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals } from '../services/api.js';
+import { signIn, GetGoals, GetParaclinicals } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
 
 userGlobal = '';
 goals = [];
+paraclinicals = [];
 
 class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
@@ -22,26 +23,44 @@ class Login extends React.Component {
 		});
 	}
 
+	renderButton(){
+		if (!this.state.loading){
+			return(
+				<TouchableOpacity
+					style={styles.button} onPress={ this.onButtonPress.bind(this)}
+				>
+					<Text style={styles.buttonText}>Ingresar</Text>
+				</TouchableOpacity>
+			);
+		}else{
+			return(
+				<View styles={{marginTop: 20, alignItems: 'center'}}>
+					<ActivityIndicator size="large" color="#1438A6" />
+				</View>
+			);
+		}
+	}
+
 	onButtonPress() {
-		this.setState({ error: ''});		
+		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('123456','123456789')
+		signIn(this.state.user, this.state.password)
 		  .then(response => {
 			return response.json();
 		  })
 		  .then(json => {
 			  console.log(json);
 			if (json.login == true) {
-				/*Save('userId', json.id);
-				Save('userName', json.name);
-				Save('userLastName', json.lastName);
-				Save('userMedicalCenter', json.medicalCenter);
-				Save('userSex', json.sex);
-				Save('userDocumentType', json.documentType);
-				Save('userDocumentNumber', json.documentNumber);
-				Save('userHeight', json.height);
-				Save('userWeight', json.weight);
-				Save('userBirthday', json.birthday);*/
+				//Save('userId', json.id);
+				//Save('userName', json.name);
+				//Save('userLastName', json.lastName);
+				//Save('userMedicalCenter', json.medicalCenter);
+				//Save('userSex', json.sex);
+				//Save('userDocumentType', json.documentType);
+				//Save('userDocumentNumber', json.documentNumber);
+				//Save('userHeight', json.height);
+				//Save('userWeight', json.weight);
+				//Save('userBirthday', json.birthday);
 				userGlobal = json;
 				this.props.saveUser();
 				GetGoals(userGlobal.id)
@@ -55,10 +74,21 @@ class Login extends React.Component {
 				}).catch(error => {
 					console.log(error.message);
 				});
-				
+				GetParaclinicals(userGlobal.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					paraclinicals = json;
+					console.log(paraclinicals);
+					this.props.saveParaclinicals();
+				}).catch(error => {
+					console.log(error.message);
+				});
+				this.setState({ loading: false});
 				this.props.navigation.navigate('Main');
 			} else {
-				this.setState({ error: 'Usuario o contraseña incorrecto', loading: false });
+				this.onLoginFail();
 			}
 		  })
 		  .catch(error => {
@@ -72,53 +102,48 @@ class Login extends React.Component {
         behavior='padding'
         keyboardVerticalOffset={-64}
       >
-      <Card>
-				<CardSection>
-  				<View style={{
-  					height: 200,
-  					flex: 1,
-  					flexDirection: 'column',
-  					justifyContent: 'space-around',
-  					alignItems: 'center',
+      	<Card>
+			<CardSection>
+				<View style={{
+					height: 200,
+					flex: 1,
+					flexDirection: 'column',
+					justifyContent: 'space-around',
+					alignItems: 'center',
 						marginTop: 20
-  				}}
-  				>
-  				    <Image source={require('../resources/logo.png')} style={{ flex: 1,resizeMode: 'contain'}}/>
-  				</View>
-        </CardSection>
-  			<CardSection>
-  				<View style={{
-  					height: 250,
-  					flex: 1,
-  					flexDirection: 'column',
-  					justifyContent: 'space-around',
-  					alignItems: 'center',
-  				}}>
-  					<Text style={{ color: 'red', fontSize: 16 }}>{this.state.error}</Text>
-  					<Hoshi
-  						value={this.state.user}
-  						onChangeText={user => this.setState({ user })}
-  						label={'Usuario'}
-  						style={{ width: 300 }}
-  						borderColor={'#000000'}
-  					/>
-  					<Hoshi
-  						secureTextEntry
-  						value={this.state.password}
-  						onChangeText={password => this.setState({ password })}
-  						label={'Contraseña'}
-  						style={{ width: 300 }}
-  						borderColor={'#000000'}
-  					/>
-					
-					<TouchableOpacity
-					style={{alignContent: 'center', alignItems: 'center', backgroundColor: "#545aa1", borderRadius: 25, marginTop: 20, width: '60%'}} onPress={ this.onButtonPress.bind(this)}
-					 >
-						 <Text style={{color:'#fff', fontSize: 20, margin: 10}}>Ingresar</Text>
-					 </TouchableOpacity>
-  				</View>
-  			</CardSection>
-			</Card >
+				}}
+				>
+					<Image source={require('../resources/logo.jpeg')} style={{ flex: 1,resizeMode: 'contain'}}/>
+				</View>
+			</CardSection>
+			<CardSection>
+				<View style={{
+					height: 250,
+					flex: 1,
+					flexDirection: 'column',
+					justifyContent: 'space-around',
+					alignItems: 'center',}}
+				>
+					<Text style={{ color: 'red', fontSize: 16 }}>{this.state.error}</Text>
+					<Hoshi
+						value={this.state.user}
+						onChangeText={user => this.setState({ user })}
+						label={'Usuario'}
+						style={{ width: 300 }}
+						borderColor={'#000000'}
+					/>
+					<Hoshi
+						secureTextEntry
+						value={this.state.password}
+						onChangeText={password => this.setState({ password })}
+						label={'Contraseña'}
+						style={{ width: 300 }}
+						borderColor={'#000000'}
+					/>
+					{this.renderButton()}
+				</View>
+			</CardSection>
+		</Card >
       </KeyboardAvoidingView>
     );
   }
@@ -126,19 +151,20 @@ class Login extends React.Component {
 
 const styles = StyleSheet.create({
 	button:{
-		backgroundColor: "blueviolet",
-		width: Dimensions.get('window').width*0.8,
-		height: 40,
-		borderColor: 'blueviolet',
+		alignItems: 'center',
+		marginTop: 20,
+		backgroundColor: "#1438A6",
+		width: Dimensions.get('window').width*0.5,
+		borderColor: '#1438A6',
 		borderWidth: 5,
 		borderRadius: 25,
-		alignItems: 'center'
+		
 	},
 	buttonText:{
-		color: 'white',
-		fontSize: 20,
-		textAlign: 'center'
-	}
+		color: '#fff',
+		fontSize: 25,
+		margin: 5
+	}//{color:'#fff', fontSize: 20, margin: 10}
 });
 
 function mapStateToProps(state){
@@ -150,7 +176,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
 	return{
 		saveUser : () => dispatch({type:'Save_User', payload: userGlobal}),
-		saveGoals : () => dispatch({type:'save_goals', payload: goals})
+		saveGoals : () => dispatch({type:'save_goals', payload: goals}),
+		saveParaclinicals : () => dispatch({type:'save_paraclinicals', payload: paraclinicals}),
 	}
 }
 

@@ -15,6 +15,7 @@ import { Button, Icon, Input, Overlay, Header } from 'react-native-elements';
 import { Left, Right, Card, CardItem, Body, Fab } from 'native-base';
 //import { Icon } from 'react-native-vector-icons';
 import Modal from 'react-native-modalbox';
+import { connect } from 'react-redux';
 
 var screen = Dimensions.get('window');
 export class ClinicalHistory extends React.Component {
@@ -116,6 +117,20 @@ export class ClinicalHistory extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state){
+	return{
+		loggedInUser: state.loggedInUser
+	}
+}
+
+function mapDispatchToProps(dispatch){
+	return{
+		saveParaclinicals : () => dispatch({type:'save_paraclinicals', payload: paraclinicals}),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClinicalHistory);
 /*<Icon
                     reverse
                     name='ios-add'

@@ -3,6 +3,7 @@ import { Pedometer } from "expo-sensors";
 import { StyleSheet, Text, View } from "react-native";
 import { Header, Icon } from 'react-native-elements';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import moment from 'moment';
 
 const tintColor = "#8BBF71";
 const backgroundColor = "#717BA5";
@@ -72,7 +73,56 @@ export class StepCount extends React.Component {
     this._subscription = null;
   };
 
-
+  renderStepCountCOmponent(){
+    if (true){
+        return(
+          <AnimatedCircularProgress
+            size={dayDim.size}
+            width={dayDim.width}
+            fill={100}
+            tintColor={tintColor}
+            backgroundColor={backgroundColor}
+            rotation={rotation}
+          >
+            {
+              (fill) => (
+                <View>
+                  <Icon name='md-walk' type='ionicon' color='#77cff2' size={50} />
+                    <Text style={styles.steps}>
+                        {this.state.currentStepCount} Steps
+                    </Text>
+                </View>
+              )
+            }
+          </AnimatedCircularProgress>
+        );
+    }else{
+      return(
+        <AnimatedCircularProgress
+          size={dayDim.size}
+          width={dayDim.width}
+          fill={100}
+          tintColor={tintColor}
+          backgroundColor={backgroundColor}
+          rotation={rotation}
+        >
+          {
+            (fill) => (
+              <View>
+                <Icon name='md-walk' type='ionicon' color='#77cff2' size={50} />
+                  <Text style={styles.steps}>
+                      {this.state.currentStepCount} Steps
+                  </Text>
+                  <Text style={styles.goal}>
+                      Goal: 10000
+                  </Text>
+              </View>
+            )
+          }
+        </AnimatedCircularProgress>
+      );
+    }
+  }
 
   render() {
     return (
@@ -91,29 +141,12 @@ export class StepCount extends React.Component {
             backgroundColor: '#1438A6',
           }}
         />
-
-        <AnimatedCircularProgress
-                size={dayDim.size}
-                width={dayDim.width}
-                fill={0}
-                tintColor={tintColor}
-                backgroundColor={backgroundColor}
-                rotation={rotation}
-            >
-                {
-                    (fill) => (
-                        <View>
-                          <Icon name='md-walk' type='ionicon' color='#29b8e5' size={50} />
-                            <Text style={styles.steps}>
-                                {this.state.currentStepCount} Steps
-                            </Text>
-                            <Text style={styles.goal}>
-                                Goal: 10000
-                            </Text>
-                        </View>
-                    )
-                }
-            </AnimatedCircularProgress>
+        <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
+          <Text style={{fontSize: 30, color: '#3f51b5', margin: 20}}>
+            {moment(new Date()).format('dddd')}
+          </Text>
+          {this.renderStepCountCOmponent()}
+        </View>
       </View>
     );
   }
@@ -130,9 +163,9 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
       fontSize: 30,
       textAlign: 'center',
-      color: '#29b8e5'
+      color: '#77cff2'
   },
   goal: {
-      color: '#29b8e5'
+      color: '#77cff2'
   }
 });

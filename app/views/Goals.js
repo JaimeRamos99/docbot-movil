@@ -27,7 +27,7 @@ class Goals extends React.Component{
                         </CardItem>
                         <CardItem>
                             <Body>
-                                <Text>1/5 porciones</Text>
+                                <Text>{item.progress + '/' + item.quantity}</Text>
                                 <ProgressBarAnimated
                                     width={Dimensions.get('window').width*0.8}
                                     value={20}
