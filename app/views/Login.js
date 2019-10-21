@@ -44,7 +44,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn(this.state.user, this.state.password)
+		signIn('123456', '123456789')
 		  .then(response => {
 			return response.json();
 		  })
@@ -93,6 +93,7 @@ class Login extends React.Component {
 		  })
 		  .catch(error => {
 			console.log(error.message);
+			this.setState({ error: 'Fallo en conexión con el servidor', loading: false })
 		  });
 	}
 
@@ -100,7 +101,6 @@ class Login extends React.Component {
     return(
       <KeyboardAvoidingView
         behavior='padding'
-        keyboardVerticalOffset={-64}
       >
       	<Card>
 			<CardSection>

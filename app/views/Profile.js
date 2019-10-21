@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
-import { Left, Right, Input, Card, Root, CardItem } from 'native-base';
-import { Button, Header, Icon } from 'react-native-elements';
+import { Image, ImageBackground, Dimensions, ScrollView, StyleSheet, Text, View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
+import { Left, Right, Input, Card, Root, CardItem, Fab } from 'native-base';
+import { Button, Header, Icon, Overlay } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
@@ -22,6 +22,10 @@ class Profile extends React.Component {
       editModeEdad: this.props.loggedInUser.age,
       editModeEstatura: this.props.loggedInUser.height,
       editModePeso: this.props.loggedInUser.weight,
+      changeAvatar: false,
+      womenAvatar: ['Avatar-F-B-N.png', 'Avatar-F-T-N.png', 'Avatar-F-N-N.png'],
+      menAvatar: ['Avatar-M-B-N.png', 'Avatar-M-T-N.png', 'Avatar-M-N-N.png'],
+      avatarIndex: 0,
       metas: [],
       isPedometerAvailable: "checking",
       pastStepCount: 0,
@@ -69,6 +73,71 @@ class Profile extends React.Component {
     if (this.state.editmode === true) {
       return (
         <View>
+          <Overlay 
+                    isVisible={this.state.changeAvatar}
+                    width={Dimensions.get('window').width*0.8}
+                    height='auto'
+                    borderRadius={10}
+                    onBackdropPress={() => this.setState({ changeAvatar: false })}
+                >
+                    <View>
+                        <Text style={{fontSize: 20}}>Cambio de avatar</Text>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                          <Icon
+                            name='md-arrow-dropleft-circle'
+                            type='ionicon'
+                            color='#1438A6'
+                            size={50}
+                          />
+                          <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+                          <Icon
+                            name='md-arrow-dropright-circle'
+                            type='ionicon'
+                            color='#1438A6'
+                            size={50}
+                          />
+                        </View>
+                        
+                        <Button
+                        rounded
+                        title="Guardar"
+                        onPress={() => this.setState({ changeAvatar: false,  })}
+                        buttonStyle={{
+                            marginTop: 20,
+                            borderRadius: 25,
+                            backgroundColor: "#1438A6",
+                            width: '50%',
+                          }}
+                        />
+                        <Button
+                        rounded
+                        title="Cancelar"
+                        onPress={() => this.setState({ changeAvatar: false })}
+                        buttonStyle={{
+                            marginTop: 20,
+                            borderRadius: 25,
+                            backgroundColor: "#545aa1",
+                            width: '50%',
+                          }}
+                        />
+                    </View>
+                </Overlay>
+          <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
+              <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
+                <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+                <Fab
+                    style={{ backgroundColor: '#1438A6' }}
+                    onPress={() => this.setState({changeAvatar: true})}
+                >
+                    <Icon
+                        reverse
+                        name='create'
+                        type='material'
+                        color='#1438A6'
+                    />
+                </Fab>
+              </View>
+            </ImageBackground>
           <Hoshi value={this.state.editModeNombre} borderColor={'#000000'} label={'Nombre'} onChangeText={editModeNombre => this.setState({ editModeNombre })} />
           <Hoshi value={this.state.editModeEdad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
           <Hoshi value={this.state.editModeEstatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
@@ -79,7 +148,7 @@ class Profile extends React.Component {
             onPress={() => {this.editUser()}}
             buttonStyle={{
               marginTop: 20,
-              backgroundColor: "#00AA00",
+              backgroundColor: "#1438A6",
               width: '100%'
             }} />
           <Button
@@ -100,6 +169,11 @@ class Profile extends React.Component {
     } else {
       return (
         <View>
+          <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
+              <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
+                <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+              </View>
+            </ImageBackground>
           <Card>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre}</Text>
@@ -124,7 +198,7 @@ class Profile extends React.Component {
             buttonStyle={{
               marginTop: 20,
               borderRadius: 25,
-              backgroundColor: "#545aa1",
+              backgroundColor: "#1438A6",
               width: '100%',
             }} />
         </View>
@@ -136,7 +210,6 @@ class Profile extends React.Component {
     return(
       <KeyboardAvoidingView
         behavior='padding'
-        keyboardVerticalOffset={-64}
       >
         <View style={{ height: '100%', width:'100%' }}>
           <Header
@@ -154,11 +227,6 @@ class Profile extends React.Component {
             }}
           />
           <ScrollView style={{ height: '100%', paddingBottom: 30, marginBottom: 20 }}>
-            <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
-              <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
-              </View>
-            </ImageBackground>
             {this.userInfo()}
           </ScrollView>
         </View>

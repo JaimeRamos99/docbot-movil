@@ -33,8 +33,8 @@ export class ClinicalHistory extends React.Component {
         }else{
             return(
                 <View>
-                    { this.state.exams.map((item) => (
-                        <Card>
+                    { this.state.exams.map((item, index) => (
+                        <Card key={'Paraclinical ' + index}>
                             <CardItem>
                                 <Text>{item}</Text>
                             </CardItem>

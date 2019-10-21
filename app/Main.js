@@ -39,15 +39,15 @@ const styles = StyleSheet.create({
 
 const MyDrawerNavigator = createDrawerNavigator(
     {
-      Inicio: Home,
-      Chat: Chat,
+      DocBot: Chat,
+      Medico: Home,
       Perfil: Profile,
       Metas: Goals,
       Paraclinicos: ClinicalHistory,
       Contador: StepCount,
     },
     {
-      initialRouteName: 'Inicio',
+      initialRouteName: 'DocBot',
       contentComponent: CustomDrawerContentComponent
     }
   );

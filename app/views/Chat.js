@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native'
+import { View, KeyboardAvoidingView } from 'react-native'
 import { Header, Icon } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
 import { connect } from 'react-redux';
@@ -94,7 +94,9 @@ export class Chat extends React.Component {
 
   render(){
     return(
-      <View>
+      <KeyboardAvoidingView
+        behavior='padding'
+      >
         <Chatbot 
           headerComponent={
             <Header
@@ -120,7 +122,7 @@ export class Chat extends React.Component {
           userBubbleColor='#1438A6'
           userFontColor='#fff'
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

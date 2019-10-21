@@ -20,25 +20,24 @@ class Goals extends React.Component{
         }else{
             return(
                 <View>
-                    { this.props.goals.map((item) => (
-                        <Card transparent>
-                        <CardItem header>
-                            <Text style={{fontSize: 20}}>{item.description}</Text>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <Text>{item.progress + '/' + item.quantity}</Text>
-                                <ProgressBarAnimated
-                                    width={Dimensions.get('window').width*0.8}
-                                    value={20}
-                                    maxValue={100}
-                                    backgroundColorOnComplete="#6CC644"
-                                />
-                            </Body>
-                        </CardItem>
-                    </Card>
-                        )
-                    )}
+                    { this.props.goals.map((item, index) => (
+                        <Card transparent key={'Goal ' + index}>
+                            <CardItem header>
+                                <Text style={{fontSize: 20}}>{item.description}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <Text>{item.progress + '/' + item.quantity}</Text>
+                                    <ProgressBarAnimated
+                                        width={Dimensions.get('window').width*0.8}
+                                        value={item.progress*1}
+                                        maxValue={item.quantity*1}
+                                        backgroundColorOnComplete="#6CC644"
+                                    />
+                                </Body>
+                            </CardItem>
+                        </Card>
+                    ))}
                 </View>
             );
         }
