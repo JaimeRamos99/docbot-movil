@@ -6,7 +6,17 @@ import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
 
+const images = {
+  womenBN: require('../resources/Avatar-F-B-N.png'),
+  womenTN: require('../resources/Avatar-F-T-N.png'),
+  womenNN: require('../resources/Avatar-F-N-N.png'),
+}
+
 userGlobal = '';
+avatar = 'Avatar-F-T-N.png';
+womenAvatarBase = ['Avatar-F-B-N.png', 'Avatar-F-T-N.png', 'Avatar-F-N-N.png'];
+menAvatarBase = ['Avatar-M-B-N.png', 'Avatar-M-T-N.png', 'Avatar-M-N-N.png'];
+womenAvatarBaseModel = [images.womenBN, images.womenTN, images.womenNN];
 
 class Profile extends React.Component {
   static navigationOptions = {
@@ -21,11 +31,10 @@ class Profile extends React.Component {
       editModeNombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName,
       editModeEdad: this.props.loggedInUser.age,
       editModeEstatura: this.props.loggedInUser.height,
-      editModePeso: this.props.loggedInUser.weight,
+      editModePeso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1],
       changeAvatar: false,
-      womenAvatar: ['Avatar-F-B-N.png', 'Avatar-F-T-N.png', 'Avatar-F-N-N.png'],
-      menAvatar: ['Avatar-M-B-N.png', 'Avatar-M-T-N.png', 'Avatar-M-N-N.png'],
-      avatarIndex: 0,
+      avatarModeEdit: images.womenNN,
+      avatarIndex: this.getAvatarBaseIndex(),
       metas: [],
       isPedometerAvailable: "checking",
       pastStepCount: 0,
@@ -34,11 +43,13 @@ class Profile extends React.Component {
     }
 
     editUser() {
+      addPeso = this.state.peso;
+      addPeso.push(this.state.editModePeso);
       this.setState((state) => ({ editmode: false, 
                       nombre: state.editModeNombre, 
                       edad: state.editModeEdad, 
                       estatura: state.editModeEstatura, 
-                      peso: state.editModePeso}));
+                      peso: addPeso}));
       userGlobal = this.props.loggedInUser;
       userGlobal.name = this.state.nombre;
       userGlobal.age = this.state.edad;
@@ -46,10 +57,40 @@ class Profile extends React.Component {
       userGlobal.weight = this.state.peso;
       this.props.saveUser();
       ToastAndroid.show('Guardado', ToastAndroid.SHORT);
+      console.log(this.state.peso)
+  }
+
+  getAvatarBaseIndex(){
+    let i = 0;
+    while(i < womenAvatarBase.length){
+      if(avatar == womenAvatarBase[i]){
+        return i;
+      }
+      i++;
+    }
+    
+  }
+
+  changeAvatarModel(move){
+    switch(move){
+      case 'left':
+        if(this.state.avatarIndex == 0){
+          this.setState({avatarIndex: 2});
+        }else{
+          this.setState((state) => ({avatarIndex: state.avatarIndex - 1}));
+        }
+
+      case 'right':
+          if(this.state.avatarIndex == 2){
+            this.setState({avatarIndex: 0});
+          }else{
+            this.setState((state) => ({avatarIndex: state.avatarIndex + 1}));
+          }
+    }
   }
 
   renderAvatar(){
-    imc = (this.state.peso*1)/((this.state.estatura*1)*(this.state.estatura*1));
+    imc = (this.state.peso[this.state.peso.length - 1]*1)/((this.state.estatura*1)*(this.state.estatura*1));
     switch (imc){
       case imc < 18.5:
         console.log('delgado');
@@ -88,13 +129,15 @@ class Profile extends React.Component {
                             type='ionicon'
                             color='#1438A6'
                             size={50}
+                            onPress={() => this.changeAvatarModel('left')}
                           />
-                          <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+                          <Image source={womenAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
                           <Icon
                             name='md-arrow-dropright-circle'
                             type='ionicon'
                             color='#1438A6'
                             size={50}
+                            onPress={() => this.changeAvatarModel('right')}
                           />
                         </View>
                         
@@ -124,7 +167,7 @@ class Profile extends React.Component {
                 </Overlay>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
               <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+                <Image source={images.womenTN} style={{ height: 260, width: 120}}></Image>
                 <Fab
                     style={{ backgroundColor: '#1438A6' }}
                     onPress={() => this.setState({changeAvatar: true})}
@@ -171,7 +214,7 @@ class Profile extends React.Component {
         <View>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
               <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={require('../resources/Avatar-F-T-N.png')} style={{ height: 260, width: 120}}></Image>
+                <Image source={images.womenTN} style={{ height: 260, width: 120}}></Image>
               </View>
             </ImageBackground>
           <Card>
@@ -185,7 +228,7 @@ class Profile extends React.Component {
               <Text style={{ fontWeight: 'bold' }}>Estatura </Text><Text style={{ fontSize: 16 }}>{this.state.estatura} metros</Text>
             </CardItem>
             <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso} kg</Text>
+              <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso[this.state.peso.length-1]} kg</Text>
             </CardItem>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.currentStepCount} pasos</Text>

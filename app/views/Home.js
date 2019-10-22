@@ -37,11 +37,12 @@ export class Home extends React.Component {
             />
             <Card>
               <CardItem header>
-                <Image source={require('../resources/avatar-doctor.png')} style={{ height: 40, width: 40, alignSelf: 'center'}} />
-                <Text>Recordatorio</Text>
+                <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
+                <Text style={{fontSize: 20, marginLeft: 20}}>Dr. Mercedes Benz</Text>
               </CardItem>
               <CardItem>
                 <Body>
+                  <Text style={{fontSize: 20}}>Recordatorio</Text>
                   <Text>Recuerda que debes comer las raciones asignadas para que mejore tu salud</Text>
                 </Body>
               </CardItem>

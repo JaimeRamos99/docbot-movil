@@ -19,10 +19,18 @@ export function GetGoals(pat){
     });
 }
 
-export function GetParaclinicals(patient){ 
+export function GetParaclinicals(patient, type){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals/buscar`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ patient })
+        body: JSON.stringify({ patient,  type})
+    });
+}
+
+export function CreateParaclinical(patient, type, value){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals`,{ 
+        method: 'POST', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ patient, type, value })
     });
 }

@@ -16,27 +16,45 @@ import { Left, Right, Card, CardItem, Body, Fab } from 'native-base';
 //import { Icon } from 'react-native-vector-icons';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
+import { CreateParaclinical } from '../services/api.js';
+import { Hoshi } from 'react-native-textinput-effects';
 
-var screen = Dimensions.get('window');
-export class ClinicalHistory extends React.Component {
+paraclinicals = [];
+
+class ClinicalHistory extends React.Component {
     static navigationOptions = {
 		drawerIcon: () => <Icon name='md-clipboard' type='ionicon' color='#000' />
   }
 
-    state = {addElementVisible: false, exams: ['Primera toma', 'Segunda toma']}
+    state = {addElementVisible: false, value: ''}
     
-    mostrarMetas(){
-        if(this.state.exams == undefined){
+    saveParaclinical(){
+        addParaclinicals = this.props.paraclinicals;
+        paraclinical = this.props.paraclinicals[0];
+        paraclinical.type = 'Glucosa';
+        paraclinical.value = this.state.value;
+        addParaclinicals.push(paraclinical);
+        this.props.saveParaclinicals();
+        CreateParaclinical(this.props.loggedInUser.id, 'Glucosa', this.state.value);
+        this.setState({value: '', addElementVisible: false});
+    }
+
+    showParaclinicals(){
+        if(this.props.paraclinicals.length == 0){
             return(
                 <Text>No hay paraclinicos agregados</Text>
             );
         }else{
             return(
                 <View>
-                    { this.state.exams.map((item, index) => (
+                    { this.props.paraclinicals.map((item, index) => (
                         <Card key={'Paraclinical ' + index}>
                             <CardItem>
-                                <Text>{item}</Text>
+                                <Body>
+                                <Text style={{fontSize: 15}}>{item.date}</Text>
+                                <Text style={{fontSize: 20}}>Nivel de {item.type}</Text>
+                                <Text style={{fontSize: 20}}>{item.value}</Text>
+                                </Body>
                             </CardItem>
                         </Card>
                         )
@@ -65,7 +83,7 @@ export class ClinicalHistory extends React.Component {
                 />
                 <ScrollView>
                     {
-                        this.mostrarMetas()
+                        this.showParaclinicals()
                     }
                 </ScrollView>
                 <Overlay 
@@ -77,11 +95,17 @@ export class ClinicalHistory extends React.Component {
                 >
                     <View>
                         <Text style={{fontSize: 20}}>Glucosa</Text>
-                        <Input placeholder='Medida'/>
+                        <Hoshi
+                            value={this.state.value}
+                            onChangeText={value => this.setState({ value })}
+                            label={'Contraseña'}
+                            style={{ width: 300 }}
+                            borderColor={'#000000'}
+					/>
                         <Button
                         rounded
                         title="Guardar"
-                        onPress={() => this.setState({ addElementVisible: false,  })}
+                        onPress={() => this.saveParaclinical()}
                         buttonStyle={{
                             marginTop: 20,
                             borderRadius: 25,
@@ -120,7 +144,8 @@ export class ClinicalHistory extends React.Component {
 
 function mapStateToProps(state){
 	return{
-		loggedInUser: state.loggedInUser
+        loggedInUser: state.loggedInUser,
+        paraclinicals: state.paraclinicals
 	}
 }
 

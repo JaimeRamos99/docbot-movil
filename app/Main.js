@@ -8,7 +8,7 @@ import  Profile  from './views/Profile.js';
 import { Chat } from './views/Chat.js';
 import Goals from './views/Goals.js';
 import { Avatar } from './views/Avatar.js';
-import { ClinicalHistory } from './views/ClinicalHistory.js'
+import ClinicalHistory from './views/ClinicalHistory.js'
 import { StepCount } from './views/StepCount.js';
 import { connect } from 'react-redux';
 
@@ -39,15 +39,15 @@ const styles = StyleSheet.create({
 
 const MyDrawerNavigator = createDrawerNavigator(
     {
+      Home: Home,
       DocBot: Chat,
-      Medico: Home,
       Perfil: Profile,
       Metas: Goals,
       Paraclinicos: ClinicalHistory,
       Contador: StepCount,
     },
     {
-      initialRouteName: 'DocBot',
+      initialRouteName: 'Home',
       contentComponent: CustomDrawerContentComponent
     }
   );

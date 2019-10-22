@@ -74,7 +74,7 @@ class Login extends React.Component {
 				}).catch(error => {
 					console.log(error.message);
 				});
-				GetParaclinicals(userGlobal.id)
+				GetParaclinicals(userGlobal.id, 'Glucosa')
 				.then(response => {
 					return response.json();
 				})

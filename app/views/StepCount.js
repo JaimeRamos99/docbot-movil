@@ -14,6 +14,10 @@ const dayDim = {
   width: 10
 };
 
+const today = new Date();
+const day = moment(today).format('dddd');
+const date = moment(today).format("MMMM D, YYYY");
+
 export class StepCount extends React.Component {
   static navigationOptions = {
 		drawerIcon: () => <Icon name='md-walk' type='ionicon' color='#000' />
@@ -89,7 +93,7 @@ export class StepCount extends React.Component {
                 <View>
                   <Icon name='md-walk' type='ionicon' color='#77cff2' size={50} />
                     <Text style={styles.steps}>
-                        {this.state.currentStepCount} Steps
+                        {this.state.currentStepCount} Pasos
                     </Text>
                 </View>
               )
@@ -142,9 +146,14 @@ export class StepCount extends React.Component {
           }}
         />
         <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
-          <Text style={{fontSize: 30, color: '#3f51b5', margin: 20}}>
-            {moment(new Date()).format('dddd')}
-          </Text>
+          <View>
+            <Text style={{fontSize: 30, color: '#3f51b5', margin: 20 }}>
+              {day}
+            </Text>
+            <Text style={{fontSize: 30, color: '#3f51b5', margin: 20 }}>
+              {date}
+            </Text>
+          </View>
           {this.renderStepCountCOmponent()}
         </View>
       </View>
