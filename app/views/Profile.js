@@ -1,22 +1,51 @@
-import React from 'react';
+import React, { useDebugValue } from 'react';
 import { Image, ImageBackground, Dimensions, ScrollView, StyleSheet, Text, View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
 import { Left, Right, Input, Card, Root, CardItem, Fab } from 'native-base';
 import { Button, Header, Icon, Overlay } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
+import { UpdatePatient, UpdatePatientWeight, UpdateGoal } from '../services/api.js';
 
 const images = {
-  womenBN: require('../resources/Avatar-F-B-N.png'),
-  womenTN: require('../resources/Avatar-F-T-N.png'),
-  womenNN: require('../resources/Avatar-F-N-N.png'),
+  womanBD: require('../resources/Avatar-F-B-D.png'),
+  womanBN: require('../resources/Avatar-F-B-N.png'),
+  womanBG: require('../resources/Avatar-F-B-G.png'),
+  womanBMG: require('../resources/Avatar-F-B-MG.png'),
+
+  womanTD: require('../resources/Avatar-F-T-D.png'),
+  womanTN: require('../resources/Avatar-F-T-N.png'),
+  womanTG: require('../resources/Avatar-F-T-G.png'),
+  womanTMG: require('../resources/Avatar-F-T-G.png'),
+
+  womanND: require('../resources/Avatar-F-N-D.png'),
+  womanNN: require('../resources/Avatar-F-N-N.png'),
+  womanNG: require('../resources/Avatar-F-N-G.png'),
+  womanNMG: require('../resources/Avatar-F-N-MG.png'),
+
+
+  manBD: require('../resources/Avatar-M-B-D.png'),
+  manBN: require('../resources/Avatar-M-B-N.png'),
+  manBG: require('../resources/Avatar-M-B-G.png'),
+  manBMG: require('../resources/Avatar-M-B-MG.png'),
+
+  manTD: require('../resources/Avatar-M-T-D.png'),
+  manTN: require('../resources/Avatar-M-T-N.png'),
+  manTG: require('../resources/Avatar-M-T-G.png'),
+  manTMG: require('../resources/Avatar-M-T-MG.png'),
+
+  manND: require('../resources/Avatar-M-N-D.png'),
+  manNN: require('../resources/Avatar-M-N-N.png'),
+  manNG: require('../resources/Avatar-M-N-G.png'),
+  manNMG: require('../resources/Avatar-M-N-MG.png'),
 }
 
 userGlobal = '';
-avatar = 'Avatar-F-T-N.png';
+avatarModel = images.womanBD;
 womenAvatarBase = ['Avatar-F-B-N.png', 'Avatar-F-T-N.png', 'Avatar-F-N-N.png'];
 menAvatarBase = ['Avatar-M-B-N.png', 'Avatar-M-T-N.png', 'Avatar-M-N-N.png'];
-womenAvatarBaseModel = [images.womenBN, images.womenTN, images.womenNN];
+womenAvatarBaseModel = [images.womanBN, images.womanTN, images.womanNN];
+menAvatarBaseModel = [images.manBN, images.manTN, images.manNN];
 
 class Profile extends React.Component {
   static navigationOptions = {
@@ -24,14 +53,17 @@ class Profile extends React.Component {
   }
 
   state = {
-      nombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName,
+      nombre: this.props.loggedInUser.name,
+      apellido: this.props.loggedInUser.lastName,
       edad: this.props.loggedInUser.age,
       estatura: this.props.loggedInUser.height,
-      peso: this.props.loggedInUser.weight,
-      editModeNombre: this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName,
+      peso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1].value,
+      avatar: this.props.loggedInUser.avatar,
+      editModeNombre: this.props.loggedInUser.name,
+      editModeApellido: this.props.loggedInUser.lastName,
       editModeEdad: this.props.loggedInUser.age,
       editModeEstatura: this.props.loggedInUser.height,
-      editModePeso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1],
+      editModePeso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1].value.toString(),
       changeAvatar: false,
       avatarModeEdit: images.womenNN,
       avatarIndex: this.getAvatarBaseIndex(),
@@ -43,32 +75,60 @@ class Profile extends React.Component {
     }
 
     editUser() {
-      addPeso = this.state.peso;
-      addPeso.push(this.state.editModePeso);
+      userGlobal = this.props.loggedInUser;
+      userGlobal.name = this.state.editModeNombre;
+      userGlobal.lastName = this.state.editModeApellido;
+      userGlobal.age = this.state.editModeEdad;
+      userGlobal.height = this.state.editModeEstatura;
+      userGlobal.avatar = this.state.avatar;
+      UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar);
+      UpdateGoal(this.props.goals[this.props.goals.length - 1]._id, ((this.props.goals[this.props.goals.length - 1].quantity*1)).toString(), '1', this.props.goals[this.props.goals.length - 1].nMessages*1+1, this.props.goals[this.props.goals.length - 1].dueDate)
+      if (this.state.editModePeso*1 != this.state.peso) {
+        add = userGlobal.weight[0];
+        add.value = this.state.editModePeso*1;
+        userGlobal.weight.push(add);
+        UpdatePatientWeight(userGlobal.id, this.state.editModePeso*1)
+      }
+      this.props.saveUser();
       this.setState((state) => ({ editmode: false, 
-                      nombre: state.editModeNombre, 
+                      nombre: state.editModeNombre,
+                      apellido: state.editModeApellido, 
                       edad: state.editModeEdad, 
                       estatura: state.editModeEstatura, 
-                      peso: addPeso}));
-      userGlobal = this.props.loggedInUser;
-      userGlobal.name = this.state.nombre;
-      userGlobal.age = this.state.edad;
-      userGlobal.height = this.state.estatura;
-      userGlobal.weight = this.state.peso;
-      this.props.saveUser();
+                      peso: state.editModePeso*1}));
+      
       ToastAndroid.show('Guardado', ToastAndroid.SHORT);
-      console.log(this.state.peso)
   }
 
   getAvatarBaseIndex(){
     let i = 0;
-    while(i < womenAvatarBase.length){
-      if(avatar == womenAvatarBase[i]){
-        return i;
+    if (this.props.loggedInUser.sex == 'f') {
+      while(i < womenAvatarBase.length){
+        if(this.props.loggedInUser.avatar == womenAvatarBase[i]){
+          return i;
+        }
+        i++;
       }
-      i++;
+    }else{
+      while(i < menAvatarBase.length){
+        if(this.props.loggedInUser.avatar == menAvatarBase[i]){
+          return i;
+        }
+        i++;
+      }
     }
-    
+  }
+
+  showChangeAvatarModel(){
+    if (this.props.loggedInUser.sex == 'f') {
+      return(
+        <Image source={womenAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
+      );
+    }else{
+      return(
+        <Image source={menAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
+      );
+    }
   }
 
   changeAvatarModel(move){
@@ -89,28 +149,150 @@ class Profile extends React.Component {
     }
   }
 
-  renderAvatar(){
-    imc = (this.state.peso[this.state.peso.length - 1]*1)/((this.state.estatura*1)*(this.state.estatura*1));
-    switch (imc){
-      case imc < 18.5:
-        console.log('delgado');
-        break;
-      
-      case imc >= 18.5 && 24.99:
-        console.log('normal');
-        break;
+  EditAvatar(){
+    if (this.props.loggedInUser.sex == 'f') {
+      this.setState((state) => ({ changeAvatar: false, avatar: womenAvatarBase[state.avatarIndex] }));
+    }else{
+      this.setState((state) => ({ changeAvatar: false, avatar: menAvatarBase[state.avatarIndex] }));
+    }
+  }
 
-      case imc > 24.99 && imc < 30:
-        console.log('obeso');
+  SelectAvatar(){
+    parts = this.state.avatar.split('-');
+    imc = (this.state.peso*1)/((this.state.estatura*1)*(this.state.estatura*1));
+    switch (this.props.loggedInUser.sex){
+      case 'f':
+        switch(parts[2]){
+          case 'B':
+              switch (true){
+                case imc < 18.5:
+                  avatarModel = images.womanBD;
+                  break;
+                
+                case imc >= 18.5 && imc <= 24.99:
+                  avatarModel = images.womanBN;
+                  break;
+          
+                case imc > 24.99 && imc < 30:
+                  avatarModel = images.womanBG;
+                  break;
+                
+                case imc >= 30:
+                  avatarModel = images.womanBMG;
+                  break;
+              }
+          break;
+          
+          case 'T':
+              switch (true){
+                case imc < 18.5:
+                  avatarModel = images.womanTD;
+                  break;
+                
+                case imc >= 18.5 && imc <= 24.99:
+                  avatarModel = images.womanTN;
+                  break;
+          
+                case imc > 24.99 && imc < 30:
+                  avatarModel = images.womanTG;
+                  break;
+                
+                case imc >= 30:
+                  avatarModel = images.womanTMG;
+                  break;
+              }
+          break
+
+          case 'N':
+              switch (true){
+                case imc < 18.5:
+                  avatarModel = images.womanND;
+                  break;
+                
+                case imc >= 18.5 && imc <= 24.99:
+                  avatarModel = images.womanNN;
+                  break;
+          
+                case imc > 24.99 && imc < 30:
+                  avatarModel = images.womanNG;
+                  break;
+                
+                case imc >= 30:
+                  avatarModel = images.womanNMG;
+                  break;
+              }
+            break;
+        }
         break;
-      
-      case imc >= 30:
-        console.log('muy obeso');
+        
+      case 'm':
+          switch(parts[2]){
+            case 'B':
+                switch (true){
+                  case imc < 18.5:
+                    avatarModel = images.manBD;
+                    break;
+                  
+                  case imc >= 18.5 && imc <= 24.99:
+                    avatarModel = images.manBN;
+                    break;
+            
+                  case imc > 24.99 && imc < 30:
+                    avatarModel = images.manBG;
+                    break;
+                  
+                  case imc >= 30:
+                    avatarModel = images.manBMG;
+                    break;
+                }
+            break;
+            
+            case 'T':
+                switch (true){
+                  case imc < 18.5:
+                    avatarModel = images.manTD;
+                    break;
+                  
+                  case imc >= 18.5 && imc <= 24.99:
+                    avatarModel = images.manTN;
+                    break;
+            
+                  case imc > 24.99 && imc < 30:
+                    avatarModel = images.manTG;
+                    break;
+                  
+                  case imc >= 30:
+                    avatarModel = images.manTMG;
+                    break;
+                }
+            break
+  
+            case 'N':
+                switch (true){
+                  case imc < 18.5:
+                    avatarModel = images.manND;
+                    break;
+                  
+                  case imc >= 18.5 && imc <= 24.99:
+                    avatarModel = images.manNN;
+                    break;
+            
+                  case imc > 24.99 && imc < 30:
+                    avatarModel = images.manNG;
+                    break;
+                  
+                  case imc >= 30:
+                    avatarModel = images.manNMG;
+                    break;
+                }
+              break;
+          }
         break;
     }
   };
 
     userInfo() {
+      this.SelectAvatar();
     if (this.state.editmode === true) {
       return (
         <View>
@@ -131,7 +313,7 @@ class Profile extends React.Component {
                             size={50}
                             onPress={() => this.changeAvatarModel('left')}
                           />
-                          <Image source={womenAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
+                          {this.showChangeAvatarModel()}
                           <Icon
                             name='md-arrow-dropright-circle'
                             type='ionicon'
@@ -144,7 +326,7 @@ class Profile extends React.Component {
                         <Button
                         rounded
                         title="Guardar"
-                        onPress={() => this.setState({ changeAvatar: false,  })}
+                        onPress={() => this.EditAvatar()}
                         buttonStyle={{
                             marginTop: 20,
                             borderRadius: 25,
@@ -167,7 +349,7 @@ class Profile extends React.Component {
                 </Overlay>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
               <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={images.womenTN} style={{ height: 260, width: 120}}></Image>
+                <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
                 <Fab
                     style={{ backgroundColor: '#1438A6' }}
                     onPress={() => this.setState({changeAvatar: true})}
@@ -182,6 +364,7 @@ class Profile extends React.Component {
               </View>
             </ImageBackground>
           <Hoshi value={this.state.editModeNombre} borderColor={'#000000'} label={'Nombre'} onChangeText={editModeNombre => this.setState({ editModeNombre })} />
+          <Hoshi value={this.state.editModeApellido} borderColor={'#000000'} label={'Apellido'} onChangeText={editModeApellido => this.setState({ editModeApellido })} />
           <Hoshi value={this.state.editModeEdad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
           <Hoshi value={this.state.editModeEstatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
           <Hoshi value={this.state.editModePeso} borderColor={'#000000'} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
@@ -214,12 +397,12 @@ class Profile extends React.Component {
         <View>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
               <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={images.womenTN} style={{ height: 260, width: 120}}></Image>
+                <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
               </View>
             </ImageBackground>
           <Card>
             <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre}</Text>
+              <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre + ' ' + this.state.apellido}</Text>
             </CardItem>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Edad </Text><Text style={{ fontSize: 16 }}> {this.state.edad} años</Text>
@@ -228,7 +411,7 @@ class Profile extends React.Component {
               <Text style={{ fontWeight: 'bold' }}>Estatura </Text><Text style={{ fontSize: 16 }}>{this.state.estatura} metros</Text>
             </CardItem>
             <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso[this.state.peso.length-1]} kg</Text>
+              <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso} kg</Text>
             </CardItem>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.currentStepCount} pasos</Text>
@@ -281,7 +464,8 @@ class Profile extends React.Component {
 
 function mapStateToProps(state){
 	return{
-		loggedInUser: state.loggedInUser
+    loggedInUser: state.loggedInUser,
+    goals: state.goals
 	}
 }
 

@@ -56,7 +56,9 @@ const Drawer = createAppContainer(MyDrawerNavigator);
 
 class Main extends React.Component {
   render(){
-    loggedInUserName = this.props.loggedInUser.name + ' ' + this.props.loggedInUser.lastName;
+    splitName = this.props.loggedInUser.name.split(' ');
+    splitLastName = this.props.loggedInUser.lastName.split(' ');
+    loggedInUserName = splitName[0] + ' ' + splitLastName[0];
     return (
         <Drawer />
     );

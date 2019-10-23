@@ -30,8 +30,8 @@ class Goals extends React.Component{
                                     <Text>{item.progress + '/' + item.quantity}</Text>
                                     <ProgressBarAnimated
                                         width={Dimensions.get('window').width*0.8}
-                                        value={item.progress*1}
-                                        maxValue={item.quantity*1}
+                                        value={((item.progress*1)/(item.quantity*1))*100}
+                                        maxValue={100}
                                         backgroundColorOnComplete="#6CC644"
                                     />
                                 </Body>
@@ -44,7 +44,6 @@ class Goals extends React.Component{
     }
 
   render() {
-      console.log('ESTA KGA FUNCIONA ' + this.props.goals);
           return (
             <View>
                 <Header

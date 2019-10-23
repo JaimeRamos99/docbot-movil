@@ -11,6 +11,26 @@ export function signIn(documentNumber,password){
     });
 }
 
+export function UpdatePatient(id, name, lastName, age, height, avatar){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updatepat`,{ 
+        method: 'PUT', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ id, name, lastName, age, height, avatar })
+    });
+}
+
+export function UpdatePatientWeight(id, weight){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updateweight`,{ 
+        method: 'PUT', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ id, weight })
+    });
+}
+
+/**
+ * 
+ * @param {*} pat 
+ */
 export function GetGoals(pat){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/goals/buscar`,{ 
         method: 'POST', 
@@ -19,6 +39,19 @@ export function GetGoals(pat){
     });
 }
 
+export function UpdateGoal(id, progress, state, nMessages, compilanceDate){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/goals`,{ 
+        method: 'PUT', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ id, progress, state, nMessages, compilanceDate })
+    });
+}
+
+/**
+ * 
+ * @param {*} patient 
+ * @param {*} type 
+ */
 export function GetParaclinicals(patient, type){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals/buscar`,{ 
         method: 'POST', 
@@ -27,6 +60,12 @@ export function GetParaclinicals(patient, type){
     });
 }
 
+/**
+ * 
+ * @param {*} patient 
+ * @param {*} type 
+ * @param {*} value 
+ */
 export function CreateParaclinical(patient, type, value){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals`,{ 
         method: 'POST', 

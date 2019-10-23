@@ -109,7 +109,7 @@ class ClinicalHistory extends React.Component {
                         buttonStyle={{
                             marginTop: 20,
                             borderRadius: 25,
-                            backgroundColor: "#545aa1",
+                            backgroundColor: "#1438A6",
                             width: '50%',
                           }}
                         />

@@ -44,7 +44,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('123456', '123456789')
+		signIn('98745', '98745')
 		  .then(response => {
 			return response.json();
 		  })
@@ -62,6 +62,13 @@ class Login extends React.Component {
 				//Save('userWeight', json.weight);
 				//Save('userBirthday', json.birthday);
 				userGlobal = json;
+				if (userGlobal.avatar == '') {
+					if (userGlobal.sex == 'f') {
+						userGlobal.avatar = 'Avatar-F-T-N.png';
+					}else{
+						userGlobal.avatar = 'Avatar-M-T-N.png';
+					}
+				}
 				this.props.saveUser();
 				GetGoals(userGlobal.id)
 				.then(response => {
@@ -113,7 +120,7 @@ class Login extends React.Component {
 						marginTop: 20
 				}}
 				>
-					<Image source={require('../resources/logo.jpeg')} style={{ flex: 1,resizeMode: 'contain'}}/>
+					<Image source={require('../resources/logo.jpg')} style={{ flex: 1,resizeMode: 'contain'}}/>
 				</View>
 			</CardSection>
 			<CardSection>
