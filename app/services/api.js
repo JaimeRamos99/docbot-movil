@@ -81,3 +81,14 @@ export function GetDoctorMessage(p, typeDescription){
         body: JSON.stringify({ patient,  type})
     });
 }
+
+/**
+ * Obtener mensajes enviados por el doctor
+ * @param {*} patient 
+ */
+export function getMessagesD(patient){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/messagesD/findByPat`,{ 
+        method: 'GET', 
+        headers: { 'Content-Type':'application/json','patient': patient}
+    });
+}
