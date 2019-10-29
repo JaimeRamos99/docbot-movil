@@ -39,11 +39,11 @@ export function GetGoals(pat){
     });
 }
 
-export function UpdateGoal(id, progress, state, nMessages, compilanceDate){ 
+export function UpdateGoal(id, progress, state, nMessages, complianceDate){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/goals`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, progress, state, nMessages, compilanceDate })
+        body: JSON.stringify({ id, progress, state, nMessages, complianceDate })
     });
 }
 
@@ -71,5 +71,13 @@ export function CreateParaclinical(patient, type, value){
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ patient, type, value })
+    });
+}
+
+export function GetDoctorMessage(p, typeDescription){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/messages`,{ 
+        method: 'POST', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ patient,  type})
     });
 }

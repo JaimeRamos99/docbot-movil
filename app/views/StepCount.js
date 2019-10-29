@@ -1,6 +1,6 @@
 import React from "react";
 import { Pedometer } from "expo-sensors";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, WebView } from "react-native";
 import { Header, Icon } from 'react-native-elements';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import moment from 'moment';
@@ -77,6 +77,15 @@ export class StepCount extends React.Component {
     this._subscription = null;
   };
 
+  runJSInBackground (code) {
+		this.webView.injectJavaScript(code)
+    }
+    
+	  handleMessage = (e) => {
+		const message = e.nativeEvent.data
+		console.log('message from webview:', message)
+    }
+    
   renderStepCountCOmponent(){
     if (true){
         return(

@@ -13,6 +13,62 @@ export class Chat extends React.Component {
   steps = [
     {
       id: '0',
+      message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
+      end: true,
+    }
+  ];
+
+  render(){
+    return(
+      <KeyboardAvoidingView
+        behavior='padding'
+      >
+        <Chatbot 
+          headerComponent={
+            <Header
+              placement='left'
+              leftComponent={
+                <Icon 
+                  name='md-menu' 
+                  type='ionicon' 
+                  color='#fff' 
+                  onPress={() => this.props.navigation.openDrawer()}/>
+              }
+              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              containerStyle={{
+                backgroundColor: '#1438A6',
+              }}
+            />
+          }
+          steps={this.steps} 
+          botBubbleColor='#3F51B5'
+          botFontColor='#fff'
+          optionBubbleColor='#3F51B5'
+          optionFontColor='#fff'
+          userBubbleColor='#1438A6'
+          userFontColor='#fff'
+        />
+      </KeyboardAvoidingView>
+    );
+  }
+}
+
+function mapStateToProps(state){
+	return{
+		loggedInUser: state.loggedInUser
+	}
+}
+
+function mapDispatchToProps(dispatch){
+	return{
+		saveUser : () => dispatch({type:'Save_User', payload: userGlobal})
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+
+/*{
+      id: '0',
       message: 'Hola, ' + this.props.loggedInUser + ' soy DocBot',
       trigger: '1',
     },
@@ -89,54 +145,4 @@ export class Chat extends React.Component {
       id: '12',
       message: 'Hasta luego',
       end: true,
-    },
-  ];
-
-  render(){
-    return(
-      <KeyboardAvoidingView
-        behavior='padding'
-      >
-        <Chatbot 
-          headerComponent={
-            <Header
-              placement='left'
-              leftComponent={
-                <Icon 
-                  name='md-menu' 
-                  type='ionicon' 
-                  color='#fff' 
-                  onPress={() => this.props.navigation.openDrawer()}/>
-              }
-              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
-              containerStyle={{
-                backgroundColor: '#1438A6',
-              }}
-            />
-          }
-          steps={this.steps} 
-          botBubbleColor='#3F51B5'
-          botFontColor='#fff'
-          optionBubbleColor='#3F51B5'
-          optionFontColor='#fff'
-          userBubbleColor='#1438A6'
-          userFontColor='#fff'
-        />
-      </KeyboardAvoidingView>
-    );
-  }
-}
-
-function mapStateToProps(state){
-	return{
-		loggedInUser: state.loggedInUser
-	}
-}
-
-function mapDispatchToProps(dispatch){
-	return{
-		saveUser : () => dispatch({type:'Save_User', payload: userGlobal})
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+    },*/

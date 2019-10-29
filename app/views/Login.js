@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { ActivityIndicator, AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, WebView } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
@@ -44,7 +44,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('98745', '98745')
+		signIn('368', '368')
 		  .then(response => {
 			return response.json();
 		  })
@@ -93,6 +93,8 @@ class Login extends React.Component {
 					console.log(error.message);
 				});
 				this.setState({ loading: false});
+				date = new Date();
+				console.log(date.toString());
 				this.props.navigation.navigate('Main');
 			} else {
 				this.onLoginFail();

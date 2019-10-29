@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import  Login  from './app/views/Login.js';
 import { Home } from './app/views/Home.js';
 import { Profile } from './app/views/Profile.js';
 import { Chat } from './app/views/Chat.js';
-import  Main  from './app/Main.js';
+import Main from './app/Main.js';
 import { StepCount } from './app/views/StepCount.js';
 import { Goals } from './app/views/Goals.js';
 import { Avatar } from './app/views/Avatar.js';
@@ -15,7 +15,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 const initialState = {
-  loggedInUser: '', goals: [], paraclinicals: []
+  loggedInUser: '', goals: [], paraclinicals: [], doctorMessage: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -37,18 +37,19 @@ const reducer = (state = initialState, action) => {
 
 const store = createStore(reducer);
 
-const AppNavigator = createStackNavigator(
+const AppContainer = createAppContainer(createSwitchNavigator(
   {
-    Login: Login,
-    Main: Main
+    Main: Main,
+    Auth: Login,
   },
   {
-    initialRouteName: 'Login',
-    headerMode: 'none'
-  },
-);
+    initialRouteName: 'Auth',
+  }
+));
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppNavigator = createStackNavigator({Login: Login});
+
+//const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
   render(){

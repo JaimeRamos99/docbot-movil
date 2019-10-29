@@ -82,7 +82,8 @@ class Profile extends React.Component {
       userGlobal.height = this.state.editModeEstatura;
       userGlobal.avatar = this.state.avatar;
       UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar);
-      UpdateGoal(this.props.goals[this.props.goals.length - 1]._id, ((this.props.goals[this.props.goals.length - 1].quantity*1)).toString(), '1', this.props.goals[this.props.goals.length - 1].nMessages*1+1, this.props.goals[this.props.goals.length - 1].dueDate)
+      dateTemp = new Date();
+      UpdateGoal(this.props.goals[this.props.goals.length - 1]._id, ((this.props.goals[this.props.goals.length - 1].quantity*1)).toString(), '1', this.props.goals[this.props.goals.length - 1].nMessages*1+1, dateTemp.toString());
       if (this.state.editModePeso*1 != this.state.peso) {
         add = userGlobal.weight[0];
         add.value = this.state.editModePeso*1;

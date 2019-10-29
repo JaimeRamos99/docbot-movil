@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Botic",
-    "slug": "Botic",
+    "name": "DocBot",
+    "slug": "DocBot",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": [
@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.PF.DocBot",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.PF.DocBot"
     }
   }
 }
