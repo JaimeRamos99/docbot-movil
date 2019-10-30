@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals, GetParaclinicals, GetMessagesD } from '../services/api.js';
+import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
 
@@ -13,6 +13,7 @@ userGlobal = '';
 goals = [];
 paraclinicals = [];
 doctorMessages = [];
+botMessages = [];
 
 class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
@@ -71,6 +72,17 @@ class Login extends React.Component {
 				}
 				console.log(userGlobal);
 				this.props.saveUser();
+				getLego(userGlobal.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					botMessages = json;
+					console.log(botMessages);
+					this.props.saveBotMessages();
+				}).catch(error => {
+					console.log(error.message);
+				});
 				GetMessagesD(userGlobal.id)
 				.then(response => {
 					return response.json();
@@ -197,7 +209,8 @@ function mapDispatchToProps(dispatch){
 		saveUser : () => dispatch({type:'Save_User', payload: userGlobal}),
 		saveGoals : () => dispatch({type:'save_goals', payload: goals}),
 		saveParaclinicals : () => dispatch({type:'save_paraclinicals', payload: paraclinicals}),
-		saveDoctorMessages : () => dispatch({type:'save_doctorMessages', payload: doctorMessages}),
+		saveDoctorMessages : () => dispatch({type:'save_doctor_messages', payload: doctorMessages}),
+		saveBotMessages : () => dispatch({type:'save_bot_Messages', payload: botMessages}),
 	}
 }
 

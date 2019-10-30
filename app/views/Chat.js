@@ -10,13 +10,46 @@ class Chat extends React.Component {
 		drawerIcon: () => <Icon name='md-chatboxes' type='ionicon' color='#000' />
   }
 
-  steps = [
-    {
-      id: '0',
-      message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
-      end: true,
+  steps = [];
+
+  constructor(props) {
+    super(props);
+    this.GetMessages();
+  }
+
+  GetMessages(){
+    //this.props.botMessages[0].length == 0
+    if (true) {
+      this.steps.push({
+        id: '0',
+        message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
+        end: true,
+      });
+    }else{
+      triggerId = 1;
+      this.steps.push({
+        id: (triggerId-1).toString(),
+        message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
+        trigger: triggerId.toString(),
+      });
+      triggerId++;
+      for(let i = 0; i < this.props.botMessages[0].length; i++){
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          message: 'Hola, ' + this.props.loggedInUser + ' soy DocBot',
+          trigger: triggerId.toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          options: [
+            { value: 1, label: 'Formal', trigger: '3' },
+            { value: 2, label: 'Informal', trigger: '8' },
+          ],
+        });
+      }
     }
-  ];
+  }
 
   render(){
     return(
@@ -55,7 +88,8 @@ class Chat extends React.Component {
 
 function mapStateToProps(state){
 	return{
-		loggedInUser: state.loggedInUser
+    loggedInUser: state.loggedInUser,
+    botMessages: state.botMessages
 	}
 }
 

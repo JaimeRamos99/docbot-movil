@@ -14,7 +14,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 const initialState = {
-  loggedInUser: '', goals: [], paraclinicals: [], doctorMessages: []
+  loggedInUser: '', goals: [], paraclinicals: [], doctorMessages: [], botMessages: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,8 +31,12 @@ const reducer = (state = initialState, action) => {
       state.paraclinicals = action.payload;
       break;
 
-    case 'save_doctorMessages':
+    case 'save_doctor_messages':
       state.doctorMessages = action.payload;
+      break;
+
+    case 'save_bot_Messages':
+      state.botMessages = action.payload;
       break;
   }
   return state;
