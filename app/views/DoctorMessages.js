@@ -6,44 +6,62 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Profile } from './Profile.js';
 import { Chat } from './Chat.js';
+import { GetMessagesD } from '../services/api.js';
 import { connect } from 'react-redux';
 
 
 class DoctorMessages extends React.Component {
   static navigationOptions = {
-		drawerIcon: () => <Icon name='md-home' type='ionicon' color='#000' />
+		drawerIcon: () => <Icon name='email' type='material' color='#000' />
   }
-  
-  ShowDoctorMessages(){
-    if(this.props.doctorMessages.length == 0){
-        return(
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 20}}>
-            No existen mensajes
-          </Text>
-        </View>
-        );
-    }else{
-        return(
-            <ScrollView>
-                { this.props.doctorMessages.map((item, index) => (
-                    <Card key={'Message ' + index}>
-                    <CardItem header>
-                      <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
-                      <Text style={{fontSize: 20, marginLeft: 20}}>Dr. {item.doctorName}</Text>
-                    </CardItem>
-                    <CardItem>
-                      <Body>
-                        <Text style={{fontSize: 20}}>{item.subject}</Text>
-                        <Text>{item.description}</Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
-                ))}
-            </ScrollView>
-        );
+  state = {
+      messages: this.props.doctorMessages
+  }
+
+    ShowDoctorMessages(){
+        if(this.props.doctorMessages.length == 0){
+            return(
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 20}}>
+                No existen mensajes
+            </Text>
+            </View>
+            );
+        }else{
+            return(
+                <ScrollView>
+                    { this.state.messages.map((item, index) => (
+                        <Card key={'Message ' + index}>
+                        <CardItem header>
+                        <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
+                        <Text style={{fontSize: 20, marginLeft: 20}}>Dr. {item.doctorName}</Text>
+                        </CardItem>
+                        <CardItem>
+                        <Body>
+                            <Text style={{fontSize: 20}}>{item.subject}</Text>
+                            <Text>{item.description}</Text>
+                        </Body>
+                        </CardItem>
+                    </Card>
+                    ))}
+                </ScrollView>
+            );
+        }
     }
-}
+
+    GetMessages(){
+        console.log('se ejecuta')
+        GetMessagesD(this.props.loggedInUser.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					this.setState({ messages: json});
+					console.log(doctorMessages);
+				}).catch(error => {
+					console.log(error.message);
+				});
+    }
 
   render() {
       return (
@@ -62,7 +80,18 @@ class DoctorMessages extends React.Component {
                 backgroundColor: '#1438A6',
               }}
             />
-              {this.ShowDoctorMessages()}
+            {this.ShowDoctorMessages()}
+            <Fab
+              style={{ backgroundColor: '#1438A6' }}
+              onPress={this.GetMessages.bind(this)}
+            >
+              <Icon
+                  reverse
+                  name='md-sync'
+                  type='ionicon'
+                  color='#1438A6'
+              />
+            </Fab>
           </View>
       );
   }
@@ -107,15 +136,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(DoctorMessages);
 export const Drawer = createAppContainer(MyDrawerNavigator);
 
 
-<Fab
-              style={{ backgroundColor: '#1438A6' }}
-            >
-              <Icon
-                  reverse
-                  name='md-chatboxes'
-                  type='ionicon'
-                  color='#1438A6'
-              />
-            </Fab>
+
 
 */

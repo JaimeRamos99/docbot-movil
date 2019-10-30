@@ -29,7 +29,7 @@ class Home extends React.Component {
                 backgroundColor: '#1438A6',
               }}
             />
-            <ImageBackground style={{ flex: 1, width: '100%' }} source={require('../resources/logo.jpg')}>
+            <ImageBackground style={{ flex: 1 }} source={require('../resources/logo.jpg')}>
               
             </ImageBackground>
           </View>

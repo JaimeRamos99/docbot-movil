@@ -5,7 +5,7 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals, GetParaclinicals, GetMessagesD, GetDoctorMessage } from '../services/api.js';
+import { signIn, GetGoals, GetParaclinicals, GetMessagesD } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
 
@@ -45,7 +45,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('1235678', '1235678')
+		signIn('368', '368')
 		  .then(response => {
 			return response.json();
 		  })

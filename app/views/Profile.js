@@ -58,12 +58,14 @@ class Profile extends React.Component {
       edad: this.props.loggedInUser.age,
       estatura: this.props.loggedInUser.height,
       peso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1].value,
+      email: this.props.loggedInUser.email,
       avatar: this.props.loggedInUser.avatar,
       editModeNombre: this.props.loggedInUser.name,
       editModeApellido: this.props.loggedInUser.lastName,
       editModeEdad: this.props.loggedInUser.age,
       editModeEstatura: this.props.loggedInUser.height,
       editModePeso: this.props.loggedInUser.weight[this.props.loggedInUser.weight.length - 1].value.toString(),
+      editModeEmail: this.props.loggedInUser.email,
       changeAvatar: false,
       avatarModeEdit: images.womenNN,
       avatarIndex: this.getAvatarBaseIndex(),
@@ -373,6 +375,7 @@ class Profile extends React.Component {
           <Hoshi value={this.state.editModeEdad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
           <Hoshi value={this.state.editModeEstatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
           <Hoshi value={this.state.editModePeso} borderColor={'#000000'} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
+          <Hoshi value={this.state.editModeEmail} borderColor={'#000000'} keyboardType='Email' label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
           <Button
             rounded
             title="Guardar"
@@ -417,6 +420,9 @@ class Profile extends React.Component {
             </CardItem>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso} kg</Text>
+            </CardItem>
+            <CardItem bordered>
+              <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.email} pasos</Text>
             </CardItem>
             <CardItem bordered>
               <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.currentStepCount} pasos</Text>
