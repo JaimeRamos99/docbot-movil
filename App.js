@@ -9,7 +9,6 @@ import { Chat } from './app/views/Chat.js';
 import Main from './app/Main.js';
 import { StepCount } from './app/views/StepCount.js';
 import { Goals } from './app/views/Goals.js';
-import { Avatar } from './app/views/Avatar.js';
 import { ClinicalHistory } from './app/views/ClinicalHistory.js';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'

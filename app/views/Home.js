@@ -35,7 +35,19 @@ export class Home extends React.Component {
                 backgroundColor: '#1438A6',
               }}
             />
-            <Card>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 20}}>
+                No existen mensajes
+              </Text>
+            </View>
+
+            
+          </View>
+      );
+  }
+}
+
+/*<Card>
               <CardItem header>
                 <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
                 <Text style={{fontSize: 20, marginLeft: 20}}>Dr. Mercedes Benz</Text>
@@ -46,13 +58,7 @@ export class Home extends React.Component {
                   <Text>Recuerda que debes comer las raciones asignadas para que mejore tu salud</Text>
                 </Body>
               </CardItem>
-            </Card>
-
-            
-          </View>
-      );
-  }
-}
+            </Card>*/
 
 /*<Header
               placement='left'

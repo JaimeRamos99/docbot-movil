@@ -45,7 +45,7 @@ class Goals extends React.Component{
 
   render() {
           return (
-            <View>
+            <View style={{height: '100%'}}>
                 <Header
                     placement='left'
                     leftComponent={

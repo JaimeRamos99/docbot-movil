@@ -5,7 +5,7 @@ import Chatbot from 'react-native-chatbot';
 import { connect } from 'react-redux';
 
 
-export class Chat extends React.Component {
+class Chat extends React.Component {
   static navigationOptions = {
 		drawerIcon: () => <Icon name='md-chatboxes' type='ionicon' color='#000' />
   }

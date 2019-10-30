@@ -83,7 +83,7 @@ class Profile extends React.Component {
       userGlobal.avatar = this.state.avatar;
       UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar);
       dateTemp = new Date();
-      UpdateGoal(this.props.goals[this.props.goals.length - 1]._id, ((this.props.goals[this.props.goals.length - 1].quantity*1)).toString(), '1', this.props.goals[this.props.goals.length - 1].nMessages*1+1, dateTemp.toString());
+      UpdateGoal(this.props.goals[this.props.goals.length - 2]._id, ((this.props.goals[this.props.goals.length - 2].progress*1+1)).toString(), '1', this.props.goals[this.props.goals.length - 2].nMessages*1+1, dateTemp.toString());
       if (this.state.editModePeso*1 != this.state.peso) {
         add = userGlobal.weight[0];
         add.value = this.state.editModePeso*1;
@@ -140,6 +140,7 @@ class Profile extends React.Component {
         }else{
           this.setState((state) => ({avatarIndex: state.avatarIndex - 1}));
         }
+        break;
 
       case 'right':
           if(this.state.avatarIndex == 2){
@@ -147,6 +148,7 @@ class Profile extends React.Component {
           }else{
             this.setState((state) => ({avatarIndex: state.avatarIndex + 1}));
           }
+          break;
     }
   }
 
@@ -306,7 +308,7 @@ class Profile extends React.Component {
                 >
                     <View>
                         <Text style={{fontSize: 20}}>Cambio de avatar</Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 300}}>
                           <Icon
                             name='md-arrow-dropleft-circle'
                             type='ionicon'
@@ -314,7 +316,9 @@ class Profile extends React.Component {
                             size={50}
                             onPress={() => this.changeAvatarModel('left')}
                           />
-                          {this.showChangeAvatarModel()}
+                          <View style={{height: 290}}>
+                            {this.showChangeAvatarModel()}
+                          </View>
                           <Icon
                             name='md-arrow-dropright-circle'
                             type='ionicon'

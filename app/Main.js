@@ -6,9 +6,8 @@ import { Button, Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons';
 import { Home } from './views/Home.js';
 import  Profile  from './views/Profile.js';
-import { Chat } from './views/Chat.js';
+import Chat from './views/Chat.js';
 import Goals from './views/Goals.js';
-import { Avatar } from './views/Avatar.js';
 import ClinicalHistory from './views/ClinicalHistory.js'
 import { StepCount } from './views/StepCount.js';
 import { Logout } from './components/Logout.js'
@@ -16,39 +15,39 @@ import { connect } from 'react-redux';
 
 loggedInUserName = '';
 avatar = '';
-avatarModel = require('./resources/Avatar-F-B-D.png');
+avatarModelP = require('./resources/Profile/Avatar-F-B-D.png');
 
-const images = {
-  womanBD: require('./resources/Avatar-F-B-D.png'),
-  womanBN: require('./resources/Avatar-F-B-N.png'),
-  womanBG: require('./resources/Avatar-F-B-G.png'),
-  womanBMG: require('./resources/Avatar-F-B-MG.png'),
+const imagesP = {
+  womanBDP: require('./resources/Profile/Avatar-F-B-D.png'),
+  womanBNP: require('./resources/Profile/Avatar-F-B-N.png'),
+  womanBGP: require('./resources/Profile/Avatar-F-B-G.png'),
+  womanBMGP: require('./resources/Profile/Avatar-F-B-MG.png'),
 
-  womanTD: require('./resources/Avatar-F-T-D.png'),
-  womanTN: require('./resources/Avatar-F-T-N.png'),
-  womanTG: require('./resources/Avatar-F-T-G.png'),
-  womanTMG: require('./resources/Avatar-F-T-G.png'),
+  womanTDP: require('./resources/Profile/Avatar-F-T-D.png'),
+  womanTNP: require('./resources/Profile/Avatar-F-T-N.png'),
+  womanTGP: require('./resources/Profile/Avatar-F-T-G.png'),
+  womanTMGP: require('./resources/Profile/Avatar-F-T-G.png'),
 
-  womanND: require('./resources/Avatar-F-N-D.png'),
-  womanNN: require('./resources/Avatar-F-N-N.png'),
-  womanNG: require('./resources/Avatar-F-N-G.png'),
-  womanNMG: require('./resources/Avatar-F-N-MG.png'),
+  womanNDP: require('./resources/Profile/Avatar-F-N-D.png'),
+  womanNNP: require('./resources/Profile/Avatar-F-N-N.png'),
+  womanNGP: require('./resources/Profile/Avatar-F-N-G.png'),
+  womanNMGP: require('./resources/Profile/Avatar-F-N-MG.png'),
 
 
-  manBD: require('./resources/Avatar-M-B-D.png'),
-  manBN: require('./resources/Avatar-M-B-N.png'),
-  manBG: require('./resources/Avatar-M-B-G.png'),
-  manBMG: require('./resources/Avatar-M-B-MG.png'),
+  manBDP: require('./resources/Profile/Avatar-M-B-D.png'),
+  manBNP: require('./resources/Profile/Avatar-M-B-N.png'),
+  manBGP: require('./resources/Profile/Avatar-M-B-G.png'),
+  manBMGP: require('./resources/Profile/Avatar-M-B-MG.png'),
 
-  manTD: require('./resources/Avatar-M-T-D.png'),
-  manTN: require('./resources/Avatar-M-T-N.png'),
-  manTG: require('./resources/Avatar-M-T-G.png'),
-  manTMG: require('./resources/Avatar-M-T-MG.png'),
+  manTDP: require('./resources/Profile/Avatar-M-T-D.png'),
+  manTNP: require('./resources/Profile/Avatar-M-T-N.png'),
+  manTGP: require('./resources/Profile/Avatar-M-T-G.png'),
+  manTMGP: require('./resources/Profile/Avatar-M-T-MG.png'),
 
-  manND: require('./resources/Avatar-M-N-D.png'),
-  manNN: require('./resources/Avatar-M-N-N.png'),
-  manNG: require('./resources/Avatar-M-N-G.png'),
-  manNMG: require('./resources/Avatar-M-N-MG.png'),
+  manNDP: require('./resources/Profile/Avatar-M-N-D.png'),
+  manNNP: require('./resources/Profile/Avatar-M-N-N.png'),
+  manNGP: require('./resources/Profile/Avatar-M-N-G.png'),
+  manNMGP: require('./resources/Profile/Avatar-M-N-MG.png'),
 }
 
 const CustomDrawerContentComponent = props => (
@@ -64,15 +63,15 @@ const CustomDrawerContentComponent = props => (
         </View>
       </ImageBackground>
       <DrawerNavigatorItems {...props} />
+    </SafeAreaView>
+  </ScrollView>
+);
+/*
       <Button
         title="Cerrar Sesión"
         onPress={() => props.navigation.navigate('Au<th')}
         type='clear'
-      />
-    </SafeAreaView>
-  </ScrollView>
-);
-
+      />*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -106,19 +105,19 @@ class Main extends React.Component {
           case 'B':
               switch (true){
                 case imc < 18.5:
-                  avatarModel = images.womanBD;
+                  avatarModelP = imagesP.womanBDP;
                   break;
                 
                 case imc >= 18.5 && imc <= 24.99:
-                  avatarModel = images.womanBN;
+                  avatarModelP = imagesP.womanBNP;
                   break;
           
                 case imc > 24.99 && imc < 30:
-                  avatarModel = images.womanBG;
+                  avatarModelP = imagesP.womanBGP;
                   break;
                 
                 case imc >= 30:
-                  avatarModel = images.womanBMG;
+                  avatarModelP = imagesP.womanBMGP;
                   break;
               }
           break;
@@ -126,19 +125,19 @@ class Main extends React.Component {
           case 'T':
               switch (true){
                 case imc < 18.5:
-                  avatarModel = images.womanTD;
+                  avatarModelP = imagesP.womanTDP;
                   break;
                 
                 case imc >= 18.5 && imc <= 24.99:
-                  avatarModel = images.womanTN;
+                  avatarModelP = imagesP.womanTNP;
                   break;
           
                 case imc > 24.99 && imc < 30:
-                  avatarModel = images.womanTG;
+                  avatarModelP = imagesP.womanTGP;
                   break;
                 
                 case imc >= 30:
-                  avatarModel = images.womanTMG;
+                  avatarModelP = imagesP.womanTMGP;
                   break;
               }
           break
@@ -146,19 +145,19 @@ class Main extends React.Component {
           case 'N':
               switch (true){
                 case imc < 18.5:
-                  avatarModel = images.womanND;
+                  avatarModelP = imagesP.womanNDP;
                   break;
                 
                 case imc >= 18.5 && imc <= 24.99:
-                  avatarModel = images.womanNN;
+                  avatarModelP = imagesP.womanNNP;
                   break;
           
                 case imc > 24.99 && imc < 30:
-                  avatarModel = images.womanNG;
+                  avatarModelP = imagesP.womanNGP;
                   break;
                 
                 case imc >= 30:
-                  avatarModel = images.womanNMG;
+                  avatarModelP = imagesP.womanNMGP;
                   break;
               }
             break;
@@ -170,19 +169,19 @@ class Main extends React.Component {
             case 'B':
                 switch (true){
                   case imc < 18.5:
-                    avatarModel = images.manBD;
+                    avatarModelP = imagesP.manBDP;
                     break;
                   
                   case imc >= 18.5 && imc <= 24.99:
-                    avatarModel = images.manBN;
+                    avatarModelP = imagesP.manBNP;
                     break;
             
                   case imc > 24.99 && imc < 30:
-                    avatarModel = images.manBG;
+                    avatarModelP = imagesP.manBGP;
                     break;
                   
                   case imc >= 30:
-                    avatarModel = images.manBMG;
+                    avatarModelP = imagesP.manBMGP;
                     break;
                 }
             break;
@@ -190,19 +189,19 @@ class Main extends React.Component {
             case 'T':
                 switch (true){
                   case imc < 18.5:
-                    avatarModel = images.manTD;
+                    avatarModelP = imagesP.manTDP;
                     break;
                   
                   case imc >= 18.5 && imc <= 24.99:
-                    avatarModel = images.manTN;
+                    avatarModelP = imagesP.manTNP;
                     break;
             
                   case imc > 24.99 && imc < 30:
-                    avatarModel = images.manTG;
+                    avatarModelP = imagesP.manTGP;
                     break;
                   
                   case imc >= 30:
-                    avatarModel = images.manTMG;
+                    avatarModelP = imagesP.manTMGP;
                     break;
                 }
             break
@@ -210,19 +209,19 @@ class Main extends React.Component {
             case 'N':
                 switch (true){
                   case imc < 18.5:
-                    avatarModel = images.manND;
+                    avatarModelP = imagesP.manNDP;
                     break;
                   
                   case imc >= 18.5 && imc <= 24.99:
-                    avatarModel = images.manNN;
+                    avatarModelP = imagesP.manNNP;
                     break;
             
                   case imc > 24.99 && imc < 30:
-                    avatarModel = images.manNG;
+                    avatarModelP = imagesP.manNGP;
                     break;
                   
                   case imc >= 30:
-                    avatarModel = images.manNMG;
+                    avatarModelP = imagesP.manNMGP;
                     break;
                 }
               break;
