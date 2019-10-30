@@ -19,7 +19,7 @@ class Chat extends React.Component {
 
   GetMessages(){
     //this.props.botMessages[0].length == 0
-    if (true) {
+    if (this.props.botMessages[0].length == 0) {
       this.steps.push({
         id: '0',
         message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
@@ -36,17 +36,37 @@ class Chat extends React.Component {
       for(let i = 0; i < this.props.botMessages[0].length; i++){
         this.steps.push({
           id: (triggerId-1).toString(),
-          message: 'Hola, ' + this.props.loggedInUser + ' soy DocBot',
+          message: (this.props.botMessages[0])[i].pregunta,
           trigger: triggerId.toString(),
         });
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
           options: [
-            { value: 1, label: 'Formal', trigger: '3' },
-            { value: 2, label: 'Informal', trigger: '8' },
+            { value: 1, label: 'No', trigger: triggerId.toString() },
+            { value: 2, label: 'Si', trigger: (triggerId+1).toString() },
           ],
         });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          message: (this.props.botMessages[1])[i].RespuestaNegativa,
+          trigger: (triggerId+1).toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          message: (this.props.botMessages[2])[i].RespuestaPositiva,
+          trigger: triggerId.toString(),
+        });
+        triggerId++;
+        if (i == this.props.botMessages[0].length-1) {
+          this.steps.push({
+            id: (triggerId-1).toString(),
+            message: 'Eso seria todo por ahora, nos vemos mas tarde',
+            end: true,
+          });
+        }
       }
     }
   }

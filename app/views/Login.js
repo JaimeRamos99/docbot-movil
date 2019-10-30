@@ -46,7 +46,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('368', '368')
+		signIn(this.state.user, this.state.password)
 		  .then(response => {
 			return response.json();
 		  })
