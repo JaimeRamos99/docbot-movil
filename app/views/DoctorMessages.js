@@ -1,16 +1,49 @@
 import React from 'react';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Left, Right, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
 import { Header, Icon } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { Profile } from './Profile.js';
+import { Chat } from './Chat.js';
 import { connect } from 'react-redux';
 
 
-class Home extends React.Component {
+class DoctorMessages extends React.Component {
   static navigationOptions = {
 		drawerIcon: () => <Icon name='md-home' type='ionicon' color='#000' />
   }
+  
+  ShowDoctorMessages(){
+    if(this.props.doctorMessages.length == 0){
+        return(
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 20}}>
+            No existen mensajes
+          </Text>
+        </View>
+        );
+    }else{
+        return(
+            <ScrollView>
+                { this.props.doctorMessages.map((item, index) => (
+                    <Card key={'Message ' + index}>
+                    <CardItem header>
+                      <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
+                      <Text style={{fontSize: 20, marginLeft: 20}}>Dr. {item.doctorName}</Text>
+                    </CardItem>
+                    <CardItem>
+                      <Body>
+                        <Text style={{fontSize: 20}}>{item.subject}</Text>
+                        <Text>{item.description}</Text>
+                      </Body>
+                    </CardItem>
+                  </Card>
+                ))}
+            </ScrollView>
+        );
+    }
+}
 
   render() {
       return (
@@ -29,9 +62,7 @@ class Home extends React.Component {
                 backgroundColor: '#1438A6',
               }}
             />
-            <ImageBackground style={{ flex: 1, width: '100%' }} source={require('../resources/logo.jpg')}>
-              
-            </ImageBackground>
+              {this.ShowDoctorMessages()}
           </View>
       );
   }
@@ -50,7 +81,7 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(DoctorMessages);
 
 /**/
 

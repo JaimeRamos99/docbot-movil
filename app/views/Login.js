@@ -5,13 +5,14 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals, GetParaclinicals } from '../services/api.js';
+import { signIn, GetGoals, GetParaclinicals, GetMessagesD, GetDoctorMessage } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
 
 userGlobal = '';
 goals = [];
 paraclinicals = [];
+doctorMessages = [];
 
 class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
@@ -44,12 +45,11 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn('368', '368')
+		signIn('1235678', '1235678')
 		  .then(response => {
 			return response.json();
 		  })
 		  .then(json => {
-			  console.log(json);
 			if (json.login == true) {
 				//Save('userId', json.id);
 				//Save('userName', json.name);
@@ -69,7 +69,19 @@ class Login extends React.Component {
 						userGlobal.avatar = 'Avatar-M-T-N.png';
 					}
 				}
+				console.log(userGlobal);
 				this.props.saveUser();
+				GetMessagesD(userGlobal.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					doctorMessages = json;
+					console.log(doctorMessages);
+					this.props.saveDoctorMessages();
+				}).catch(error => {
+					console.log(error.message);
+				});
 				GetGoals(userGlobal.id)
 				.then(response => {
 					return response.json();
@@ -93,8 +105,6 @@ class Login extends React.Component {
 					console.log(error.message);
 				});
 				this.setState({ loading: false});
-				date = new Date();
-				console.log(date.toString());
 				this.props.navigation.navigate('Main');
 			} else {
 				this.onLoginFail();
@@ -187,6 +197,7 @@ function mapDispatchToProps(dispatch){
 		saveUser : () => dispatch({type:'Save_User', payload: userGlobal}),
 		saveGoals : () => dispatch({type:'save_goals', payload: goals}),
 		saveParaclinicals : () => dispatch({type:'save_paraclinicals', payload: paraclinicals}),
+		saveDoctorMessages : () => dispatch({type:'save_doctorMessages', payload: doctorMessages}),
 	}
 }
 

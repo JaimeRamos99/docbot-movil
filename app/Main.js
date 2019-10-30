@@ -4,50 +4,51 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { Button, Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons';
-import { Home } from './views/Home.js';
-import  Profile  from './views/Profile.js';
+import Home from './views/Home.js';
+import Profile from './views/Profile.js';
 import Chat from './views/Chat.js';
 import Goals from './views/Goals.js';
-import ClinicalHistory from './views/ClinicalHistory.js'
+import ClinicalHistory from './views/ClinicalHistory.js';
+import DoctorMessages from './views/DoctorMessages.js';
 import { StepCount } from './views/StepCount.js';
-import { Logout } from './components/Logout.js'
+import { Logout } from './components/Logout.js';
 import { connect } from 'react-redux';
 
 loggedInUserName = '';
 avatar = '';
-avatarModelP = require('./resources/Profile/Avatar-F-B-D.png');
+avatarModelP = require('./resources/profile/PAvatar-F-B-D.png');
 
 const imagesP = {
-  womanBDP: require('./resources/Profile/Avatar-F-B-D.png'),
-  womanBNP: require('./resources/Profile/Avatar-F-B-N.png'),
-  womanBGP: require('./resources/Profile/Avatar-F-B-G.png'),
-  womanBMGP: require('./resources/Profile/Avatar-F-B-MG.png'),
+  womanBDP: require('./resources/profile/PAvatar-F-B-D.png'),
+  womanBNP: require('./resources/profile/PAvatar-F-B-N.png'),
+  womanBGP: require('./resources/profile/PAvatar-F-B-G.png'),
+  womanBMGP: require('./resources/profile/PAvatar-F-B-MG.png'),
 
-  womanTDP: require('./resources/Profile/Avatar-F-T-D.png'),
-  womanTNP: require('./resources/Profile/Avatar-F-T-N.png'),
-  womanTGP: require('./resources/Profile/Avatar-F-T-G.png'),
-  womanTMGP: require('./resources/Profile/Avatar-F-T-G.png'),
+  womanTDP: require('./resources/profile/PAvatar-F-T-D.png'),
+  womanTNP: require('./resources/profile/PAvatar-F-T-N.png'),
+  womanTGP: require('./resources/profile/PAvatar-F-T-G.png'),
+  womanTMGP: require('./resources/profile/PAvatar-F-T-G.png'),
 
-  womanNDP: require('./resources/Profile/Avatar-F-N-D.png'),
-  womanNNP: require('./resources/Profile/Avatar-F-N-N.png'),
-  womanNGP: require('./resources/Profile/Avatar-F-N-G.png'),
-  womanNMGP: require('./resources/Profile/Avatar-F-N-MG.png'),
+  womanNDP: require('./resources/profile/PAvatar-F-N-D.png'),
+  womanNNP: require('./resources/profile/PAvatar-F-N-N.png'),
+  womanNGP: require('./resources/profile/PAvatar-F-N-G.png'),
+  womanNMGP: require('./resources/profile/PAvatar-F-N-MG.png'),
 
 
-  manBDP: require('./resources/Profile/Avatar-M-B-D.png'),
-  manBNP: require('./resources/Profile/Avatar-M-B-N.png'),
-  manBGP: require('./resources/Profile/Avatar-M-B-G.png'),
-  manBMGP: require('./resources/Profile/Avatar-M-B-MG.png'),
+  manBDP: require('./resources/profile/PAvatar-M-B-D.png'),
+  manBNP: require('./resources/profile/PAvatar-M-B-N.png'),
+  manBGP: require('./resources/profile/PAvatar-M-B-G.png'),
+  manBMGP: require('./resources/profile/PAvatar-M-B-MG.png'),
 
-  manTDP: require('./resources/Profile/Avatar-M-T-D.png'),
-  manTNP: require('./resources/Profile/Avatar-M-T-N.png'),
-  manTGP: require('./resources/Profile/Avatar-M-T-G.png'),
-  manTMGP: require('./resources/Profile/Avatar-M-T-MG.png'),
+  manTDP: require('./resources/profile/PAvatar-M-T-D.png'),
+  manTNP: require('./resources/profile/PAvatar-M-T-N.png'),
+  manTGP: require('./resources/profile/PAvatar-M-T-G.png'),
+  manTMGP: require('./resources/profile/PAvatar-M-T-MG.png'),
 
-  manNDP: require('./resources/Profile/Avatar-M-N-D.png'),
-  manNNP: require('./resources/Profile/Avatar-M-N-N.png'),
-  manNGP: require('./resources/Profile/Avatar-M-N-G.png'),
-  manNMGP: require('./resources/Profile/Avatar-M-N-MG.png'),
+  manNDP: require('./resources/profile/PAvatar-M-N-D.png'),
+  manNNP: require('./resources/profile/PAvatar-M-N-N.png'),
+  manNGP: require('./resources/profile/PAvatar-M-N-G.png'),
+  manNMGP: require('./resources/profile/PAvatar-M-N-MG.png'),
 }
 
 const CustomDrawerContentComponent = props => (
@@ -58,7 +59,7 @@ const CustomDrawerContentComponent = props => (
     >
       <ImageBackground style={{ width: '100%', height: 190, alignItems: 'center', justifyContent: 'center'}} source={require('./resources/background.jpg')}>
         <View style={{ height: 150, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={avatarModel} style={{ height: 100, width: 100, borderRadius: 60, marginTop: 20, marginBottom: 20 }}></Image>
+            <Image source={avatarModelP} style={{ height: 100, width: 100, borderRadius: 60, marginTop: 20, marginBottom: 20 }}></Image>
             <Text style={{color: '#fff', fontSize: 17}}>{loggedInUserName}</Text>
         </View>
       </ImageBackground>
@@ -80,15 +81,16 @@ const styles = StyleSheet.create({
 
 const MyDrawerNavigator = createDrawerNavigator(
     {
-      Home: Home,
+      Inicio: Home,
       DocBot: Chat,
+      Mensajes: DoctorMessages,
       Perfil: Profile,
       Metas: Goals,
       Paraclinicos: ClinicalHistory,
       Contador: StepCount,
     },
     {
-      initialRouteName: 'Home',
+      initialRouteName: 'Inicio',
       contentComponent: CustomDrawerContentComponent
     }
   );
@@ -96,9 +98,12 @@ const MyDrawerNavigator = createDrawerNavigator(
  const Drawer = createAppContainer(MyDrawerNavigator);
 
 class Main extends React.Component {
-  SelectAvatar(){
+  SelectAvatarP(){
     parts = this.props.loggedInUser.avatar.split('-');
-    imc = (this.props.loggedInUser.weight[this.props.loggedInUser.weight.length-1].peso*1)/((this.props.loggedInUser.height.estatura*1)*(this.props.loggedInUser.height.estatura*1));
+    console.log('avatar ' + this.props.loggedInUser.avatar)
+    imc = (this.props.loggedInUser.weight[this.props.loggedInUser.weight.length-1].value)/((this.props.loggedInUser.height*1)*(this.props.loggedInUser.height*1));
+    console.log('parts ' + parts);
+    console.log('imc ' + imc);
     switch (this.props.loggedInUser.sex){
       case 'f':
         switch(parts[2]){
@@ -231,7 +236,7 @@ class Main extends React.Component {
   };
 
   render(){
-    this.SelectAvatar();
+    this.SelectAvatarP();
     splitName = this.props.loggedInUser.name.split(' ');
     splitLastName = this.props.loggedInUser.lastName.split(' ');
     loggedInUserName = splitName[0] + ' ' + splitLastName[0];

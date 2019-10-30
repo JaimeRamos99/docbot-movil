@@ -86,7 +86,7 @@ export function GetDoctorMessage(p, typeDescription){
  * Obtener mensajes enviados por el doctor
  * @param {*} patient 
  */
-export function getMessagesD(patient){ 
+export function GetMessagesD(patient){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/messagesD/findByPat`,{ 
         method: 'GET', 
         headers: { 'Content-Type':'application/json','patient': patient}
