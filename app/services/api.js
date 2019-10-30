@@ -74,11 +74,14 @@ export function CreateParaclinical(patient, type, value){
     });
 }
 
-export function GetDoctorMessage(p, typeDescription){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/messages`,{ 
-        method: 'POST', 
-        headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ patient,  type})
+/**
+ * Obtener mensajes lego mb
+ * @param {*} patient 
+ */
+export function getLego(patient){ 
+    return fetch(`https://api-rest-botic.herokuapp.com/api/messages/lego`,{ 
+        method: 'GET', 
+        headers: { 'Content-Type':'application/json','patient': patient }
     });
 }
 
