@@ -125,11 +125,11 @@ class Profile extends React.Component {
   showChangeAvatarModel(){
     if (this.props.loggedInUser.sex == 'f') {
       return(
-        <Image source={womenAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
+        <Image source={womenAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 110}} />
       );
     }else{
       return(
-        <Image source={menAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 120}}></Image>
+        <Image source={menAvatarBaseModel[this.state.avatarIndex]} style={{ height: 260, width: 110}} />
       );
     }
   }

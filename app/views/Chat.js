@@ -1,9 +1,43 @@
 import React from 'react';
-import { View, KeyboardAvoidingView } from 'react-native'
+import { Image, KeyboardAvoidingView, View } from 'react-native'
 import { Header, Icon } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
 import { connect } from 'react-redux';
 
+class Emoji extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      progress: '',
+    };
+  }
+
+  componentWillMount() {
+    const { steps } = this.props;
+    const { progress } = steps;
+
+    this.setState({ progress });
+  }
+
+  render() {
+    const { progress } = this.state;
+    console.log(progress)
+    if(this.props.type == 'happy'){
+      return(
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../resources/emoji-feliz.png')} style={{width: 50, height: 50}} />
+          </View>
+      );
+    }else{
+      return(
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
+          </View>
+      );
+    }
+  }
+}
 
 class Chat extends React.Component {
   static navigationOptions = {
@@ -17,19 +51,44 @@ class Chat extends React.Component {
     this.GetMessages();
   }
 
+  
+
+  SelectEmoji(type, change){
+    if(type == 'happy'){
+      console.log(change)
+      return(
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../resources/emoji-feliz.png')} style={{width: 50, height: 50}} />
+          </View>
+      );
+    }else{
+      console.log(change)
+      return(
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
+          </View>
+      );
+    }
+  }
+
   GetMessages(){
     //this.props.botMessages[0].length == 0
     if (this.props.botMessages[0].length == 0) {
       this.steps.push({
         id: '0',
-        message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
+        message: 'Hola, ' + this.props.loggedInUser.name + ' tu doctor aún no te ha asignado ninguna meta',
+        end: '1',
+      });
+      this.steps.push({
+        id: '1',
+        message: 'Vuelve mas tarde a ver si ya tienes metas asignadas, bye',
         end: true,
       });
     }else{
       triggerId = 1;
       this.steps.push({
         id: (triggerId-1).toString(),
-        message: 'Hola, ' + this.props.loggedInUser.name + ' soy DocBot',
+        message: 'Hola, ' + this.props.loggedInUser.name,
         trigger: triggerId.toString(),
       });
       triggerId++;
@@ -44,14 +103,44 @@ class Chat extends React.Component {
           id: (triggerId-1).toString(),
           options: [
             { value: 1, label: 'No', trigger: triggerId.toString() },
-            { value: 2, label: 'Si', trigger: (triggerId+1).toString() },
+            { value: 2, label: 'Si', trigger: (triggerId+2).toString() },
           ],
         });
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
           message: (this.props.botMessages[1])[i].RespuestaNegativa,
-          trigger: (triggerId+1).toString(),
+          trigger: triggerId.toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          component: <Emoji type='sad'/>,//this.SelectEmoji('sad'),//component
+          trigger: (triggerId+4).toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          message: 'Muy bien, ¿cuanto has avanzado?',
+          trigger: ('progress' + triggerId.toString())//triggerId.toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: ('progress' + (triggerId-1).toString()),//(triggerId-1).toString(),
+          user: true,
+          validator: (value) => {
+            if (isNaN(value)) {
+              return 'Por favor, el valor debe ser numérico';
+            }
+            return true;
+          },
+          trigger: triggerId.toString(),
+        });
+        triggerId++;
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          component: <Emoji type='happy'/>,//this.SelectEmoji('happy', '{previousValue}'),//componente
+          trigger: triggerId.toString(),
         });
         triggerId++;
         this.steps.push({
@@ -72,6 +161,7 @@ class Chat extends React.Component {
   }
 
   render(){
+    console.log(this.steps)
     return(
       <KeyboardAvoidingView
         behavior='padding'

@@ -79,9 +79,7 @@ export function CreateParaclinical(patient, type, value){
  * @param {*} patient 
  */
 export function getLego(patient){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/messages/lego`,{ 
-        method: 'GET', 
-        headers: { 'Content-Type':'application/json','patient': patient }
+    return fetch(`https://modelobayesiano.herokuapp.com/getmessages/`+ patient,{ 
     });
 }
 

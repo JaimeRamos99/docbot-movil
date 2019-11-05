@@ -1,15 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import  Login  from './app/views/Login.js';
-import { Home } from './app/views/Home.js';
-import { Profile } from './app/views/Profile.js';
-import { Chat } from './app/views/Chat.js';
-import Main from './app/Main.js';
-import { StepCount } from './app/views/StepCount.js';
-import { Goals } from './app/views/Goals.js';
-import { ClinicalHistory } from './app/views/ClinicalHistory.js';
+import { AppContainer } from './app/components/Navigation.js'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
@@ -44,20 +35,6 @@ const reducer = (state = initialState, action) => {
 
 const store = createStore(reducer);
 
-const AppContainer = createAppContainer(createSwitchNavigator(
-  {
-    Main: Main,
-    Auth: Login,
-  },
-  {
-    initialRouteName: 'Auth',
-  }
-));
-
-const AppNavigator = createStackNavigator({Login: Login});
-
-//const AppContainer = createAppContainer(AppNavigator);
-
 export default class App extends React.Component {
   render(){
     return (
@@ -72,8 +49,6 @@ export default class App extends React.Component {
     )
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {

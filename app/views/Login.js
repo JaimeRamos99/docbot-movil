@@ -46,7 +46,7 @@ class Login extends React.Component {
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
 		//this.props.navigation.navigate('Main');
-		signIn(this.state.user, this.state.password)
+		signIn('368', '368')
 		  .then(response => {
 			return response.json();
 		  })
@@ -117,7 +117,7 @@ class Login extends React.Component {
 					console.log(error.message);
 				});
 				this.setState({ loading: false});
-				this.props.navigation.navigate('Main');
+				this.props.navigation.navigate('App');
 			} else {
 				this.onLoginFail();
 			}
@@ -144,7 +144,7 @@ class Login extends React.Component {
 						marginTop: 20
 				}}
 				>
-					<Image source={require('../resources/logo.jpg')} style={{ flex: 1,resizeMode: 'contain'}}/>
+					<Image source={require('../resources/logo.jpg')} style={{ flex: 1,resizeMode: 'contain'}} />
 				</View>
 			</CardSection>
 			<CardSection>
