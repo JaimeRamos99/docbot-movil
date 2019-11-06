@@ -32,16 +32,12 @@ class DoctorMessages extends React.Component {
                 <ScrollView>
                     { this.state.messages.map((item, index) => (
                         <Card key={'Message ' + index}>
-                        <CardItem header>
-                        <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
-                        <Text style={{fontSize: 20, marginLeft: 20}}>Dr. {item.doctorName}</Text>
-                        </CardItem>
-                        <CardItem>
-                        <Body>
-                            <Text style={{fontSize: 20}}>{item.subject}</Text>
-                            <Text>{item.description}</Text>
-                        </Body>
-                        </CardItem>
+                          <View style={{flexDirection: 'row'}}>
+                            <Image source={require('../resources/avatar-doctor.png')} style={{ marginLeft: 20, height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
+                            <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20, marginLeft: 20, marginTop: 10 }}>Dr. {item.doctorName}</Text>
+                          </View>
+                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 20, color: '#1438A6' }}>{item.subject}</Text>
+                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, marginBottom: 10 }}>{item.description}</Text>
                     </Card>
                     ))}
                 </ScrollView>
@@ -75,7 +71,7 @@ class DoctorMessages extends React.Component {
                   color='#fff' 
                   onPress={() => this.props.navigation.openDrawer()}/>
               }
-              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              centerComponent={{ text: 'Mensajes del doctor', style: { color: '#fff' } }}
               containerStyle={{
                 backgroundColor: '#1438A6',
               }}

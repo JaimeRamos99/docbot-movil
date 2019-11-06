@@ -42,8 +42,12 @@ class ClinicalHistory extends React.Component {
     showParaclinicals(){
         if(this.props.paraclinicals.length == 0){
             return(
-                <Text>No hay paraclinicos agregados</Text>
-            );
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 20}}>
+                    No hay paraclinicos registrados
+                </Text>
+                </View>
+                );
         }else{
             return(
                 <View>
@@ -76,15 +80,13 @@ class ClinicalHistory extends React.Component {
                           color='#fff' 
                           onPress={() => this.props.navigation.openDrawer()}/>
                       }
-                    centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+                    centerComponent={{ text: 'Toma de glucosa', style: { color: '#fff', fontSize: 25 } }}
                     containerStyle={{
                         backgroundColor: '#1438A6',
                     }}
                 />
                 <ScrollView>
-                    {
-                        this.showParaclinicals()
-                    }
+                    {this.showParaclinicals()}
                 </ScrollView>
                 <Overlay 
                     isVisible={this.state.addElementVisible}
@@ -94,14 +96,12 @@ class ClinicalHistory extends React.Component {
                     onBackdropPress={() => this.setState({ addElementVisible: false })}
                 >
                     <View>
-                        <Text style={{fontSize: 20}}>Glucosa</Text>
-                        <Hoshi
-                            value={this.state.value}
+                        <Text style={{fontSize: 20}}>Medida de glucosa</Text>
+                        <Input
+                            placeholder='   Medida'
+                            label='Medida'
                             onChangeText={value => this.setState({ value })}
-                            label={'Contraseña'}
-                            style={{ width: 300 }}
-                            borderColor={'#000000'}
-					/>
+                        />
                         <Button
                         rounded
                         title="Guardar"

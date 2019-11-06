@@ -1,8 +1,50 @@
 import React from 'react';
 import { Image, KeyboardAvoidingView, View } from 'react-native'
-import { Header, Icon } from 'react-native-elements';
+import { Button, Header, Icon } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
 import { connect } from 'react-redux';
+
+class RespuestaChatBot extends React.Component {
+  state = { respuesta: 0 };
+
+  disabledBtn = false;
+  onButtonPress() {
+      this.disabledBtn = true;
+      this.props.triggerNextStep({ trigger: this.props.nextStep });
+  }
+
+  renderButton() {
+      return (
+          <Button
+              rounded
+              onPress={this.onButtonPress.bind(this)}
+              disabled={this.disabledBtn}
+              icon={{ name: 'check' }}
+              buttonStyle={{
+                  backgroundColor: "#545aa1",
+              }}
+          />);
+
+  }
+
+  render() {
+      return (
+          <View style={{ flexDirection: 'row' }}>
+              <Hoshi
+                  keyboardType='numeric'
+                  label={'Respuesta'}
+                  value={this.state.respuesta}
+                  onChangeText={respuesta => this.setState({ respuesta })}
+                  editabled={!this.disabledBtn}
+                  style={{ width: '80%' }}
+                  borderColor={'#000000'}
+              />
+              {this.renderButton()}
+          </View>
+      );
+  }
+};
+
 
 class Emoji extends React.Component {
   constructor(props) {
@@ -115,7 +157,7 @@ class Chat extends React.Component {
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: <Emoji type='sad'/>,//this.SelectEmoji('sad'),//component
+          component: this.SelectEmoji('sad'),//component<Emoji type='sad'/>
           trigger: (triggerId+4).toString(),
         });
         triggerId++;
@@ -125,7 +167,7 @@ class Chat extends React.Component {
           trigger: ('progress' + triggerId.toString())//triggerId.toString(),
         });
         triggerId++;
-        this.steps.push({
+        /*this.steps.push({
           id: ('progress' + (triggerId-1).toString()),//(triggerId-1).toString(),
           user: true,
           validator: (value) => {
@@ -136,10 +178,15 @@ class Chat extends React.Component {
           },
           trigger: triggerId.toString(),
         });
-        triggerId++;
+        triggerId++;*/
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: <Emoji type='happy'/>,//this.SelectEmoji('happy', '{previousValue}'),//componente
+          component: <RespuestaChatBot nextStep={triggerId.toString()} />,
+          waitAction: true
+        });
+        this.steps.push({
+          id: (triggerId-1).toString(),
+          component: this.SelectEmoji('happy', '{previousValue}'),//componente<Emoji type='happy'/>
           trigger: triggerId.toString(),
         });
         triggerId++;
