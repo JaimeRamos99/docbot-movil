@@ -21,15 +21,15 @@ class Goals extends React.Component{
             return(
                 <View>
                     { this.props.goals.map((item, index) => (
-                        <Card transparent key={'Goal ' + index}>
+                        <Card key={'Goal ' + index}>
                             <CardItem header>
-                                <Text style={{fontSize: 20}}>{item.description}</Text>
+                                <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20}}>{item.description}</Text>
                             </CardItem>
                             <CardItem>
                                 <Body>
                                     <Text>{item.progress + '/' + item.quantity}</Text>
                                     <ProgressBarAnimated
-                                        width={Dimensions.get('window').width*0.8}
+                                        width={Dimensions.get('window').width}
                                         value={((item.progress*1)/(item.quantity*1))*100}
                                         maxValue={100}
                                         backgroundColorOnComplete="#6CC644"
