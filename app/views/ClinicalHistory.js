@@ -13,7 +13,6 @@ import { AppRegistry,
         TextInput } from 'react-native';
 import { Button, Icon, Input, Overlay, Header } from 'react-native-elements';
 import { Left, Right, Card, CardItem, Body, Fab } from 'native-base';
-//import { Icon } from 'react-native-vector-icons';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { CreateParaclinical } from '../services/api.js';
@@ -29,10 +28,19 @@ class ClinicalHistory extends React.Component {
     state = {addElementVisible: false, value: ''}
     
     saveParaclinical(){
-        addParaclinicals = this.props.paraclinicals;
-        paraclinical = this.props.paraclinicals[0];
+        addParaclinicals = this.props.paraclinicals;//Toma por referencia
+        /*paraclinical = this.props.paraclinicals[0];
         paraclinical.type = 'Glucosa';
-        paraclinical.value = this.state.value;
+        paraclinical.value = this.state.value;*/
+        paraclinical = {
+            __v: 0,
+            _id: "5dc26aa0ab3fb10017846912",
+            comment: "-.-",
+            date: new Date().toString(),
+            patient: "5db7b48006fd9800178f7222",
+            type: "Glucosa",
+            value: this.state.value,
+          }
         addParaclinicals.push(paraclinical);
         this.props.saveParaclinicals();
         CreateParaclinical(this.props.loggedInUser.id, 'Glucosa', this.state.value);
@@ -78,6 +86,7 @@ class ClinicalHistory extends React.Component {
                           name='md-menu' 
                           type='ionicon' 
                           color='#fff' 
+                          size={30}
                           onPress={() => this.props.navigation.openDrawer()}/>
                       }
                     centerComponent={{ text: 'Toma de glucosa', style: { color: '#fff', fontSize: 25 } }}
@@ -98,6 +107,7 @@ class ClinicalHistory extends React.Component {
                     <View>
                         <Text style={{fontSize: 20}}>Medida de glucosa</Text>
                         <Input
+                            keyboardType='numeric'
                             placeholder='   Medida'
                             label='Medida'
                             onChangeText={value => this.setState({ value })}

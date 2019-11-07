@@ -45,7 +45,6 @@ class Login extends React.Component {
 
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
-		//this.props.navigation.navigate('Main');
 		signIn('368', '368')
 		  .then(response => {
 			return response.json();
@@ -111,6 +110,7 @@ class Login extends React.Component {
 				})
 				.then(json => {
 					paraclinicals = json;
+					console.log(new Date());
 					console.log(paraclinicals);
 					this.props.saveParaclinicals();
 				}).catch(error => {

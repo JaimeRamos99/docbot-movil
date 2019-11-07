@@ -1,85 +1,58 @@
 import React from 'react';
 import { Image, KeyboardAvoidingView, View } from 'react-native'
-import { Button, Header, Icon } from 'react-native-elements';
+import { Button, Header, Icon, Input } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
+import { UpdateGoal } from '../services/api.js';
 import { connect } from 'react-redux';
-
+import RespuestaChatBot from '../components/RespuestaChatBot.js';
+/*
 class RespuestaChatBot extends React.Component {
-  state = { respuesta: 0 };
+  state = { advance: 0 };
+
 
   disabledBtn = false;
+ 
   onButtonPress() {
-      this.disabledBtn = true;
-      this.props.triggerNextStep({ trigger: this.props.nextStep });
-  }
+    if (this.state.advance == 0){
 
-  renderButton() {
-      return (
-          <Button
-              rounded
-              onPress={this.onButtonPress.bind(this)}
-              disabled={this.disabledBtn}
-              icon={{ name: 'check' }}
-              buttonStyle={{
-                  backgroundColor: "#545aa1",
-              }}
-          />);
-
-  }
-
-  render() {
-      return (
-          <View style={{ flexDirection: 'row' }}>
-              <Hoshi
-                  keyboardType='numeric'
-                  label={'Respuesta'}
-                  value={this.state.respuesta}
-                  onChangeText={respuesta => this.setState({ respuesta })}
-                  editabled={!this.disabledBtn}
-                  style={{ width: '80%' }}
-                  borderColor={'#000000'}
-              />
-              {this.renderButton()}
-          </View>
-      );
-  }
-};
-
-
-class Emoji extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      progress: '',
-    };
-  }
-
-  componentWillMount() {
-    const { steps } = this.props;
-    const { progress } = steps;
-
-    this.setState({ progress });
-  }
-
-  render() {
-    const { progress } = this.state;
-    console.log(progress)
-    if(this.props.type == 'happy'){
-      return(
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={require('../resources/emoji-feliz.png')} style={{width: 50, height: 50}} />
-          </View>
-      );
     }else{
-      return(
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
-          </View>
-      );
+      this.disabledBtn = true;
+      goalsU = this.props.goals;
+      console.log(this.props.positionUpdate)
+      pos = this.props.positionUpdate;
+      if(goalsU[pos].progress*1 + this.state.advance*1 >= goalsU[pos].quantity*1){
+        UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, '1', ((goalsU[pos].nMessages*1)+1).toString(), (new Date()).toString());
+      }else{
+        UpdateGoal(goalsU[pos]._id, (goalsU[pos].progress*1 + this.state.advance*1).toString(), goalsU[pos].state, ((goalsU[pos].nMessages*1)+1).toString(), goalsU[pos].complianceDate);
+      }
+      this.props.triggerNextStep({ trigger: this.props.nextStep });
     }
   }
-}
+
+  render() {
+      return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'center' }}>
+              <View style={{width : '80%'}}>
+              <Input
+                keyboardType='numeric'
+                label={'Avance'}
+                onChangeText={advance => this.setState({ advance })}
+                editabled={!this.disabledBtn}
+              />
+              </View>
+              <Button
+                rounded
+                onPress={this.onButtonPress.bind(this)}
+                disabled={this.disabledBtn}
+                icon={{ name: 'check' }}
+                buttonStyle={{
+                    backgroundColor: "#545aa1",
+                }}
+            />
+          </View>
+      );
+  }
+};*/
 
 class Chat extends React.Component {
   static navigationOptions = {
@@ -95,16 +68,14 @@ class Chat extends React.Component {
 
   
 
-  SelectEmoji(type, change){
+  SelectEmoji(type){
     if(type == 'happy'){
-      console.log(change)
       return(
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image source={require('../resources/emoji-feliz.png')} style={{width: 50, height: 50}} />
           </View>
       );
     }else{
-      console.log(change)
       return(
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
@@ -118,7 +89,7 @@ class Chat extends React.Component {
     if (this.props.botMessages[0].length == 0) {
       this.steps.push({
         id: '0',
-        message: 'Hola, ' + this.props.loggedInUser.name + ' tu doctor aún no te ha asignado ninguna meta',
+        message: 'Hola ' + this.props.loggedInUser.name + ' tu doctor aún no te ha asignado ninguna meta',
         end: '1',
       });
       this.steps.push({
@@ -130,11 +101,17 @@ class Chat extends React.Component {
       triggerId = 1;
       this.steps.push({
         id: (triggerId-1).toString(),
-        message: 'Hola, ' + this.props.loggedInUser.name,
+        message: this.props.botMessages[3].description,
         trigger: triggerId.toString(),
       });
       triggerId++;
       for(let i = 0; i < this.props.botMessages[0].length; i++){
+        position = 0;
+        for(let j = 0; j < this.props.goals.length; j++){
+          if(this.props.goals[j]._id == (this.props.botMessages[0])[i].idmeta){
+            position = j;
+          }
+        }
         this.steps.push({
           id: (triggerId-1).toString(),
           message: (this.props.botMessages[0])[i].pregunta,
@@ -164,7 +141,7 @@ class Chat extends React.Component {
         this.steps.push({
           id: (triggerId-1).toString(),
           message: 'Muy bien, ¿cuanto has avanzado?',
-          trigger: ('progress' + triggerId.toString())//triggerId.toString(),
+          trigger: triggerId.toString()//triggerId.toString(),
         });
         triggerId++;
         /*this.steps.push({
@@ -181,12 +158,13 @@ class Chat extends React.Component {
         triggerId++;*/
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: <RespuestaChatBot nextStep={triggerId.toString()} />,
+          component: <RespuestaChatBot goals={this.props.goals} positionUpdate={position} nextStep={triggerId.toString()} />,
           waitAction: true
         });
+        triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: this.SelectEmoji('happy', '{previousValue}'),//componente<Emoji type='happy'/>
+          component: this.SelectEmoji('happy'),//componente<Emoji type='happy'/>
           trigger: triggerId.toString(),
         });
         triggerId++;
@@ -199,7 +177,7 @@ class Chat extends React.Component {
         if (i == this.props.botMessages[0].length-1) {
           this.steps.push({
             id: (triggerId-1).toString(),
-            message: 'Eso seria todo por ahora, nos vemos mas tarde',
+            message: this.props.botMessages[4].description,
             end: true,
           });
         }
@@ -208,7 +186,6 @@ class Chat extends React.Component {
   }
 
   render(){
-    console.log(this.steps)
     return(
       <KeyboardAvoidingView
         behavior='padding'
@@ -222,9 +199,10 @@ class Chat extends React.Component {
                   name='md-menu' 
                   type='ionicon' 
                   color='#fff' 
+                  size={30}
                   onPress={() => this.props.navigation.openDrawer()}/>
               }
-              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              centerComponent={{ text: 'DocBot', style: { color: '#fff', fontSize: 25  } }}
               containerStyle={{
                 backgroundColor: '#1438A6',
               }}
@@ -246,13 +224,15 @@ class Chat extends React.Component {
 function mapStateToProps(state){
 	return{
     loggedInUser: state.loggedInUser,
-    botMessages: state.botMessages
+    botMessages: state.botMessages,
+    goals: state.goals
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return{
-		saveUser : () => dispatch({type:'Save_User', payload: userGlobal})
+    saveUser : () => dispatch({type:'Save_User', payload: userGlobal}),
+    saveGoals : (goals) => dispatch({type:'save_goals', payload: goals}),
 	}
 }
 

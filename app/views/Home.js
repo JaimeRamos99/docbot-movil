@@ -22,9 +22,10 @@ class Home extends React.Component {
                   name='md-menu' 
                   type='ionicon' 
                   color='#fff' 
+                  size={30}
                   onPress={() => this.props.navigation.openDrawer()}/>
               }
-              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              centerComponent={{ text: 'Inicio', style: { color: '#fff', fontSize: 25 } }}
               containerStyle={{
                 backgroundColor: '#1438A6',
               }}

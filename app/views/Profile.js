@@ -6,6 +6,7 @@ import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
 import { UpdatePatient, UpdatePatientWeight, UpdateGoal } from '../services/api.js';
+import moment from 'moment';
 
 const images = {
   womanBD: require('../resources/Avatar-F-B-D.png'),
@@ -77,6 +78,7 @@ class Profile extends React.Component {
     }
 
     editUser() {
+      console.log(moment(new Date()).format('MM DD YYYY h:mm:ss a'));
       userGlobal = this.props.loggedInUser;
       userGlobal.name = this.state.editModeNombre;
       userGlobal.lastName = this.state.editModeApellido;
@@ -456,9 +458,10 @@ class Profile extends React.Component {
                 name='md-menu' 
                 type='ionicon' 
                 color='#fff' 
+                size={30}
                 onPress={() => this.props.navigation.openDrawer()}/>
             }
-            centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+            centerComponent={{ text: 'Perfil', style: { color: '#fff', fontSize: 25 } }}
             containerStyle={{
               backgroundColor: '#1438A6',
             }}

@@ -69,9 +69,10 @@ class DoctorMessages extends React.Component {
                   name='md-menu' 
                   type='ionicon' 
                   color='#fff' 
+                  size={30}
                   onPress={() => this.props.navigation.openDrawer()}/>
               }
-              centerComponent={{ text: 'Mensajes del doctor', style: { color: '#fff' } }}
+              centerComponent={{ text: 'Mensajes del doctor', style: { color: '#fff', fontSize: 25 } }}
               containerStyle={{
                 backgroundColor: '#1438A6',
               }}
