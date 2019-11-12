@@ -17,13 +17,18 @@ import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
 import { CreateParaclinical } from '../services/api.js';
 import { Hoshi } from 'react-native-textinput-effects';
+import moment from 'moment';
 
 paraclinicals = [];
 
 class ClinicalHistory extends React.Component {
-    static navigationOptions = {
+    /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-clipboard' type='ionicon' color='#000' />
-  }
+  }*/
+
+  static navigationOptions = {
+    title: 'Toma de glucosa',
+  };
 
     state = {addElementVisible: false, value: ''}
     
@@ -36,14 +41,14 @@ class ClinicalHistory extends React.Component {
             __v: 0,
             _id: "5dc26aa0ab3fb10017846912",
             comment: "-.-",
-            date: new Date().toString(),
+            date: moment().format('DD/MM/YYYY h:mm a'),
             patient: "5db7b48006fd9800178f7222",
             type: "Glucosa",
             value: this.state.value,
           }
         addParaclinicals.push(paraclinical);
         this.props.saveParaclinicals();
-        CreateParaclinical(this.props.loggedInUser.id, 'Glucosa', this.state.value);
+        CreateParaclinical(this.props.loggedInUser.id, 'Glucosa', this.state.value, moment().format('DD/MM/YYYY h:mm:ss a'));
         this.setState({value: '', addElementVisible: false});
     }
 
@@ -78,22 +83,7 @@ class ClinicalHistory extends React.Component {
 
     render(){
         return(
-            <View style={{ height: '100%', width:'100%' }}>
-                <Header
-                    placement='left'
-                    leftComponent={
-                        <Icon 
-                          name='md-menu' 
-                          type='ionicon' 
-                          color='#fff' 
-                          size={30}
-                          onPress={() => this.props.navigation.openDrawer()}/>
-                      }
-                    centerComponent={{ text: 'Toma de glucosa', style: { color: '#fff', fontSize: 25 } }}
-                    containerStyle={{
-                        backgroundColor: '#1438A6',
-                    }}
-                />
+            <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
                 <ScrollView>
                     {this.showParaclinicals()}
                 </ScrollView>

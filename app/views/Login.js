@@ -71,7 +71,7 @@ class Login extends React.Component {
 				}
 				console.log(userGlobal);
 				this.props.saveUser();
-				getLego(userGlobal.id)
+				/*getLego(userGlobal.id)
 				.then(response => {
 					return response.json();
 				})
@@ -81,8 +81,8 @@ class Login extends React.Component {
 					this.props.saveBotMessages();
 				}).catch(error => {
 					console.log(error.message);
-				});
-				GetMessagesD(userGlobal.id)
+				});*/
+				/*GetMessagesD(userGlobal.id)
 				.then(response => {
 					return response.json();
 				})
@@ -92,8 +92,8 @@ class Login extends React.Component {
 					this.props.saveDoctorMessages();
 				}).catch(error => {
 					console.log(error.message);
-				});
-				GetGoals(userGlobal.id)
+				});*/
+				/*GetGoals(userGlobal.id)
 				.then(response => {
 					return response.json();
 				})
@@ -103,8 +103,8 @@ class Login extends React.Component {
 					this.props.saveGoals();
 				}).catch(error => {
 					console.log(error.message);
-				});
-				GetParaclinicals(userGlobal.id, 'Glucosa')
+				});*/
+				/*GetParaclinicals(userGlobal.id, 'Glucosa')
 				.then(response => {
 					return response.json();
 				})
@@ -115,7 +115,7 @@ class Login extends React.Component {
 					this.props.saveParaclinicals();
 				}).catch(error => {
 					console.log(error.message);
-				});
+				});*/
 				this.setState({ loading: false});
 				this.props.navigation.navigate('App');
 			} else {

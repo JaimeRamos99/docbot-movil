@@ -9,9 +9,35 @@ import { connect } from 'react-redux';
 
 
 class Goals extends React.Component{
-    static navigationOptions = {
+    /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-trophy' type='ionicon' color='#000' />
-  }
+  }*/
+  static navigationOptions = {
+    title: 'Metas',
+  };
+
+    RenderProgressBar(goal){
+        if(goal.state == '1'){
+            return(
+                <ProgressBarAnimated
+                    width={Dimensions.get('window').width*0.8}
+                    value={((goal.progress*1)/(goal.quantity*1))*100}
+                    maxValue={100}
+                    backgroundColor="#6CC644"
+                />
+            );
+        }else{
+            return(
+                <ProgressBarAnimated
+                    width={Dimensions.get('window').width*0.8}
+                    value={((goal.progress*1)/(goal.quantity*1))*100}
+                    maxValue={100}
+                    backgroundColor="#1438A6"
+                />
+            );
+        }
+    }
+
     ShowGoals(){
         if(this.props.goals == undefined){
             return(
@@ -22,19 +48,18 @@ class Goals extends React.Component{
                 <View>
                     { this.props.goals.map((item, index) => (
                         <Card key={'Goal ' + index}>
-                            <CardItem header>
+                            <CardItem>
                                 <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20}}>{item.description}</Text>
                             </CardItem>
                             <CardItem>
-                                <Body>
-                                    <Text>{item.progress + '/' + item.quantity}</Text>
-                                    <ProgressBarAnimated
-                                        width={Dimensions.get('window').width}
-                                        value={((item.progress*1)/(item.quantity*1))*100}
-                                        maxValue={100}
-                                        backgroundColorOnComplete="#6CC644"
-                                    />
-                                </Body>
+                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de inicio: {item.creationDate}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de finalización: {item.dueDate}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Text style={{ marginRight: 10 }}>{item.progress + '/' + item.quantity}</Text>
+                                {this.RenderProgressBar(item)}
                             </CardItem>
                         </Card>
                     ))}
@@ -43,30 +68,15 @@ class Goals extends React.Component{
         }
     }
 
-  render() {
-          return (
-            <View style={{height: '100%'}}>
-                <Header
-                    placement='left'
-                    leftComponent={
-                        <Icon 
-                          name='md-menu' 
-                          type='ionicon' 
-                          color='#fff' 
-                          size={30}
-                          onPress={() => this.props.navigation.openDrawer()}/>
-                      }
-                    centerComponent={{ text: 'Metas', style: { color: '#fff', fontSize: 25 } }}
-                    containerStyle={{
-                        backgroundColor: '#1438A6',
-                    }}
-                />
-                <ScrollView>
-                    {this.ShowGoals()}
-                </ScrollView>
-            </View>
-          );
-      }
+    render() {
+            return (
+                <View style={{height: '100%', backgroundColor: '#f4f6f8'}}>
+                    <ScrollView>
+                        {this.ShowGoals()}
+                    </ScrollView>
+                </View>
+            );
+        }
 }
 
 function mapStateToProps(state){

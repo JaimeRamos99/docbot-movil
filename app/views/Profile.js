@@ -49,9 +49,14 @@ womenAvatarBaseModel = [images.womanBN, images.womanTN, images.womanNN];
 menAvatarBaseModel = [images.manBN, images.manTN, images.manNN];
 
 class Profile extends React.Component {
-  static navigationOptions = {
+  /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-person' type='ionicon' color='#000' />
-  }
+  }*/
+
+  static navigationOptions = {
+    //title: 'Perfil',
+    header: null
+  };
 
   state = {
       nombre: this.props.loggedInUser.name,
@@ -92,7 +97,7 @@ class Profile extends React.Component {
         add = userGlobal.weight[0];
         add.value = this.state.editModePeso*1;
         userGlobal.weight.push(add);
-        UpdatePatientWeight(userGlobal.id, this.state.editModePeso*1)
+        UpdatePatientWeight(userGlobal.id, this.state.editModePeso*1, moment().format('DD/MM/YYYY'))
       }
       this.props.saveUser();
       this.setState((state) => ({ editmode: false, 
@@ -377,7 +382,7 @@ class Profile extends React.Component {
           <Hoshi value={this.state.editModeEdad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
           <Hoshi value={this.state.editModeEstatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
           <Hoshi value={this.state.editModePeso} borderColor={'#000000'} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
-          <Hoshi value={this.state.editModeEmail} borderColor={'#000000'} keyboardType='Email' label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
+          <Hoshi value={this.state.editModeEmail} borderColor={'#000000'} label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
           <Button
             rounded
             title="Guardar"
@@ -430,16 +435,17 @@ class Profile extends React.Component {
               <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.currentStepCount} pasos</Text>
             </CardItem>
           </Card>
-          <Button
-            rounded
-            title="Editar Perfil"
-            onPress={() => { this.setState({ editmode: true }) }}
-            buttonStyle={{
-              marginTop: 20,
-              borderRadius: 25,
-              backgroundColor: "#1438A6",
-              width: '100%',
-            }} />
+            <Fab
+              style={{ backgroundColor: '#1438A6' }}
+              onPress={() => { this.setState({ editmode: true }) }}
+            >
+              <Icon
+                  reverse
+                  name='create'
+                  type='material'
+                  color='#1438A6'
+              />
+            </Fab>
         </View>
       )
     }
@@ -450,22 +456,15 @@ class Profile extends React.Component {
       <KeyboardAvoidingView
         behavior='padding'
       >
-        <View style={{ height: '100%', width:'100%' }}>
-          <Header
-            placement='left'
-            leftComponent={
-              <Icon 
-                name='md-menu' 
-                type='ionicon' 
-                color='#fff' 
-                size={30}
-                onPress={() => this.props.navigation.openDrawer()}/>
-            }
-            centerComponent={{ text: 'Perfil', style: { color: '#fff', fontSize: 25 } }}
-            containerStyle={{
-              backgroundColor: '#1438A6',
-            }}
-          />
+        <Header
+              placement='left'
+              leftComponent={{ icon: 'menu', color: '#fff' }}
+              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
+              containerStyle={{
+                backgroundColor: '#1438A6',
+              }}
+            />
+        <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
           <ScrollView style={{ height: '100%', paddingBottom: 30, marginBottom: 20 }}>
             {this.userInfo()}
           </ScrollView>

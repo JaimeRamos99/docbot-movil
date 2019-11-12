@@ -19,9 +19,13 @@ const day = moment(today).format('dddd');
 const date = moment(today).format("MMMM D, YYYY");
 
 export class StepCount extends React.Component {
-  static navigationOptions = {
+  /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-walk' type='ionicon' color='#000' />
-  }
+  }*/
+
+  static navigationOptions = {
+    title: 'Contador de pasos',
+  };
 
   state = {
     isPedometerAvailable: "checking",
@@ -139,22 +143,7 @@ export class StepCount extends React.Component {
 
   render() {
     return (
-      <View>
-        <Header
-          placement='left'
-          leftComponent={
-            <Icon 
-              name='md-menu' 
-              type='ionicon' 
-              color='#fff' 
-              size={30}
-              onPress={() => this.props.navigation.openDrawer()}/>
-          }
-          centerComponent={{ text: 'Contador de pasos', style: { color: '#fff', fontSize: 25 } }}
-          containerStyle={{
-            backgroundColor: '#1438A6',
-          }}
-        />
+      <View style={{ height: '100%', backgroundColor: '#f4f6f8' }}>
         <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
           <View>
             <Text style={{fontSize: 30, color: '#3f51b5', margin: 20 }}>
@@ -188,3 +177,18 @@ const styles = StyleSheet.create({
       color: '#77cff2'
   }
 });
+/*<Header
+          placement='left'
+          leftComponent={
+            <Icon 
+              name='md-menu' 
+              type='ionicon' 
+              color='#fff' 
+              size={30}
+              onPress={() => this.props.navigation.openDrawer()}/>
+          }
+          centerComponent={{ text: 'Contador de pasos', style: { color: '#fff', fontSize: 25 } }}
+          containerStyle={{
+            backgroundColor: '#1438A6',
+          }}
+        />*/ 

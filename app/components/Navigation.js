@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
 import DrawerComponent from './DrawerComponent.js'
 import Login from '../views/Login.js';
 import Home from '../views/Home.js';
@@ -43,10 +44,36 @@ const CustomDrawerContentComponent = props => (
     );
     
    const Drawer = createAppContainer(MyDrawerNavigator);
+
+   const AppNavigator = createStackNavigator(
+    {
+      Inicio: Home,
+      DocBot: Chat,
+      Mensajes: DoctorMessages,
+      Perfil: Profile,
+      Metas: Goals,
+      Paraclinicos: ClinicalHistory,
+      Contador: StepCount,
+    },
+    {
+      initialRouteName: 'Inicio',
+      defaultNavigationOptions: {
+        headerStyle: {
+          backgroundColor: '#1438A6',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontSize: 25
+          },
+        }
+      }      
+  );
+
+  const App = createAppContainer(AppNavigator);
   
    const SwitchNavigator = createSwitchNavigator(
     {
-      App: Drawer,
+      App: App,
       Login: Login,
     },
     {

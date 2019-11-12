@@ -11,9 +11,14 @@ import { connect } from 'react-redux';
 
 
 class DoctorMessages extends React.Component {
-  static navigationOptions = {
+  /*static navigationOptions = {
 		drawerIcon: () => <Icon name='email' type='material' color='#000' />
-  }
+  }*/
+
+  static navigationOptions = {
+    title: 'Mensajes de doctor',
+  };
+
   state = {
       messages: this.props.doctorMessages
   }
@@ -36,6 +41,7 @@ class DoctorMessages extends React.Component {
                             <Image source={require('../resources/avatar-doctor.png')} style={{ marginLeft: 20, height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
                             <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20, marginLeft: 20, marginTop: 10 }}>Dr. {item.doctorName}</Text>
                           </View>
+                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 15 }}>{item.date}</Text>
                           <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 20, color: '#1438A6' }}>{item.subject}</Text>
                           <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, marginBottom: 10 }}>{item.description}</Text>
                     </Card>
@@ -61,22 +67,7 @@ class DoctorMessages extends React.Component {
 
   render() {
       return (
-          <View style={{ height: '100%' }}>
-            <Header
-              placement='left'
-              leftComponent={
-                <Icon 
-                  name='md-menu' 
-                  type='ionicon' 
-                  color='#fff' 
-                  size={30}
-                  onPress={() => this.props.navigation.openDrawer()}/>
-              }
-              centerComponent={{ text: 'Mensajes del doctor', style: { color: '#fff', fontSize: 25 } }}
-              containerStyle={{
-                backgroundColor: '#1438A6',
-              }}
-            />
+          <View style={{ height: '100%', backgroundColor: '#f4f6f8' }}>
             {this.ShowDoctorMessages()}
             <Fab
               style={{ backgroundColor: '#1438A6' }}

@@ -9,8 +9,7 @@ goalsU = [];
 
 class RespuestaChatBot extends React.Component {
     state = { advance: 0 };
-  
-  
+    
     disabledBtn = false;
    
     onButtonPress() {
@@ -19,13 +18,10 @@ class RespuestaChatBot extends React.Component {
       }else{
         this.disabledBtn = true;
         goalsU = this.props.goals;
-        console.log(this.props.positionUpdate)
         pos = this.props.positionUpdate;
         if(goalsU[pos].progress*1 + this.state.advance*1 >= goalsU[pos].quantity*1){
-            console.log('Update 1 ' + goalsU[pos]._id)
           UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, '1', ((goalsU[pos].nMessages*1)+1).toString(), (new Date()).toString());
         }else{
-            console.log('Update 2 ' + goalsU[pos]._id)
           UpdateGoal(goalsU[pos]._id, (goalsU[pos].progress*1 + this.state.advance*1).toString(), goalsU[pos].state, ((goalsU[pos].nMessages*1)+1).toString(), goalsU[pos].complianceDate);
         }
         this.props.saveGoals(goalsU);

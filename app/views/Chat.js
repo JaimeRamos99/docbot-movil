@@ -8,13 +8,10 @@ import RespuestaChatBot from '../components/RespuestaChatBot.js';
 /*
 class RespuestaChatBot extends React.Component {
   state = { advance: 0 };
-
-
   disabledBtn = false;
  
   onButtonPress() {
     if (this.state.advance == 0){
-
     }else{
       this.disabledBtn = true;
       goalsU = this.props.goals;
@@ -28,7 +25,6 @@ class RespuestaChatBot extends React.Component {
       this.props.triggerNextStep({ trigger: this.props.nextStep });
     }
   }
-
   render() {
       return (
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'center' }}>
@@ -55,9 +51,13 @@ class RespuestaChatBot extends React.Component {
 };*/
 
 class Chat extends React.Component {
-  static navigationOptions = {
+  /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-chatboxes' type='ionicon' color='#000' />
-  }
+  }*/
+
+  static navigationOptions = {
+    title: 'DocBot',
+  };
 
   steps = [];
 
@@ -76,6 +76,7 @@ class Chat extends React.Component {
           </View>
       );
     }else{
+      //UpdateGoal(this.props.goals[pos]._id, this.props.goals[pos].progress, this.props.goals[pos].state, ((this.props.goals[pos].nMessages*1)+1).toString(), this.props.goals[pos].complianceDate);
       return(
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
@@ -190,24 +191,7 @@ class Chat extends React.Component {
       <KeyboardAvoidingView
         behavior='padding'
       >
-        <Chatbot 
-          headerComponent={
-            <Header
-              placement='left'
-              leftComponent={
-                <Icon 
-                  name='md-menu' 
-                  type='ionicon' 
-                  color='#fff' 
-                  size={30}
-                  onPress={() => this.props.navigation.openDrawer()}/>
-              }
-              centerComponent={{ text: 'DocBot', style: { color: '#fff', fontSize: 25  } }}
-              containerStyle={{
-                backgroundColor: '#1438A6',
-              }}
-            />
-          }
+        <Chatbot
           steps={this.steps} 
           botBubbleColor='#3F51B5'
           botFontColor='#fff'

@@ -19,11 +19,11 @@ export function UpdatePatient(id, name, lastName, age, height, avatar){
     });
 }
 
-export function UpdatePatientWeight(id, weight){ 
+export function UpdatePatientWeight(id, weight, date){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updateweight`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, weight })
+        body: JSON.stringify({ id, weight, date })
     });
 }
 
@@ -66,11 +66,11 @@ export function GetParaclinicals(patient, type){
  * @param {*} type 
  * @param {*} value 
  */
-export function CreateParaclinical(patient, type, value){ 
+export function CreateParaclinical(patient, type, value, date){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ patient, type, value })
+        body: JSON.stringify({ patient, type, value, date })
     });
 }
 
