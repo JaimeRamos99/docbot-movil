@@ -9,7 +9,7 @@ import Home from '../views/Home.js';
 import Profile from '../views/Profile.js';
 import DoctorMessages from '../views/DoctorMessages.js';
 import Chat from '../views/Chat.js';
-import { StepCount } from '../views/StepCount.js';
+import StepCount from '../views/StepCount.js';
 import Goals from '../views/Goals.js';
 import ClinicalHistory from '../views/ClinicalHistory.js';
 import { Button, Divider, Icon } from 'react-native-elements';

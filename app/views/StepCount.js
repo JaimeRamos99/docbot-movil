@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, WebView } from "react-native";
 import { Header, Icon } from 'react-native-elements';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { UpdatePatient, UpdatePatientWeight, UpdateGoal } from '../services/api.js';
 
 const tintColor = "#8BBF71";
 const backgroundColor = "#717BA5";
@@ -18,7 +20,7 @@ const today = new Date();
 const day = moment(today).format('dddd');
 const date = moment(today).format("MMMM D, YYYY");
 
-export class StepCount extends React.Component {
+class StepCount extends React.Component {
   /*static navigationOptions = {
 		drawerIcon: () => <Icon name='md-walk' type='ionicon' color='#000' />
   }*/
@@ -39,12 +41,16 @@ export class StepCount extends React.Component {
 
   componentWillUnmount() {
     this._unsubscribe();
+    user = this.props.loggedInUser;
+    user.steps = (user.steps*1 + this.state.currentStepCount).toString();
+    UpdatePatient(user.id, user.name, user.lastName, user.age, user.height, user.avatar, user.steps, user.email);
+    this.props.saveUser(user);
   }
 
   _subscribe = () => {
     this._subscription = Pedometer.watchStepCount(result => {
       this.setState({
-        currentStepCount: result.steps
+        currentStepCount: result.steps 
       });
     });
 
@@ -108,6 +114,9 @@ export class StepCount extends React.Component {
                     <Text style={styles.steps}>
                         {this.state.currentStepCount} Pasos
                     </Text>
+                    <Text style={styles.steps}>
+                      {this.state.currentStepCount + this.props.loggedInUser.steps*1} Total
+                    </Text>
                 </View>
               )
             }
@@ -142,6 +151,7 @@ export class StepCount extends React.Component {
   }
 
   render() {
+    console.log(this.props.loggedInUser)
     return (
       <View style={{ height: '100%', backgroundColor: '#f4f6f8' }}>
         <View style={{alignItems:'center', justifyContent: 'center', marginTop: 20}}>
@@ -170,6 +180,7 @@ const styles = StyleSheet.create({
   steps: {
       backgroundColor: 'transparent',
       fontSize: 30,
+      flexWrap: 'wrap',
       textAlign: 'center',
       color: '#77cff2'
   },
@@ -177,6 +188,21 @@ const styles = StyleSheet.create({
       color: '#77cff2'
   }
 });
+
+function mapStateToProps(state){
+	return{
+        loggedInUser: state.loggedInUser,
+	}
+}
+
+function mapDispatchToProps(dispatch){
+	return{
+		saveUser : (user) => dispatch({type:'Save_User', payload: user}),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StepCount);
+
 /*<Header
           placement='left'
           leftComponent={

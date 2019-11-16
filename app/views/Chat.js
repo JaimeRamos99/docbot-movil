@@ -68,7 +68,7 @@ class Chat extends React.Component {
 
   
 
-  SelectEmoji(type){
+  SelectEmoji(type, pos){
     if(type == 'happy'){
       return(
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -76,7 +76,7 @@ class Chat extends React.Component {
           </View>
       );
     }else{
-      //UpdateGoal(this.props.goals[pos]._id, this.props.goals[pos].progress, this.props.goals[pos].state, ((this.props.goals[pos].nMessages*1)+1).toString(), this.props.goals[pos].complianceDate);
+      UpdateGoal(this.props.goals[pos]._id, this.props.goals[pos].progress, this.props.goals[pos].state, ((this.props.goals[pos].nMessages*1)+1).toString(), this.props.goals[pos].complianceDate);
       return(
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image source={require('../resources/emoji-triste.png')} style={{width: 50, height: 50}} />
@@ -129,34 +129,22 @@ class Chat extends React.Component {
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          message: (this.props.botMessages[1])[i].RespuestaNegativa,
+          component: this.SelectEmoji('sad', position),//component<Emoji type='sad'/>
           trigger: triggerId.toString(),
         });
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: this.SelectEmoji('sad'),//component<Emoji type='sad'/>
+          message: (this.props.botMessages[1])[i].RespuestaNegativa,
           trigger: (triggerId+4).toString(),
         });
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          message: 'Muy bien, ¿cuanto has avanzado?',
+          message: '¿Cuanto has avanzado?',
           trigger: triggerId.toString()//triggerId.toString(),
         });
         triggerId++;
-        /*this.steps.push({
-          id: ('progress' + (triggerId-1).toString()),//(triggerId-1).toString(),
-          user: true,
-          validator: (value) => {
-            if (isNaN(value)) {
-              return 'Por favor, el valor debe ser numérico';
-            }
-            return true;
-          },
-          trigger: triggerId.toString(),
-        });
-        triggerId++;*/
         this.steps.push({
           id: (triggerId-1).toString(),
           component: <RespuestaChatBot goals={this.props.goals} positionUpdate={position} nextStep={triggerId.toString()} />,
@@ -165,7 +153,7 @@ class Chat extends React.Component {
         triggerId++;
         this.steps.push({
           id: (triggerId-1).toString(),
-          component: this.SelectEmoji('happy'),//componente<Emoji type='happy'/>
+          component: this.SelectEmoji('happy', position),//componente<Emoji type='happy'/>
           trigger: triggerId.toString(),
         });
         triggerId++;

@@ -5,9 +5,10 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego } from '../services/api.js';
+import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego, UpdateGoal } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 userGlobal = '';
 goals = [];
@@ -18,14 +19,19 @@ botMessages = [];
 class Login extends React.Component {
 	state = { user: '', password: '', error: '', loading: false };
 
-	onLoginFail() {
+	OnLoginFail() {
 		this.setState({
 			error: '*Usuario o contraseña incorrecta.',
 			loading: false
 		});
 	}
 
-	renderButton(){
+	ServerError(){
+		this.setState({ loading: false })
+		ToastAndroid.show('Fallo en conexión con el servidor', ToastAndroid.SHORT);
+	  }
+
+	RenderButton(){
 		if (!this.state.loading){
 			return(
 				<TouchableOpacity
@@ -43,9 +49,30 @@ class Login extends React.Component {
 		}
 	}
 
+	CorrectGoals(){
+		GetGoals(userGlobal.id)
+			.then(response => {
+				return response.json();
+			})
+			.then(json => {
+				goals = json;
+				date = moment().format('DD/MM/YYYY');
+				for(let i = 0; i < goals.length; i++){
+					if(goals[i].state == '2' && date > goals[i].dueDate){
+						UpdateGoal(goals[i]._id, goals[i].progress, '0', goals[i].nMessages, goals[i].complianceDate);
+					}
+				}
+				this.setState({ loading: false});
+				this.props.navigation.navigate('App');
+			}).catch(error => {
+				console.log(error.message);
+				this.ServerError();
+			});
+	}
+
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
-		signIn('368', '368')
+		signIn(this.state.user, this.state.password)
 		  .then(response => {
 			return response.json();
 		  })
@@ -116,15 +143,14 @@ class Login extends React.Component {
 				}).catch(error => {
 					console.log(error.message);
 				});*/
-				this.setState({ loading: false});
-				this.props.navigation.navigate('App');
+				this.CorrectGoals();
 			} else {
-				this.onLoginFail();
+				this.OnLoginFail();
 			}
 		  })
 		  .catch(error => {
 			console.log(error.message);
-			this.setState({ error: 'Fallo en conexión con el servidor', loading: false })
+			this.ServerError();
 		  });
 	}
 
@@ -171,7 +197,7 @@ class Login extends React.Component {
 						style={{ width: 300 }}
 						borderColor={'#000000'}
 					/>
-					{this.renderButton()}
+					{this.RenderButton()}
 				</View>
 			</CardSection>
 		</Card >

@@ -56,24 +56,36 @@ class ClinicalHistory extends React.Component {
         if(this.props.paraclinicals.length == 0){
             return(
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontSize: 20}}>
-                    No hay paraclinicos registrados
-                </Text>
+                    <Text style={{fontSize: 20}}>No hay paraclinicos registrados</Text>
                 </View>
                 );
         }else{
             return(
                 <View>
                     { this.props.paraclinicals.map((item, index) => (
-                        <Card key={'Paraclinical ' + index}>
-                            <CardItem>
-                                <Body>
-                                <Text style={{fontSize: 15}}>{item.date}</Text>
-                                <Text style={{fontSize: 20}}>Nivel de {item.type}</Text>
-                                <Text style={{fontSize: 20}}>{item.value}</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
+                        <View key={'Paraclinical ' + index} style={{
+                            marginTop: 5,
+                            marginBottom: 5,
+                            padding: 10,
+                            backgroundColor: "#fff",
+                            width: Dimensions.get('window').width*0.95,
+                            borderColor: '#000',
+                            borderWidth: 1,
+                            borderRadius: 10, }}
+                        >
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                                <Icon name='md-time' type='ionicon' color='#000' size={15} />
+                                <Text style={{ fontSize: 15, marginLeft: 5, color: '#000' }}>{item.date}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ width: '50%', flexWrap: 'wrap' }}>
+                                    <Text style={{fontSize: 20}}>Nivel de {item.type}</Text>
+                                </View>
+                                <View style={{ width: '50%', flexWrap: 'wrap', flexDirection: 'row-reverse' }}>
+                                    <Text style={{fontSize: 20}}>{item.value}</Text>
+                                </View>
+                            </View>
+                        </View>
                         )
                     )}
                 </View>
@@ -83,7 +95,7 @@ class ClinicalHistory extends React.Component {
 
     render(){
         return(
-            <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
+            <View style={{ height: '100%', width:'100%', alignItems: 'center', backgroundColor: '#f4f6f8' }}>
                 <ScrollView>
                     {this.showParaclinicals()}
                 </ScrollView>
@@ -131,10 +143,9 @@ class ClinicalHistory extends React.Component {
                     onPress={() => this.setState({addElementVisible: true})}
                 >
                     <Icon
-                        reverse
-                        name='ios-add'
+                        name='md-add'
                         type='ionicon'
-                        color='#1438A6'
+                        color='#fff'
                     />
                 </Fab>
             </View>
@@ -162,4 +173,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(ClinicalHistory);
                     type='ionicon'
                     color='#1438A6'
                     onPress={() => this.setState({addElementVisible: true})}
-                    />*/
+                    />
+                    
+                    
+                    <Card key={'Paraclinical ' + index}>
+                            <CardItem>
+                                <Body>
+                                <Text style={{fontSize: 15}}>{item.date}</Text>
+                                <Text style={{fontSize: 20}}>Nivel de {item.type}</Text>
+                                <Text style={{fontSize: 20}}>{item.value}</Text>
+                                </Body>
+                            </CardItem>
+                        </Card>*/

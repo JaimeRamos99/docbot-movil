@@ -6,7 +6,9 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { CardSection } from '../components/cardsection';
 import { GetGoals } from '../services/api.js';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
+const date = moment().format('DD/MM/YYYY');
 
 class Goals extends React.Component{
     /*static navigationOptions = {
@@ -15,12 +17,12 @@ class Goals extends React.Component{
   static navigationOptions = {
     title: 'Metas',
   };
-
+    
     RenderProgressBar(goal){
         if(goal.state == '1'){
             return(
                 <ProgressBarAnimated
-                    width={Dimensions.get('window').width*0.8}
+                    width={Dimensions.get('window').width*0.9}
                     value={((goal.progress*1)/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#6CC644"
@@ -29,11 +31,42 @@ class Goals extends React.Component{
         }else{
             return(
                 <ProgressBarAnimated
-                    width={Dimensions.get('window').width*0.8}
+                    width={Dimensions.get('window').width*0.9}
                     value={((goal.progress*1)/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#1438A6"
                 />
+            );
+        }
+    }
+
+    SelectGoalsToShow(goal){
+        if(goal.state == '2' || goal.dueDate > date){
+            return(
+                <View style={{
+                    marginTop: 5,
+                    marginBottom: 5,
+                    padding: 10,
+                    backgroundColor: "#fff",
+                    width: Dimensions.get('window').width*0.95,
+                    borderColor: '#000',
+                    borderWidth: 1,
+                    borderRadius: 10, }}
+                >
+                    <View style={{ flexDirection: 'row', width: '100%', marginBottom: 10 }}>
+                        <View style={{ width: '50%' }}>
+                            <Text style={{ flexWrap: 'wrap', fontWeight: 'bold' }}>Fecha de inicio: </Text><Text style={{ flexWrap: 'wrap', color: '#1438A6' }}>{goal.creationDate}</Text>
+                        </View>
+                        <View style={{ width: '50%' }}>
+                            <Text style={{ flexWrap: 'wrap', fontWeight: 'bold' }}>Fecha de finalización: </Text><Text style={{ flexWrap: 'wrap', color: '#cb3234' }}>{goal.dueDate}</Text>
+                        </View>
+                    </View>
+                    <Text style={{ flexWrap: 'wrap', fontSize: 20, marginBottom: 10 }}>{goal.description}</Text>
+                    {this.RenderProgressBar(goal)}
+                    <View style={{ flexDirection: 'row-reverse'}}>
+                        <Text style={{ marginRight: 10 }}>{goal.progress + '/' + goal.quantity}</Text>
+                    </View>
+                </View>
             );
         }
     }
@@ -47,21 +80,9 @@ class Goals extends React.Component{
             return(
                 <View>
                     { this.props.goals.map((item, index) => (
-                        <Card key={'Goal ' + index}>
-                            <CardItem>
-                                <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20}}>{item.description}</Text>
-                            </CardItem>
-                            <CardItem>
-                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de inicio: {item.creationDate}</Text>
-                            </CardItem>
-                            <CardItem>
-                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de finalización: {item.dueDate}</Text>
-                            </CardItem>
-                            <CardItem>
-                                <Text style={{ marginRight: 10 }}>{item.progress + '/' + item.quantity}</Text>
-                                {this.RenderProgressBar(item)}
-                            </CardItem>
-                        </Card>
+                        <View key={'Goal ' + index}>
+                            {this.SelectGoalsToShow(item)}
+                        </View>
                     ))}
                 </View>
             );
@@ -70,7 +91,7 @@ class Goals extends React.Component{
 
     render() {
             return (
-                <View style={{height: '100%', backgroundColor: '#f4f6f8'}}>
+                <View style={{height: '100%', alignItems: 'center', backgroundColor: '#f4f6f8'}}>
                     <ScrollView>
                         {this.ShowGoals()}
                     </ScrollView>
@@ -120,4 +141,23 @@ export default connect(mapStateToProps)(Goals);
                                 />
                             </Body>
                         </CardItem>
-                    </Card>*/
+                    </Card>
+                    
+                    
+                    
+                    <Card key={'Goal ' + index}>
+                            <CardItem>
+                                <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20}}>{item.description}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de inicio: {item.creationDate}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Text style={{ flex: 1, flexWrap: 'wrap'}}>Fecha de finalización: {item.dueDate}</Text>
+                            </CardItem>
+                            <CardItem>
+                                <Text style={{ marginRight: 10 }}>{item.progress + '/' + item.quantity}</Text>
+                                {this.RenderProgressBar(item)}
+                            </CardItem>
+                        </Card>
+                    */

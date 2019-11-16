@@ -1,7 +1,7 @@
 import React, { useDebugValue } from 'react';
 import { Image, ImageBackground, Dimensions, ScrollView, StyleSheet, Text, View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
-import { Left, Right, Input, Card, Root, CardItem, Fab } from 'native-base';
-import { Button, Header, Icon, Overlay } from 'react-native-elements';
+import { Left, Right, Card, Root, CardItem, Fab } from 'native-base';
+import { Button, Header, Icon, Input, Overlay } from 'react-native-elements';
 import { CardSection } from '../components/cardsection';
 import { Hoshi } from 'react-native-textinput-effects';
 import { connect } from 'react-redux';
@@ -54,8 +54,7 @@ class Profile extends React.Component {
   }*/
 
   static navigationOptions = {
-    //title: 'Perfil',
-    header: null
+    title: 'Perfil',
   };
 
   state = {
@@ -83,14 +82,14 @@ class Profile extends React.Component {
     }
 
     editUser() {
-      console.log(moment(new Date()).format('MM DD YYYY h:mm:ss a'));
       userGlobal = this.props.loggedInUser;
       userGlobal.name = this.state.editModeNombre;
       userGlobal.lastName = this.state.editModeApellido;
       userGlobal.age = this.state.editModeEdad;
       userGlobal.height = this.state.editModeEstatura;
       userGlobal.avatar = this.state.avatar;
-      UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar);
+      userGlobal.email = this.state.editModeEmail
+      UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar, userGlobal.steps, userGlobal.email);
       dateTemp = new Date();
       //UpdateGoal(this.props.goals[this.props.goals.length - 2]._id, ((this.props.goals[this.props.goals.length - 2].progress*1+1)).toString(), '1', this.props.goals[this.props.goals.length - 2].nMessages*1+1, dateTemp.toString());
       if (this.state.editModePeso*1 != this.state.peso) {
@@ -105,7 +104,8 @@ class Profile extends React.Component {
                       apellido: state.editModeApellido, 
                       edad: state.editModeEdad, 
                       estatura: state.editModeEstatura, 
-                      peso: state.editModePeso*1}));
+                      peso: state.editModePeso*1,
+                      email: state.editModeEmail}));
       
       ToastAndroid.show('Guardado', ToastAndroid.SHORT);
   }
@@ -307,7 +307,7 @@ class Profile extends React.Component {
       this.SelectAvatar();
     if (this.state.editmode === true) {
       return (
-        <View>
+        <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
           <Overlay 
                     isVisible={this.state.changeAvatar}
                     width={Dimensions.get('window').width*0.8}
@@ -362,28 +362,29 @@ class Profile extends React.Component {
                     </View>
                 </Overlay>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
-              <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
-                <Fab
-                    style={{ backgroundColor: '#1438A6' }}
-                    onPress={() => this.setState({changeAvatar: true})}
-                >
-                    <Icon
-                        reverse
-                        name='create'
-                        type='material'
-                        color='#1438A6'
-                    />
-                </Fab>
-              </View>
-            </ImageBackground>
-          <Hoshi value={this.state.editModeNombre} borderColor={'#000000'} label={'Nombre'} onChangeText={editModeNombre => this.setState({ editModeNombre })} />
-          <Hoshi value={this.state.editModeApellido} borderColor={'#000000'} label={'Apellido'} onChangeText={editModeApellido => this.setState({ editModeApellido })} />
-          <Hoshi value={this.state.editModeEdad} borderColor={'#000000'} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
-          <Hoshi value={this.state.editModeEstatura} borderColor={'#000000'} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
-          <Hoshi value={this.state.editModePeso} borderColor={'#000000'} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
-          <Hoshi value={this.state.editModeEmail} borderColor={'#000000'} label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
-          <Button
+            <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
+              <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
+            </View>
+            <Fab
+              style={{ backgroundColor: '#1438A6' }}
+              onPress={() => this.setState({changeAvatar: true})}
+              >
+              <Icon
+                  reverse
+                  name='create'
+                  type='material'
+                  color='#1438A6'
+              />
+            </Fab>
+          </ImageBackground>
+          <ScrollView>
+            <Input value={this.state.editModeNombre} label={'Nombre'} onChangeText={editModeNombre => this.setState({ editModeNombre })} />
+            <Input value={this.state.editModeApellido} label={'Apellido'} onChangeText={editModeApellido => this.setState({ editModeApellido })} />
+            <Input value={this.state.editModeEdad} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
+            <Input value={this.state.editModeEstatura} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
+            <Input value={this.state.editModePeso} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
+            <Input value={this.state.editModeEmail} label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
+            <Button
             rounded
             title="Guardar"
             onPress={() => {this.editUser()}}
@@ -399,53 +400,58 @@ class Profile extends React.Component {
                                               editModeNombre: state.nombre, 
                                               editModeEdad: state.edad, 
                                               editModeEstatura: state.estatura, 
-                                              editModePeso: state.peso})) }}
+                                              editModePeso: state.peso.toString(),
+                                              editModeEmail: state.email})) }}
             buttonStyle={{
               marginTop: 20,
+              marginBottom: 20,
               backgroundColor: "#545aa1",
               width: '100%'
             }} />
+          </ScrollView>
         </View>
       )
     } else {
       return (
-        <View>
+        <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
           <ImageBackground style={{ width: '100%', height: 290 }} source={require('../resources/background.jpg')}>
-              <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
-              </View>
-            </ImageBackground>
-          <Card>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre + ' ' + this.state.apellido}</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Edad </Text><Text style={{ fontSize: 16 }}> {this.state.edad} años</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Estatura </Text><Text style={{ fontSize: 16 }}>{this.state.estatura} metros</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso} kg</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.email} pasos</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.state.currentStepCount} pasos</Text>
-            </CardItem>
-          </Card>
-            <Fab
-              style={{ backgroundColor: '#1438A6' }}
-              onPress={() => { this.setState({ editmode: true }) }}
-            >
-              <Icon
-                  reverse
-                  name='create'
-                  type='material'
-                  color='#1438A6'
-              />
-            </Fab>
+            <View style={{ height: 290, alignItems: 'center', justifyContent: 'center' }}>
+              <Image source={avatarModel} style={{ height: 260, width: 120}}></Image>
+            </View>
+          </ImageBackground>
+          <ScrollView>
+            <Card>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Nombre </Text><Text style={{ fontSize: 16 }}> {this.state.nombre + ' ' + this.state.apellido}</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Edad </Text><Text style={{ fontSize: 16 }}> {this.state.edad} años</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Estatura </Text><Text style={{ fontSize: 16 }}>{this.state.estatura} metros</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Peso </Text><Text style={{ fontSize: 16 }}>{this.state.peso} kg</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Correo </Text><Text style={{ fontSize: 16 }}> {this.state.email}</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: 'bold' }}>Pasos </Text><Text style={{ fontSize: 16 }}> {this.props.loggedInUser.steps} pasos</Text>
+              </CardItem>
+            </Card>
+          </ScrollView>
+          <Fab
+            style={{ backgroundColor: '#1438A6' }}
+            onPress={() => { this.setState({ editmode: true }) }}
+          >
+            <Icon
+                reverse
+                name='create'
+                type='material'
+                color='#1438A6'
+            />
+          </Fab>
         </View>
       )
     }
@@ -455,20 +461,9 @@ class Profile extends React.Component {
     return(
       <KeyboardAvoidingView
         behavior='padding'
+        style={{ flex: 1 }}
       >
-        <Header
-              placement='left'
-              leftComponent={{ icon: 'menu', color: '#fff' }}
-              centerComponent={{ text: 'Inicio', style: { color: '#fff' } }}
-              containerStyle={{
-                backgroundColor: '#1438A6',
-              }}
-            />
-        <View style={{ height: '100%', width:'100%', backgroundColor: '#f4f6f8' }}>
-          <ScrollView style={{ height: '100%', paddingBottom: 30, marginBottom: 20 }}>
             {this.userInfo()}
-          </ScrollView>
-        </View>
       </KeyboardAvoidingView>
         
     );

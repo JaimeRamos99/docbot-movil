@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Left, Right, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
 import { Header, Icon } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
@@ -36,15 +36,27 @@ class DoctorMessages extends React.Component {
             return(
                 <ScrollView>
                     { this.state.messages.map((item, index) => (
-                        <Card key={'Message ' + index}>
-                          <View style={{flexDirection: 'row'}}>
-                            <Image source={require('../resources/avatar-doctor.png')} style={{ marginLeft: 20, height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
-                            <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20, marginLeft: 20, marginTop: 10 }}>Dr. {item.doctorName}</Text>
-                          </View>
-                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 15 }}>{item.date}</Text>
-                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 20, color: '#1438A6' }}>{item.subject}</Text>
-                          <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, marginBottom: 10 }}>{item.description}</Text>
-                    </Card>
+                      <View key={'Paraclinical ' + index} style={{
+                        marginTop: 5,
+                        marginBottom: 5,
+                        padding: 10,
+                        backgroundColor: "#fff",
+                        width: Dimensions.get('window').width*0.95,
+                        borderColor: '#000',
+                        borderWidth: 1,
+                        borderRadius: 10, }}
+                    >
+                      <View style={{flexDirection: 'row'}}>
+                        <Image source={require('../resources/avatar-doctor.png')} style={{ height: 60, width: 60, alignSelf: 'center', borderRadius: 360 }} />
+                        <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20 }}>Dr. {item.doctorName}</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <Icon name='md-time' type='ionicon' color='#000' size={15} />
+                        <Text style={{ fontSize: 15, marginLeft: 5, color: '#000' }}>{item.date}</Text>
+                      </View>
+                      <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20, color: '#1438A6' }}>{item.subject}</Text>
+                      <Text style={{ flex: 1, flexWrap: 'wrap', marginBottom: 10 }}>{item.description}</Text>
+                    </View>
                     ))}
                 </ScrollView>
             );
@@ -67,7 +79,7 @@ class DoctorMessages extends React.Component {
 
   render() {
       return (
-          <View style={{ height: '100%', backgroundColor: '#f4f6f8' }}>
+          <View style={{ height: '100%', backgroundColor: '#f4f6f8', alignItems: 'center' }}>
             {this.ShowDoctorMessages()}
             <Fab
               style={{ backgroundColor: '#1438A6' }}
@@ -125,5 +137,13 @@ export const Drawer = createAppContainer(MyDrawerNavigator);
 
 
 
-
+<Card key={'Message ' + index}>
+                        <View style={{flexDirection: 'row'}}>
+                          <Image source={require('../resources/avatar-doctor.png')} style={{ marginLeft: 20, height: 60, width: 60, alignSelf: 'center', borderRadius: 360}} />
+                          <Text style={{ flex: 1, flexWrap: 'wrap', fontSize: 20, marginLeft: 20, marginTop: 10 }}>Dr. {item.doctorName}</Text>
+                        </View>
+                        <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 15 }}>{item.date}</Text>
+                        <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, fontSize: 20, color: '#1438A6' }}>{item.subject}</Text>
+                        <Text style={{ flex: 1, flexWrap: 'wrap', marginLeft: 20, marginBottom: 10 }}>{item.description}</Text>
+                      </Card>
 */

@@ -4,6 +4,7 @@ import { Button, Header, Icon, Input } from 'react-native-elements';
 import Chatbot from 'react-native-chatbot';
 import { UpdateGoal } from '../services/api.js';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 goalsU = [];
 
@@ -13,14 +14,14 @@ class RespuestaChatBot extends React.Component {
     disabledBtn = false;
    
     onButtonPress() {
-      if (this.state.advance == 0){
-  
+      if (this.state.advance == 0 || this.state.advance == null){
+        this.props.triggerNextStep({ trigger: (this.props.nextStep*1 - 4).toString()});
       }else{
         this.disabledBtn = true;
         goalsU = this.props.goals;
         pos = this.props.positionUpdate;
         if(goalsU[pos].progress*1 + this.state.advance*1 >= goalsU[pos].quantity*1){
-          UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, '1', ((goalsU[pos].nMessages*1)+1).toString(), (new Date()).toString());
+          UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, '1', ((goalsU[pos].nMessages*1)+1).toString(), moment().format('DD/MM/YYYY'));
         }else{
           UpdateGoal(goalsU[pos]._id, (goalsU[pos].progress*1 + this.state.advance*1).toString(), goalsU[pos].state, ((goalsU[pos].nMessages*1)+1).toString(), goalsU[pos].complianceDate);
         }

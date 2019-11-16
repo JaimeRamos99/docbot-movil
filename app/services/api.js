@@ -11,11 +11,11 @@ export function signIn(documentNumber,password){
     });
 }
 
-export function UpdatePatient(id, name, lastName, age, height, avatar){ 
+export function UpdatePatient(id, name, lastName, age, height, avatar, steps, email){ 
     return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updatepat`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, name, lastName, age, height, avatar })
+        body: JSON.stringify({ id, name, lastName, age, height, avatar, steps, email })
     });
 }
 
