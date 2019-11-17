@@ -23,7 +23,7 @@ class Goals extends React.Component{
             return(
                 <ProgressBarAnimated
                     width={Dimensions.get('window').width*0.9}
-                    value={((goal.progress*1)/(goal.quantity*1))*100}
+                    value={(goal.progress[progress.length - 1]/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#6CC644"
                 />
@@ -32,7 +32,7 @@ class Goals extends React.Component{
             return(
                 <ProgressBarAnimated
                     width={Dimensions.get('window').width*0.9}
-                    value={((goal.progress*1)/(goal.quantity*1))*100}
+                    value={(goal.progress[progress.length - 1]/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#1438A6"
                 />

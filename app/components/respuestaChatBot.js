@@ -20,10 +20,13 @@ class RespuestaChatBot extends React.Component {
         this.disabledBtn = true;
         goalsU = this.props.goals;
         pos = this.props.positionUpdate;
-        if(goalsU[pos].progress*1 + this.state.advance*1 >= goalsU[pos].quantity*1){
-          UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, '1', ((goalsU[pos].nMessages*1)+1).toString(), moment().format('DD/MM/YYYY'));
+        nProgress = goalsU[pos].progress.length - 1;
+        date = moment().format('DD/MM/YYYY');
+        if(goalsU[pos].progress[nProgress].value + this.state.advance*1 >= goalsU[pos].quantity*1){
+          
+          UpdateGoal(goalsU[pos]._id, goalsU[pos].quantity, date, '1', ((goalsU[pos].nMessages*1)+1).toString(), date);
         }else{
-          UpdateGoal(goalsU[pos]._id, (goalsU[pos].progress*1 + this.state.advance*1).toString(), goalsU[pos].state, ((goalsU[pos].nMessages*1)+1).toString(), goalsU[pos].complianceDate);
+          UpdateGoal(goalsU[pos]._id, goalsU[pos].progress[nProgress].value + this.state.advance*1, date, goalsU[pos].state, ((goalsU[pos].nMessages*1)+1).toString(), goalsU[pos].complianceDate);
         }
         this.props.saveGoals(goalsU);
         this.props.triggerNextStep({ trigger: this.props.nextStep });

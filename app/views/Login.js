@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, WebView } from 'react-native';
+import { ActivityIndicator, AsyncStorage, Dimensions, View, Text, Image, StyleSheet, TextInput, ToastAndroid, TouchableOpacity, KeyboardAvoidingView, WebView } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
@@ -7,6 +7,7 @@ import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
 import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego, UpdateGoal } from '../services/api.js';
 import { Save, Get } from '../services/Persistant.js';
+import { registerForPushNotificationsAsync } from '../services/Notifications.js';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -72,7 +73,7 @@ class Login extends React.Component {
 
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
-		signIn(this.state.user, this.state.password)
+		signIn('14857552', '14857552')
 		  .then(response => {
 			return response.json();
 		  })
@@ -98,6 +99,7 @@ class Login extends React.Component {
 				}
 				console.log(userGlobal);
 				this.props.saveUser();
+				registerForPushNotificationsAsync(userGlobal.id);
 				/*getLego(userGlobal.id)
 				.then(response => {
 					return response.json();

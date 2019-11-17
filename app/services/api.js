@@ -1,29 +1,40 @@
+const DBAAPI = 'https://api-rest-botic.herokuapp.com/api';
+const BayesianModelAPI = 'https://modelobayesiano.herokuapp.com/getmessages/';
 /**
  * Inicio de sesión del usuario-pacient
  * @param {*} documentNumber 
  * @param {*} password 
  */
 export function signIn(documentNumber,password){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/patients/login`,{ 
+    return fetch(DBAAPI + `/patients/login`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ documentNumber, password })
     });
 }
 
-export function UpdatePatient(id, name, lastName, age, height, avatar, steps, email){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updatepat`,{ 
+export function UpdatePatient(id, name, lastName, age, avatar, steps, email){ 
+    return fetch(DBAAPI + `/patients/updatepat`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, name, lastName, age, height, avatar, steps, email })
+        body: JSON.stringify({ id, name, lastName, age, avatar, steps, email })
     });
 }
 
 export function UpdatePatientWeight(id, weight, date){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/patients/updateweight`,{ 
+    return fetch(DBAAPI + `/medicalInfos/updateweight`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ id, weight, date })
+    });
+}
+
+export function UpdatePatientToken(id, token){
+    console.log(JSON.stringify({ id, token }))
+    return fetch(DBAAPI + `/patients/token`,{ 
+        method: 'PUT', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ id, token })
     });
 }
 
@@ -32,18 +43,18 @@ export function UpdatePatientWeight(id, weight, date){
  * @param {*} pat 
  */
 export function GetGoals(pat){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/goals/buscar`,{ 
+    return fetch(DBAAPI + `/goals/buscar`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ pat })
     });
 }
 
-export function UpdateGoal(id, progress, state, nMessages, complianceDate){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/goals`,{ 
+export function UpdateGoal(id, progress, date, state, nMessages, complianceDate){ 
+    return fetch(DBAAPI + `/goals`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, progress, state, nMessages, complianceDate })
+        body: JSON.stringify({ id, progress, date, state, nMessages, complianceDate })
     });
 }
 
@@ -53,7 +64,7 @@ export function UpdateGoal(id, progress, state, nMessages, complianceDate){
  * @param {*} type 
  */
 export function GetParaclinicals(patient, type){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals/buscar`,{ 
+    return fetch(DBAAPI + `/paraclinicals/buscar`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ patient,  type})
@@ -67,19 +78,10 @@ export function GetParaclinicals(patient, type){
  * @param {*} value 
  */
 export function CreateParaclinical(patient, type, value, date){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/paraclinicals`,{ 
+    return fetch(DBAAPI + `/paraclinicals`,{ 
         method: 'POST', 
         headers: { 'Content-Type':'application/json', },
         body: JSON.stringify({ patient, type, value, date })
-    });
-}
-
-/**
- * Obtener mensajes lego mb
- * @param {*} patient 
- */
-export function getLego(patient){ 
-    return fetch(`https://modelobayesiano.herokuapp.com/getmessages/`+ patient,{ 
     });
 }
 
@@ -88,8 +90,17 @@ export function getLego(patient){
  * @param {*} patient 
  */
 export function GetMessagesD(patient){ 
-    return fetch(`https://api-rest-botic.herokuapp.com/api/messagesD/findByPat`,{ 
+    return fetch(DBAAPI + `/messagesD/findByPat`,{ 
         method: 'GET', 
         headers: { 'Content-Type':'application/json','patient': patient}
+    });
+}
+
+/**
+ * Obtener mensajes lego mb
+ * @param {*} patient 
+ */
+export function getLego(patient){ 
+    return fetch(BayesianModelAPI + patient,{ 
     });
 }

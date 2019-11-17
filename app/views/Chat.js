@@ -91,11 +91,11 @@ class Chat extends React.Component {
       this.steps.push({
         id: '0',
         message: 'Hola ' + this.props.loggedInUser.name + ' tu doctor aún no te ha asignado ninguna meta',
-        end: '1',
+        trigger: '1',
       });
       this.steps.push({
         id: '1',
-        message: 'Vuelve mas tarde a ver si ya tienes metas asignadas, bye',
+        message: 'Vuelve mas tarde a ver si ya tienes metas asignadas, ten un buen dia',
         end: true,
       });
     }else{
