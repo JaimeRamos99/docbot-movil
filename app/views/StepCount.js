@@ -6,6 +6,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { UpdatePatient, UpdatePatientWeight, UpdateGoal } from '../services/api.js';
+import GoogleFit, { Scopes } from 'react-native-google-fit'
 
 const tintColor = "#8BBF71";
 const backgroundColor = "#717BA5";
@@ -34,6 +35,19 @@ class StepCount extends React.Component {
     pastStepCount: 0,
     currentStepCount: 0
   };
+
+  Steps(){
+    const options = {
+      startDate: "2019-01-01T00:00:17.971Z", // required ISO8601Timestamp
+      endDate: new Date().toISOString() // required ISO8601Timestamp
+    };
+     
+    GoogleFit.getDailyStepCountSamples(options)
+     .then((res) => {
+         console.log('Daily steps >>> ', res)
+     })
+     .catch((err) => {console.warn(err)})
+  }
 
   componentDidMount() {
     this._subscribe();
@@ -97,6 +111,7 @@ class StepCount extends React.Component {
     }
     
   renderStepCountCOmponent(){
+    this.Steps();
     if (true){
         return(
           <AnimatedCircularProgress
