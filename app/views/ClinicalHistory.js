@@ -110,8 +110,7 @@ class ClinicalHistory extends React.Component {
                         <Text style={{fontSize: 20}}>Medida de glucosa</Text>
                         <Input
                             keyboardType='numeric'
-                            placeholder='   Medida'
-                            label='Medida'
+                            placeholder='   Ej: 100'
                             onChangeText={value => this.setState({ value })}
                         />
                         <Button

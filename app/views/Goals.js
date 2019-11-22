@@ -23,7 +23,7 @@ class Goals extends React.Component{
             return(
                 <ProgressBarAnimated
                     width={Dimensions.get('window').width*0.9}
-                    value={(goal.progress[progress.length - 1]/(goal.quantity*1))*100}
+                    value={(goal.progress[goal.progress.length - 1].value/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#6CC644"
                 />
@@ -32,7 +32,7 @@ class Goals extends React.Component{
             return(
                 <ProgressBarAnimated
                     width={Dimensions.get('window').width*0.9}
-                    value={(goal.progress[progress.length - 1]/(goal.quantity*1))*100}
+                    value={(goal.progress[goal.progress.length - 1].value/(goal.quantity*1))*100}
                     maxValue={100}
                     backgroundColor="#1438A6"
                 />
@@ -41,6 +41,8 @@ class Goals extends React.Component{
     }
 
     SelectGoalsToShow(goal){
+        console.log('dat meta')
+        console.log(goal)
         if(goal.state == '2' || goal.dueDate > date){
             return(
                 <View style={{
@@ -64,7 +66,7 @@ class Goals extends React.Component{
                     <Text style={{ flexWrap: 'wrap', fontSize: 20, marginBottom: 10 }}>{goal.description}</Text>
                     {this.RenderProgressBar(goal)}
                     <View style={{ flexDirection: 'row-reverse'}}>
-                        <Text style={{ marginRight: 10 }}>{goal.progress + '/' + goal.quantity}</Text>
+                        <Text style={{ marginRight: 10 }}>{goal.progress[goal.progress.length - 1].value + '/' + goal.quantity}</Text>
                     </View>
                 </View>
             );

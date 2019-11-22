@@ -383,7 +383,7 @@ class Profile extends React.Component {
             <Input value={this.state.editModeEdad} keyboardType='numeric' label={'Edad'} onChangeText={editModeEdad => this.setState({ editModeEdad })} />
             <Input value={this.state.editModeEstatura} keyboardType='numeric' label={'Estatura'} onChangeText={editModeEstatura => this.setState({ editModeEstatura })} />
             <Input value={this.state.editModePeso} keyboardType='numeric' label={'Peso'} onChangeText={editModePeso => this.setState({ editModePeso })} />
-            <Input value={this.state.editModeEmail} label={'Email'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
+            <Input value={this.state.editModeEmail} label={'Correo'} onChangeText={editModeEmail => this.setState({ editModeEmail })} />
             <Button
             rounded
             title="Guardar"

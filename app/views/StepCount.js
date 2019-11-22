@@ -111,7 +111,7 @@ class StepCount extends React.Component {
     }
     
   renderStepCountCOmponent(){
-    this.Steps();
+    //this.Steps();
     if (true){
         return(
           <AnimatedCircularProgress
@@ -128,9 +128,6 @@ class StepCount extends React.Component {
                   <Icon name='md-walk' type='ionicon' color='#77cff2' size={50} />
                     <Text style={styles.steps}>
                         {this.state.currentStepCount} Pasos
-                    </Text>
-                    <Text style={styles.steps}>
-                      {this.state.currentStepCount + this.props.loggedInUser.steps*1} Total
                     </Text>
                 </View>
               )

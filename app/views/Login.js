@@ -73,7 +73,7 @@ class Login extends React.Component {
 
 	onButtonPress() {
 		this.setState({ error: '', loading: true});
-		signIn('14857552', '14857552')
+		signIn(this.state.user, this.state.password)//12486375
 		  .then(response => {
 			return response.json();
 		  })
@@ -99,7 +99,7 @@ class Login extends React.Component {
 				}
 				console.log(userGlobal);
 				this.props.saveUser();
-				registerForPushNotificationsAsync(userGlobal.id);
+				//registerForPushNotificationsAsync(userGlobal.id);
 				/*getLego(userGlobal.id)
 				.then(response => {
 					return response.json();
