@@ -5,8 +5,8 @@ import { Button } from 'react-native-elements';
 import { Card } from '../components/card.js';
 import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
-import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego, UpdateGoal } from '../services/api.js';
-import { Save, Get } from '../services/Persistant.js';
+import { signIn, updateLoggedUser, GetPatient, GetGoals, GetParaclinicals, GetMessagesD, getLego, UpdateGoal } from '../services/api.js';
+import { save, get } from '../services/Persistant.js';
 import { registerForPushNotificationsAsync } from '../services/Notifications.js';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -50,30 +50,11 @@ class Login extends React.Component {
 		}
 	}
 
-	CorrectGoals(){
-		GetGoals(userGlobal.id)
-			.then(response => {
-				return response.json();
-			})
-			.then(json => {
-				goals = json;
-				date = moment().format('DD/MM/YYYY');
-				for(let i = 0; i < goals.length; i++){
-					if(goals[i].state == '2' && date > goals[i].dueDate){
-						UpdateGoal(goals[i]._id, goals[i].progress, '0', goals[i].nMessages, goals[i].complianceDate);
-					}
-				}
-				this.setState({ loading: false});
-				this.props.navigation.navigate('App');
-			}).catch(error => {
-				console.log(error.message);
-				this.ServerError();
-			});
-	}
+	
 
-	onButtonPress() {
+	 onButtonPress() {
 		this.setState({ error: '', loading: true});
-		signIn(this.state.user, this.state.password)//12486375
+		signIn('12486375', '12486375')//12486375 - 1042459222
 		  .then(response => {
 			return response.json();
 		  })
@@ -89,16 +70,22 @@ class Login extends React.Component {
 				//Save('userHeight', json.height);
 				//Save('userWeight', json.weight);
 				//Save('userBirthday', json.birthday);
-				userGlobal = json;
-				if (userGlobal.avatar == '') {
-					if (userGlobal.sex == 'f') {
-						userGlobal.avatar = 'Avatar-F-T-N.png';
-					}else{
-						userGlobal.avatar = 'Avatar-M-T-N.png';
-					}
-				}
-				console.log(userGlobal);
-				this.props.saveUser();
+				user = json;
+				console.log(user);
+				AsyncStorage.setItem('userId', user.id);
+				GetPatient(user.id)
+				.then(response => {
+					return response.json();
+				})
+				.then(json => {
+					user = json;
+					this.props.saveUser(user);
+					console.log(user);
+					updateLoggedUser(user.id, true);
+				}).catch(error => {
+					console.log(error.message);
+					this.ServerError();
+				});
 				//registerForPushNotificationsAsync(userGlobal.id);
 				/*getLego(userGlobal.id)
 				.then(response => {
@@ -145,7 +132,8 @@ class Login extends React.Component {
 				}).catch(error => {
 					console.log(error.message);
 				});*/
-				this.CorrectGoals();
+				this.props.navigation.navigate('App');
+				//this.CorrectGoals();
 			} else {
 				this.OnLoginFail();
 			}

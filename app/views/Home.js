@@ -1,20 +1,18 @@
 import React from 'react';
-import { ActivityIndicator, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, AsyncStorage, Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Left, Right, Toast, Input, Card, Root, CardItem, Body, Fab } from 'native-base';
 import { Header, Icon } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { connect } from 'react-redux';
+import { save, get, deleteAll } from '../services/Persistant.js';
 import { CardSection } from '../components/cardsection.js';
-import { signIn, GetGoals, GetParaclinicals, GetMessagesD, getLego } from '../services/api.js';
+import { signIn, GetPatient, GetGoals, GetParaclinicals, GetMessagesD, getLego, updateLoggedUser } from '../services/api.js';
+import moment from 'moment';
 
+userId = '';
 
 class Home extends React.Component {
-  /*static navigationOptions = {
-		drawerIcon: () => <Icon name='md-home' type='ionicon' color='#000' />,
-    drawerLockMode: 'locked-closed'
-  }*/
-
   static navigationOptions = {
     header: null
   };
@@ -22,6 +20,47 @@ class Home extends React.Component {
   state = {
     loading: false
   }
+
+  componentWillMount(){
+    this.loadInformation();
+  }
+
+  loadInformation = async ()=>{
+    userId = await AsyncStorage.getItem('userId');
+    console.log(userId)
+    GetPatient(userId)
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      user = json;
+      this.props.saveUser(user);
+      console.log(user);
+      this.CorrectGoals(userId);
+    }).catch(error => {
+      console.log(error.message);
+      this.ServerError();
+    });
+  }
+
+  CorrectGoals(userId){
+		GetGoals(userId)
+			.then(response => {
+				return response.json();
+			})
+			.then(json => {
+				goals = json;
+				date = moment().format('DD/MM/YYYY');
+				for(let i = 0; i < goals.length; i++){
+					if(goals[i].state == '2' && date > goals[i].dueDate){
+						UpdateGoal(goals[i]._id, goals[i].progress, '0', goals[i].nMessages, goals[i].complianceDate);
+					}
+				}
+			}).catch(error => {
+				console.log(error.message);
+				this.ServerError();
+			});
+	}
 
   RenderView(){
     if(this.state.loading){
@@ -72,7 +111,7 @@ class Home extends React.Component {
                 <Text style={styles.buttonText} >Contador de pasos</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.logOutButton} onPress={() => this.props.navigation.navigate('Login')}>
+            <TouchableOpacity style={styles.logOutButton} onPress={() => this.signOut()}>
                 <Text style={styles.buttonText}> Cerrar sesión</Text>
               </TouchableOpacity>
         </View>
@@ -87,7 +126,7 @@ class Home extends React.Component {
 
   DocBot(){
     this.setState({ loading: true });
-    getLego(userGlobal.id)
+    getLego(userId)
       .then(response => {
         return response.json();
       })
@@ -95,7 +134,7 @@ class Home extends React.Component {
         botMessages = json;
         console.log(botMessages);
         this.props.saveBotMessages();
-        GetGoals(userGlobal.id)
+        GetGoals(userId)
           .then(response => {
             return response.json();
           })
@@ -118,7 +157,7 @@ class Home extends React.Component {
 
   Mensajes(){
     this.setState({ loading: true });
-    GetMessagesD(userGlobal.id)
+    GetMessagesD(userId)
 				.then(response => {
 					return response.json();
 				})
@@ -136,7 +175,7 @@ class Home extends React.Component {
 
   Paraclinicos(){
     this.setState({ loading: true });
-    GetParaclinicals(userGlobal.id, 'Glucosa')
+    GetParaclinicals(userId, 'Glucosa')
 				.then(response => {
 					return response.json();
 				})
@@ -155,7 +194,7 @@ class Home extends React.Component {
 
   Metas(){
     this.setState({ loading: true });
-    GetGoals(userGlobal.id)
+    GetGoals(userId)
 				.then(response => {
 					return response.json();
 				})
@@ -169,6 +208,12 @@ class Home extends React.Component {
           console.log(error.message);
           this.ServerError();
 				});
+  }
+
+  signOut = async() =>{
+    await AsyncStorage.clear();
+    updateLoggedUser(user.id, false);
+    this.props.navigation.navigate('Login')
   }
 
   render() {
@@ -227,6 +272,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return{
+    saveUser : (user) => dispatch({type:'Save_User', payload: user}),
 		saveGoals : () => dispatch({type:'save_goals', payload: goals}),
 		saveParaclinicals : () => dispatch({type:'save_paraclinicals', payload: paraclinicals}),
 		saveDoctorMessages : () => dispatch({type:'save_doctor_messages', payload: doctorMessages}),

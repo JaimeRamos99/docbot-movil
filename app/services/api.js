@@ -1,5 +1,6 @@
 const DBAAPI = 'https://api-rest-botic.herokuapp.com/api';
 const BayesianModelAPI = 'https://modelobayesiano.herokuapp.com/getmessages/';
+
 /**
  * Inicio de sesión del usuario-pacient
  * @param {*} documentNumber 
@@ -13,11 +14,26 @@ export function signIn(documentNumber,password){
     });
 }
 
-export function UpdatePatient(id, name, lastName, age, avatar, steps, email){ 
+export function updateLoggedUser(id, logged){ 
+    return fetch(DBAAPI + `/patients/logged`,{ 
+        method: 'PUT', 
+        headers: { 'Content-Type':'application/json', },
+        body: JSON.stringify({ id, logged })
+    });
+}
+
+export function GetPatient(idPatient){ 
+    return fetch(DBAAPI + `/patients/login`,{ 
+        method: 'GET', 
+        headers: { 'Content-Type':'application/json','id': idPatient}
+    });
+}
+
+export function UpdatePatient(id, name, lastName, age, height, avatar, steps, email){ 
     return fetch(DBAAPI + `/patients/updatepat`,{ 
         method: 'PUT', 
         headers: { 'Content-Type':'application/json', },
-        body: JSON.stringify({ id, name, lastName, age, avatar, steps, email })
+        body: JSON.stringify({ id, name, lastName, age, height, avatar, steps, email })
     });
 }
 

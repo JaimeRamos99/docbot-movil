@@ -128,7 +128,7 @@ class StepCount extends React.Component {
                   <Icon name='md-walk' type='ionicon' color='#77cff2' size={50} />
                     <Text style={styles.steps}>
                         {this.state.currentStepCount} Pasos
-                    </Text>
+                    </Text> 
                 </View>
               )
             }

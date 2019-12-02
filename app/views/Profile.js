@@ -82,32 +82,69 @@ class Profile extends React.Component {
     }
 
     editUser() {
-      userGlobal = this.props.loggedInUser;
-      userGlobal.name = this.state.editModeNombre;
-      userGlobal.lastName = this.state.editModeApellido;
-      userGlobal.age = this.state.editModeEdad;
-      userGlobal.height = this.state.editModeEstatura;
-      userGlobal.avatar = this.state.avatar;
-      userGlobal.email = this.state.editModeEmail
-      UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar, userGlobal.steps, userGlobal.email);
-      dateTemp = new Date();
-      //UpdateGoal(this.props.goals[this.props.goals.length - 2]._id, ((this.props.goals[this.props.goals.length - 2].progress*1+1)).toString(), '1', this.props.goals[this.props.goals.length - 2].nMessages*1+1, dateTemp.toString());
-      if (this.state.editModePeso*1 != this.state.peso) {
-        add = userGlobal.weight[0];
-        add.value = this.state.editModePeso*1;
-        userGlobal.weight.push(add);
-        UpdatePatientWeight(userGlobal.id, this.state.editModePeso*1, moment().format('DD/MM/YYYY'))
+        if (!this.state.editModeEdad.includes(",") && !this.state.editModeEdad.includes(".")) {
+            if (this.state.editModeEdad*1 != NaN) {
+                if (this.state.editModeEdad*1 > 0) {
+                  if (!this.state.editModeEstatura.includes(",")) {     //URGE MEJORAR ESTAS VALIDACIONES
+                    if (this.state.editModeEstatura*1 != NaN) {
+                        if (this.state.editModeEstatura*1 > 0) {
+                          if (!this.state.editModePeso.includes(",")) {
+                            if (this.state.editModePeso*1 != NaN) {
+                                if (this.state.editModePeso*1 > 0) {
+                                  userGlobal = this.props.loggedInUser;
+                                  userGlobal.name = this.state.editModeNombre;
+                                  userGlobal.lastName = this.state.editModeApellido;
+                                  userGlobal.age = this.state.editModeEdad;
+                                  userGlobal.height = this.state.editModeEstatura;
+                                  userGlobal.avatar = this.state.avatar;
+                                  userGlobal.email = this.state.editModeEmail
+                                  UpdatePatient(userGlobal.id, userGlobal.name, userGlobal.lastName, userGlobal.age, userGlobal.height, userGlobal.avatar, userGlobal.steps, userGlobal.email);
+                                  dateTemp = new Date();
+                                  //UpdateGoal(this.props.goals[this.props.goals.length - 2]._id, ((this.props.goals[this.props.goals.length - 2].progress*1+1)).toString(), '1', this.props.goals[this.props.goals.length - 2].nMessages*1+1, dateTemp.toString());
+                                  if (this.state.editModePeso*1 != this.state.peso) {
+                                    add = userGlobal.weight[0];
+                                    add.value = this.state.editModePeso*1;
+                                    userGlobal.weight.push(add);
+                                    UpdatePatientWeight(userGlobal.id, this.state.editModePeso*1, moment().format('DD/MM/YYYY'))
+                                  }
+                                  this.props.saveUser();
+                                  this.setState((state) => ({ editmode: false, 
+                                                  nombre: state.editModeNombre,
+                                                  apellido: state.editModeApellido, 
+                                                  edad: state.editModeEdad, 
+                                                  estatura: state.editModeEstatura, 
+                                                  peso: state.editModePeso*1,
+                                                  email: state.editModeEmail}));
+                                  
+                                  ToastAndroid.show('Guardado', ToastAndroid.SHORT);
+                                }else{
+                                  ToastAndroid.show('Campo peso: Dato erroneo', ToastAndroid.SHORT);
+                              }
+                          }else{
+                            ToastAndroid.show('Campo peso: El numero no puede contener "," sino "."', ToastAndroid.SHORT);
+                          }
+                      }else{
+                        ToastAndroid.show('Campo peso: El numero no puede ser un decimal', ToastAndroid.SHORT);
+                      }
+                        }else{
+                          ToastAndroid.show('Campo estatura: Dato erroneo', ToastAndroid.SHORT);    
+                      }
+                  }else{
+                    ToastAndroid.show('Campo estatura: Debe introducir un numero', ToastAndroid.SHORT);
+                  }
+              }else{
+                ToastAndroid.show('Campo estatura: El numero no puede contener "," sino "."', ToastAndroid.SHORT);
+              }
+                }else{
+                  ToastAndroid.show('Campo edad: Dato erroneo', ToastAndroid.SHORT);
+              }
+          }else{
+            ToastAndroid.show('Campo edad: Debe introducir un numero', ToastAndroid.SHORT);
+          }
+      }else{
+        ToastAndroid.show('Campo edad: El numero no puede ser un decimal', ToastAndroid.SHORT);
       }
-      this.props.saveUser();
-      this.setState((state) => ({ editmode: false, 
-                      nombre: state.editModeNombre,
-                      apellido: state.editModeApellido, 
-                      edad: state.editModeEdad, 
-                      estatura: state.editModeEstatura, 
-                      peso: state.editModePeso*1,
-                      email: state.editModeEmail}));
       
-      ToastAndroid.show('Guardado', ToastAndroid.SHORT);
   }
 
   getAvatarBaseIndex(){

@@ -74,19 +74,21 @@ class Goals extends React.Component{
     }
 
     ShowGoals(){
-        if(this.props.goals == undefined){
+        if(this.props.goals.length == 0){
             return(
-                <Text>No hay metas agregados</Text>
+                <View style={{ height: '100%', justifyContent: 'center' }}>
+                    <Text style={{fontSize: 20}}>No hay metas asignadas</Text>
+                </View>
             );
         }else{
             return(
-                <View>
+                <ScrollView>
                     { this.props.goals.map((item, index) => (
                         <View key={'Goal ' + index}>
                             {this.SelectGoalsToShow(item)}
                         </View>
                     ))}
-                </View>
+                </ScrollView>
             );
         }
     }
@@ -94,9 +96,7 @@ class Goals extends React.Component{
     render() {
             return (
                 <View style={{height: '100%', alignItems: 'center', backgroundColor: '#f4f6f8'}}>
-                    <ScrollView>
-                        {this.ShowGoals()}
-                    </ScrollView>
+                    {this.ShowGoals()}
                 </View>
             );
         }
