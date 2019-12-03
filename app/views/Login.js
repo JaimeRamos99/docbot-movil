@@ -7,7 +7,6 @@ import { CardSection } from '../components/cardsection.js';
 import { Spinner } from '../components/Spinner.js';
 import { signIn, updateLoggedUser, GetPatient, GetGoals, GetParaclinicals, GetMessagesD, getLego, UpdateGoal } from '../services/api.js';
 import { save, get } from '../services/Persistant.js';
-import { registerForPushNotificationsAsync } from '../services/Notifications.js';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -86,7 +85,6 @@ class Login extends React.Component {
 					console.log(error.message);
 					this.ServerError();
 				});
-				//registerForPushNotificationsAsync(userGlobal.id);
 				/*getLego(userGlobal.id)
 				.then(response => {
 					return response.json();

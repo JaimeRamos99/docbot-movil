@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { save, get, deleteAll } from '../services/Persistant.js';
 import { CardSection } from '../components/cardsection.js';
 import { signIn, GetPatient, GetGoals, GetParaclinicals, GetMessagesD, getLego, updateLoggedUser } from '../services/api.js';
+import { registerForPushNotificationsAsync } from '../services/Notifications.js';
 import moment from 'moment';
 
 userId = '';
@@ -28,6 +29,7 @@ class Home extends React.Component {
   loadInformation = async ()=>{
     userId = await AsyncStorage.getItem('userId');
     console.log(userId)
+    registerForPushNotificationsAsync(userId);
     GetPatient(userId)
     .then(response => {
       return response.json();
